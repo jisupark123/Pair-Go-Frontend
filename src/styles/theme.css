@@ -1,0 +1,79 @@
+@theme {
+  /* Hextech Blue (Primary) - Magic & Energy (Based on Cyan) */
+  --color-hextech-blue-50: #ecfeff;
+  --color-hextech-blue-100: #cffafe;
+  --color-hextech-blue-200: #a5f3fc;
+  --color-hextech-blue-300: #67e8f9;
+  --color-hextech-blue-400: #22d3ee;
+  --color-hextech-blue-500: #06b6d4;
+  --color-hextech-blue-600: #0891b2;
+  --color-hextech-blue-700: #0e7490;
+  --color-hextech-blue-800: #155e75;
+  --color-hextech-blue-900: #164e63;
+  --color-hextech-blue-950: #083344;
+
+  /* Hextech Silver (Structure) - Metal & Machinery (Based on Slate) */
+  --color-hextech-silver-50: #f8fafc;
+  --color-hextech-silver-100: #f1f5f9;
+  --color-hextech-silver-200: #e2e8f0;
+  --color-hextech-silver-300: #cbd5e1;
+  --color-hextech-silver-400: #94a3b8;
+  --color-hextech-silver-500: #64748b;
+  --color-hextech-silver-600: #475569;
+  --color-hextech-silver-700: #334155;
+  --color-hextech-silver-800: #1e293b;
+  --color-hextech-silver-900: #0f172a;
+  --color-hextech-silver-950: #020617;
+
+  /* Hextech Gold (Prestige) - Highlights (Based on Amber) */
+  --color-hextech-gold-50: #fffbeb;
+  --color-hextech-gold-100: #fef3c7;
+  --color-hextech-gold-200: #fde68a;
+  --color-hextech-gold-300: #fcd34d;
+  --color-hextech-gold-400: #fbbf24;
+  --color-hextech-gold-500: #f59e0b;
+  --color-hextech-gold-600: #d97706;
+  --color-hextech-gold-700: #b45309;
+  --color-hextech-gold-800: #92400e;
+  --color-hextech-gold-900: #78350f;
+  --color-hextech-gold-950: #451a03;
+
+  /* Hextech Red (Danger) - Warnings (Based on Rose) */
+  --color-hextech-red-50: #fff1f2;
+  --color-hextech-red-100: #ffe4e6;
+  --color-hextech-red-200: #fecdd3;
+  --color-hextech-red-300: #fda4af;
+  --color-hextech-red-400: #fb7185;
+  --color-hextech-red-500: #f43f5e;
+  --color-hextech-red-600: #e11d48;
+  --color-hextech-red-700: #be123c;
+  --color-hextech-red-800: #9f1239;
+  --color-hextech-red-900: #881337;
+  --color-hextech-red-950: #4c0519;
+
+  /* Hextech Green (Zaun) - Acid & Chemtech (Based on Emerald) */
+  --color-hextech-green-50: #ecfdf5;
+  --color-hextech-green-100: #d1fae5;
+  --color-hextech-green-200: #a7f3d0;
+  --color-hextech-green-300: #6ee7b7;
+  --color-hextech-green-400: #34d399;
+  --color-hextech-green-500: #10b981;
+  --color-hextech-green-600: #059669;
+  --color-hextech-green-700: #047857;
+  --color-hextech-green-800: #065f46;
+  --color-hextech-green-900: #064e3b;
+  --color-hextech-green-950: #022c22;
+
+  /* Hextech Purple (Void) - Mystery (Based on Purple) */
+  --color-hextech-purple-50: #faf5ff;
+  --color-hextech-purple-100: #f3e8ff;
+  --color-hextech-purple-200: #e9d5ff;
+  --color-hextech-purple-300: #d8b4fe;
+  --color-hextech-purple-400: #c084fc;
+  --color-hextech-purple-500: #a855f7;
+  --color-hextech-purple-600: #9333ea;
+  --color-hextech-purple-700: #7e22ce;
+  --color-hextech-purple-800: #6b21a8;
+  --color-hextech-purple-900: #581c87;
+  --color-hextech-purple-950: #3b0764;
+}

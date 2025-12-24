@@ -1,0 +1,22 @@
+import { Route, Routes } from 'react-router';
+
+import Layout from '@/components/templates/Layout';
+import Home from '@/pages/home/Home';
+import NewRoom from '@/pages/rooms/new';
+import Game from '@/pages/rooms/roomId/Game';
+import Room from '@/pages/rooms/roomId/Room';
+
+function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/rooms/new' element={<NewRoom />} />
+        <Route path='/rooms/:roomId' element={<Room />} />
+        <Route path='/rooms/:roomId/game' element={<Game />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;

@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+@plugin "tailwindcss-animate";
+@import './theme.css';
+@import './typography.css';
+@import './figmaGlobals.css';
+
+:root {
+  font-family: 'Pretendard', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  @apply bg-slate-950;
+}
+
+body {
+  @apply bg-linear-to-br from-slate-950 via-slate-900 to-slate-950;
+  @apply text-white;
+}
+
+input {
+  outline: none;
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 2s ease infinite;
+}
