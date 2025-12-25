@@ -31,7 +31,7 @@ export default function Home() {
           </button>
         }
       />
-      <div className='flex-1 flex flex-col items-center justify-center h-full'>
+      <div className='flex-1 flex flex-col items-center justify-center h-full pt-5'>
         {/* Header Info */}
         <div className='mb-12 animate-in fade-in slide-in-from-top-4 duration-1000'>
           <ThemeBox color='silver' size='sm' filled className='border-hextech-silver-700/50 py-1.5 px-4'>

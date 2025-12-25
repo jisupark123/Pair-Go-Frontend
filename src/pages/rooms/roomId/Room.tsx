@@ -101,12 +101,12 @@ export default function Room() {
   // For now, flexible mapping.
 
   return (
-    <div className='flex-1 pt-[80px]'>
+    <div className='flex-1 pt-[80px] flex flex-col'>
       <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
         title='Room #1394'
       />
-      <div className='flex flex-col gap-6 max-w-7xl mx-auto pt-5 animate-in fade-in duration-700'>
+      <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto pt-5 animate-in fade-in duration-700'>
         {/* 1. Header & Settings */}
         <header className='flex flex-col md:flex-row items-center justify-between gap-4'>
           <div className='flex items-center gap-3'>
