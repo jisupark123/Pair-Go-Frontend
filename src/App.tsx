@@ -6,6 +6,7 @@ import Login from '@/pages/login/Login';
 import NewRoom from '@/pages/rooms/new';
 import Game from '@/pages/rooms/roomId/Game';
 import Room from '@/pages/rooms/roomId/Room';
+import ProfileSettings from '@/pages/settings/ProfileSettings';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/rooms/new' element={<NewRoom />} />
         <Route path='/rooms/:roomId' element={<Room />} />
         <Route path='/rooms/:roomId/game' element={<Game />} />
+        <Route path='/settings/profile' element={<ProfileSettings />} />
       </Route>
     </Routes>
   );
