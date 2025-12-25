@@ -6,10 +6,11 @@ import { Link } from 'react-router';
 import { useLogout } from '@/hooks/query/useLogout';
 
 interface UserMenuProps {
+  nickname: string;
   children: ReactNode;
 }
 
-export default function UserMenu({ children }: UserMenuProps) {
+export default function UserMenu({ nickname, children }: UserMenuProps) {
   const { mutate: logout } = useLogout();
 
   return (
@@ -24,8 +25,8 @@ export default function UserMenu({ children }: UserMenuProps) {
           sideOffset={5}
           align='end'
         >
-          <DropdownMenu.Label className='px-3 py-2 text-xs font-semibold text-hextech-purple-400 uppercase tracking-wider'>
-            My Account
+          <DropdownMenu.Label className='px-3 py-2 text-xs font-semibold text-hextech-purple-400 tracking-wider'>
+            {nickname}님
           </DropdownMenu.Label>
           <DropdownMenu.Separator className='h-px bg-hextech-purple-500/30 my-1' />
           <DropdownMenu.Item asChild>

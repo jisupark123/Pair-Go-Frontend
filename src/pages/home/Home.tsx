@@ -28,7 +28,7 @@ export default function Home() {
       <Navigation
         right={
           isUserLoading ? null : user ? (
-            <UserMenu>
+            <UserMenu nickname={user.nickname}>
               <button className='flex items-center justify-center w-10 h-10 rounded-full bg-hextech-purple-900 border border-hextech-purple-500 hover:bg-hextech-purple-800 transition-colors'>
                 <User className='w-5 h-5 text-hextech-purple-300' />
               </button>
