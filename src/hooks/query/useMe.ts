@@ -8,6 +8,7 @@ export type User = {
   email?: string;
   socialId: string;
   authProvider: 'kakao' | 'google';
+  friends: User[];
   createdAt: string;
   updatedAt: string;
 };

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/lib/axios';
 
-import { ME_QUERY_KEY } from '@/hooks/useMe';
+import { ME_QUERY_KEY } from '@/hooks/query/useMe';
 
 export function useLogout() {
   const queryClient = useQueryClient();

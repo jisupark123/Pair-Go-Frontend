@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
-import { useMe } from '@/hooks/useMe';
+import { useMe } from '@/hooks/query/useMe';
 import CreateRoomModal from '@/pages/home/components/CreateRoomModal';
 import UserMenu from '@/pages/home/components/UserMenu';
 
