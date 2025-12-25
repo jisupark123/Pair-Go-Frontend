@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { LogIn, Play, Plus, Users } from 'lucide-react';
+import { LogIn, Play, Plus, User, Users } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
+import { useMe } from '@/hooks/useMe';
 import CreateRoomModal from '@/pages/home/components/CreateRoomModal';
+import UserMenu from '@/pages/home/components/UserMenu';
 
 export default function Home() {
   const navigate = useNavigate();
+
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
+
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useMe();
 
   // Mock data for online users
   const onlineUsers = 42;
@@ -22,13 +27,21 @@ export default function Home() {
     <div className='flex-1 pt-[80px] flex flex-col'>
       <Navigation
         right={
-          <button
-            onClick={() => navigate('/login')}
-            className='flex items-center gap-2 px-4 py-2 text-base font-medium text-hextech-green-300 hover:text-hextech-blue-100 hover:bg-hextech-blue-500/10 rounded-lg transition-all duration-200'
-          >
-            <LogIn className='w-6 h-6' />
-            <span>Log In</span>
-          </button>
+          isUserLoading ? null : user ? (
+            <UserMenu>
+              <button className='flex items-center justify-center w-10 h-10 rounded-full bg-hextech-purple-900 border border-hextech-purple-500 hover:bg-hextech-purple-800 transition-colors'>
+                <User className='w-5 h-5 text-hextech-purple-300' />
+              </button>
+            </UserMenu>
+          ) : (
+            <button
+              onClick={() => navigate('/login')}
+              className='flex items-center gap-2 px-4 py-2 text-base font-medium text-hextech-green-300 hover:text-hextech-blue-100 hover:bg-hextech-blue-500/10 rounded-lg transition-all duration-200'
+            >
+              <LogIn className='w-6 h-6' />
+              <span>Log In</span>
+            </button>
+          )
         }
       />
       <div className='flex-1 flex flex-col items-center justify-center h-full pt-5'>
