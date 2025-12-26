@@ -3,7 +3,6 @@ import { LogIn, Play, Plus, Users } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
-import { FriendsMenu } from '@/components/organisms/Navigation/FriendsMenu/FriendsMenu';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
 import { UserProfile } from '@/components/organisms/Navigation/UserProfile';
 import { useMe } from '@/hooks/query/useMe';
@@ -30,7 +29,7 @@ export default function Home() {
         right={
           isUserLoading ? null : user ? (
             <>
-              <FriendsMenu />
+              {/* <FriendsMenu /> */}
               <UserProfile user={user} />
             </>
           ) : (
