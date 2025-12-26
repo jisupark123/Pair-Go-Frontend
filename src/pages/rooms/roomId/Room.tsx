@@ -18,7 +18,7 @@ import {
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 
-import { connectSocket, disconnectSocket } from '@/lib/socket';
+import { connectSocket, disconnectSocket, getSocket } from '@/lib/socket';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Button } from '@/components/figma/button';
@@ -61,13 +61,19 @@ export default function Room() {
 
     socket.on('roomUpdate', (updatedRoom: Room) => {
       // Update React Query Cache instead of local state
+      console.log('Room updated:', updatedRoom);
       queryClient.setQueryData(['room', roomId], updatedRoom);
+    });
+
+    socket.on('exception', (error: any) => {
+      toast.error(error.message || '오류가 발생했습니다.');
     });
 
     // Cleanup on unmount
     return () => {
       socket.off('connect', handleJoinRoom);
       socket.off('roomUpdate');
+      socket.off('exception');
       disconnectSocket('/rooms');
     };
   }, [roomId, queryClient]);
@@ -108,13 +114,14 @@ export default function Room() {
   };
 
   const handleChangeTeam = () => {
-    // setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, team: p.team === 'blue' ? 'red' : 'blue' } : p)));
-    console.log('Change Team');
+    if (!me) return;
+    const socket = getSocket('/rooms');
+    socket.emit('changeTeam', { roomId, targetUserId: me.id });
   };
 
   const handleChangePlayerTeam = (playerId: number) => {
-    // setPlayers((prev) => prev.map((p) => (p.id === playerId ? { ...p, team: p.team === 'blue' ? 'red' : 'blue' } : p)));
-    console.log('Change Player Team', playerId);
+    const socket = getSocket('/rooms');
+    socket.emit('changeTeam', { roomId, targetUserId: playerId });
   };
 
   const handleKickPlayer = (playerId: number) => {
