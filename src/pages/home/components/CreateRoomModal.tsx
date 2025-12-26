@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer';
 
 import { Button } from '@/components/figma/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/figma/dialog';
+import { useCreateRoom } from '@/hooks/query/useCreateRoom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/pages/home/components/ThemeSelect';
 import type { RoomSettings } from '@/types/roomSettings';
 
@@ -32,6 +33,20 @@ export default function CreateRoomModal({
     countdownTime: '30',
     countdownCount: '3',
   });
+
+  const { mutate: createRoom, isPending } = useCreateRoom();
+
+  const handleCreateRoom = () => {
+    createRoom(settings, {
+      onSuccess: () => {
+        onOpenChange(false);
+      },
+      onError: (error) => {
+        console.error('Failed to create room:', error);
+        // Toast is handled? or we can add here
+      },
+    });
+  };
 
   const isEvenGame = settings.handicap === '0'; // 호선인 경우 백 덤이 없음
 
@@ -268,7 +283,8 @@ export default function CreateRoomModal({
               hover:bg-hextech-silver-800 hover:border-hextech-blue-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]
               active:scale-[0.98]
               transition-all duration-300 overflow-hidden'
-            onClick={() => onOpenChange(false)}
+            onClick={handleCreateRoom}
+            disabled={isPending}
           >
             <div className='absolute inset-0 bg-linear-to-r from-hextech-blue-600/10 via-hextech-blue-500/10 to-hextech-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
             <div className='absolute inset-0 bg-linear-to-b from-transparent via-hextech-blue-400/5 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500' />

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Ban,
   Copy,
@@ -14,8 +15,10 @@ import {
   User,
   Users,
 } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
+
+import { connectSocket, disconnectSocket } from '@/lib/socket';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Button } from '@/components/figma/button';
@@ -23,79 +26,98 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/figma/tool
 import { cn } from '@/components/figma/utils';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
 import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
+import { useMe } from '@/hooks/query/useMe';
+import { useRoom } from '@/hooks/query/useRoom';
+import type { Player, Room, Team } from '@/types/room';
 
-// Types
-type Team = 'A' | 'B';
-
-interface Player {
-  id: string;
-  nickname: string;
-  team: Team;
-  isHost: boolean;
-  isReady: boolean;
-  avatar?: string; // Placeholder for avatar image URL
-  device: 'mobile' | 'tablet' | 'desktop';
-}
-
-interface RoomSettings {
-  handicap: string;
-  komi: string;
-  basicTime: string;
-  countdown: string;
-}
-
-// Mock Data
-const MOCK_SETTINGS: RoomSettings = {
-  handicap: '호선',
-  komi: '6.5집',
-  basicTime: '10분',
-  countdown: '30초 3회',
-};
-
-const INITIAL_PLAYERS: Player[] = [
-  { id: 'p1', nickname: 'HideOnBush', team: 'A', isHost: true, isReady: true, device: 'desktop' }, // Me
-  { id: 'p2', nickname: 'FakerSlayer', team: 'A', isHost: false, isReady: true, device: 'mobile' },
-  { id: 'p3', nickname: 'Chovy', team: 'B', isHost: false, isReady: true, device: 'tablet' },
-  { id: 'p4', nickname: 'ShowMaker', team: 'B', isHost: false, isReady: true, device: 'desktop' },
-];
-
-const MAX_PLAYERS = 2;
+const MAX_PLAYERS = 4; // Pair Go usually 4 players
 
 export default function Room() {
   const navigate = useNavigate();
-  const [players, setPlayers] = useState<Player[]>(INITIAL_PLAYERS);
-  const [myId] = useState('p1'); // Assume current user is p1
+  const { roomId } = useParams();
+  const queryClient = useQueryClient();
+  const { data: me } = useMe();
+  const { data: room, isLoading: isRoomLoading } = useRoom(roomId);
 
-  const myPlayer = players.find((p) => p.id === myId);
+  console.log(room);
+
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Connect socket on mount/roomId change
+    const socket = connectSocket('/rooms');
+
+    const handleJoinRoom = () => {
+      console.log('Joining room:', roomId);
+      socket.emit('joinRoom', { roomId });
+    };
+
+    socket.on('connect', handleJoinRoom);
+
+    // If already connected (e.g. from previous page or fast connection), join immediately
+    if (socket.connected) {
+      handleJoinRoom();
+    }
+
+    socket.on('roomUpdate', (updatedRoom: Room) => {
+      // Update React Query Cache instead of local state
+      queryClient.setQueryData(['room', roomId], updatedRoom);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off('connect', handleJoinRoom);
+      socket.off('roomUpdate');
+      disconnectSocket('/rooms');
+    };
+  }, [roomId, queryClient]);
+
+  // Derived State from Room Data
+  const players = room?.players || [];
+
+  const myPlayer = players.find((p) => p.id === me?.id);
   const isMyReady = myPlayer?.isReady || false;
   const isHost = myPlayer?.isHost ?? false;
 
-  const teamA = players.filter((p) => p.team === 'A');
-  const teamB = players.filter((p) => p.team === 'B');
+  const teamRed = players.filter((p) => p.team === 'red');
+  const teamBlue = players.filter((p) => p.team === 'blue');
 
   const otherPlayersReady = players.every((p) => p.isHost || p.isReady);
-  const isTeamsBalanced = teamA.length === 2 && teamB.length === 2;
+  const isTeamsBalanced = teamRed.length === 2 && teamBlue.length === 2;
   const canStart = isTeamsBalanced && otherPlayersReady;
+
+  if (isRoomLoading || !room || !me) {
+    return (
+      <div className='flex items-center justify-center min-h-screen text-hextech-blue-300'>
+        <p>방 정보를 불러오는 중입니다...</p>
+      </div>
+    );
+  }
 
   const handleStartGame = () => {
     if (canStart) {
       console.log('Game Starting!');
+      // Emit 'startGame' event
     }
   };
 
   const handleToggleReady = () => {
-    setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, isReady: !p.isReady } : p)));
+    // setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, isReady: !p.isReady } : p)));
+    console.log('Toggle Ready');
+    // socket.emit('toggleReady');
   };
 
   const handleChangeTeam = () => {
-    setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, team: p.team === 'A' ? 'B' : 'A' } : p)));
+    // setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, team: p.team === 'blue' ? 'red' : 'blue' } : p)));
+    console.log('Change Team');
   };
 
-  const handleChangePlayerTeam = (playerId: string) => {
-    setPlayers((prev) => prev.map((p) => (p.id === playerId ? { ...p, team: p.team === 'A' ? 'B' : 'A' } : p)));
+  const handleChangePlayerTeam = (playerId: number) => {
+    // setPlayers((prev) => prev.map((p) => (p.id === playerId ? { ...p, team: p.team === 'blue' ? 'red' : 'blue' } : p)));
+    console.log('Change Player Team', playerId);
   };
 
-  const handleKickPlayer = (playerId: string) => {
+  const handleKickPlayer = (playerId: number) => {
     console.log('Kick player:', playerId);
   };
 
@@ -105,14 +127,11 @@ export default function Room() {
     toast.success('초대 링크가 복사되었습니다!');
   };
 
-  // Ensure layouts are balanced even if teams are uneven (for UI placeholder slots if needed)
-  // For now, flexible mapping.
-
   return (
     <div className='flex-1 pt-[80px] flex flex-col'>
       <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
-        title='Room #1394'
+        title={`Room #${room.title || roomId?.slice(0, 8)}`}
       />
       <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto pt-5 animate-in fade-in duration-700'>
         {/* 1. Header & Settings */}
@@ -129,7 +148,7 @@ export default function Room() {
             <div>
               <h1 className='text-2xl font-bold text-hextech-blue-100 tracking-tight'>페어 바둑</h1>
               <div className='flex items-center gap-3 mt-1'>
-                <p className='text-hextech-blue-400/60 text-sm'>Room #1394</p>
+                <p className='text-hextech-blue-400/60 text-sm'>Room #{room.title || roomId?.slice(0, 8)}</p>
                 <div className='w-px h-3 bg-hextech-blue-900' />
                 <button
                   onClick={handleCopyInviteLink}
@@ -147,14 +166,18 @@ export default function Room() {
             <div className='flex items-center gap-2'>
               <Settings className='w-4 h-4 text-hextech-gold-400' />
               <span className='text-hextech-silver-300 text-sm font-medium'>
-                {MOCK_SETTINGS.handicap} / {MOCK_SETTINGS.komi}
+                {room.settings.handicap === '0' ? '호선' : `${room.settings.handicap}점 접바둑`} /{' '}
+                {room.settings.komi === '0' ? '없음' : `${room.settings.komi}집`}
               </span>
             </div>
             <div className='w-px h-4 bg-hextech-silver-700' />
             <div className='flex items-center gap-2'>
               <Timer className='w-4 h-4 text-hextech-gold-400' />
               <span className='text-hextech-silver-300 text-sm font-medium'>
-                {MOCK_SETTINGS.basicTime} + {MOCK_SETTINGS.countdown}
+                {room.settings.basicTime === '0' ? '없음' : `${room.settings.basicTime}분`} +{' '}
+                {room.settings.countdownTime === '0'
+                  ? '없음'
+                  : `${room.settings.countdownTime}초 ${room.settings.countdownCount}회`}
               </span>
             </div>
           </ThemeBox>
@@ -165,22 +188,22 @@ export default function Room() {
           {/* Team A (Blue) */}
           {/* Team A (Blue) */}
           <TeamSection
-            team='A'
-            players={teamA}
-            currentUserId={myId}
-            maxPlayers={MAX_PLAYERS} // Scalable limit
-            amIHost={myPlayer?.isHost ?? false}
+            team='blue'
+            players={teamBlue}
+            currentUserId={me.id}
+            maxPlayers={MAX_PLAYERS / 2} // 2 per team
+            amIHost={isHost}
             onChangeTeam={handleChangePlayerTeam}
             onKick={handleKickPlayer}
           />
 
           {/* Team B (Red) */}
           <TeamSection
-            team='B'
-            players={teamB}
-            currentUserId={myId}
-            maxPlayers={MAX_PLAYERS}
-            amIHost={myPlayer?.isHost ?? false}
+            team='red'
+            players={teamRed}
+            currentUserId={me.id}
+            maxPlayers={MAX_PLAYERS / 2}
+            amIHost={isHost}
             onChangeTeam={handleChangePlayerTeam}
             onKick={handleKickPlayer}
           />
@@ -252,14 +275,14 @@ function TeamSection({
   onKick,
 }: {
   team: Team;
-  players: Player[];
-  currentUserId: string;
+  players: (Player & { isHost: boolean })[];
+  currentUserId: number;
   maxPlayers: number;
   amIHost: boolean;
-  onChangeTeam: (id: string) => void;
-  onKick: (id: string) => void;
+  onChangeTeam: (id: number) => void;
+  onKick: (id: number) => void;
 }) {
-  const isBlue = team === 'A';
+  const isBlue = team === 'blue';
 
   const teamTitle = isBlue ? '블루 팀' : '레드 팀';
 
@@ -318,7 +341,7 @@ function PlayerCard({
   onChangeTeam,
   onKick,
 }: {
-  player: Player;
+  player: Player & { isHost: boolean };
   isMe: boolean;
   teamColor: 'blue' | 'red';
   amIHost: boolean;
@@ -355,11 +378,7 @@ function PlayerCard({
           isBlue ? 'border-hextech-blue-800' : 'border-hextech-red-800',
         )}
       >
-        {player.avatar ? (
-          <img src={player.avatar} alt={player.nickname} className='w-full h-full rounded-full object-cover' />
-        ) : (
-          <User className={cn('w-6 h-6', isBlue ? 'text-hextech-blue-700' : 'text-hextech-red-700')} />
-        )}
+        <User className={cn('w-6 h-6', isBlue ? 'text-hextech-blue-700' : 'text-hextech-red-700')} />
 
         {/* Host Badge */}
         {player.isHost && (
@@ -416,13 +435,13 @@ function PlayerCard({
 
       {/* Device Type Icon */}
       <div className={cn('p-2 rounded-full', isBlue ? 'bg-hextech-blue-500/10' : 'bg-hextech-red-500/10')}>
-        {player.device === 'mobile' && (
+        {player.deviceType === 'mobile' && (
           <Smartphone className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
-        {player.device === 'tablet' && (
+        {player.deviceType === 'tablet' && (
           <Tablet className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
-        {player.device === 'desktop' && (
+        {player.deviceType === 'desktop' && (
           <Monitor className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
       </div>
