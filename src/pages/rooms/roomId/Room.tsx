@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import {
   Ban,
+  Copy,
   Crown,
   Monitor,
   Pause,
@@ -14,6 +15,7 @@ import {
   Users,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Button } from '@/components/figma/button';
@@ -97,6 +99,12 @@ export default function Room() {
     console.log('Kick player:', playerId);
   };
 
+  const handleCopyInviteLink = () => {
+    const inviteLink = window.location.href; // Or standard invite link format
+    navigator.clipboard.writeText(inviteLink);
+    toast.success('초대 링크가 복사되었습니다!');
+  };
+
   // Ensure layouts are balanced even if teams are uneven (for UI placeholder slots if needed)
   // For now, flexible mapping.
 
@@ -120,7 +128,17 @@ export default function Room() {
             </ThemeBox>
             <div>
               <h1 className='text-2xl font-bold text-hextech-blue-100 tracking-tight'>페어 바둑</h1>
-              <p className='text-hextech-blue-400/60 text-sm'>Room #1394</p>
+              <div className='flex items-center gap-3 mt-1'>
+                <p className='text-hextech-blue-400/60 text-sm'>Room #1394</p>
+                <div className='w-px h-3 bg-hextech-blue-900' />
+                <button
+                  onClick={handleCopyInviteLink}
+                  className='flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-hextech-blue-900/40 border border-hextech-blue-700/50 hover:bg-hextech-blue-800/60 hover:border-hextech-blue-500 text-[11px] text-hextech-blue-300 transition-all cursor-pointer'
+                >
+                  <Copy className='w-3 h-3' />
+                  초대 링크 복사
+                </button>
+              </div>
             </div>
           </div>
 
