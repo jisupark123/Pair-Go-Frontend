@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 
 export type User = {
-  id: string;
+  id: number;
   nickname: string;
   email?: string;
   socialId: string;

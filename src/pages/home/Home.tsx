@@ -1,19 +1,20 @@
 import { useState } from 'react';
-import { LogIn, Play, Plus, User, Users } from 'lucide-react';
+import { LogIn, Play, Plus, Users } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
+import { FriendsMenu } from '@/components/organisms/Navigation/FriendsMenu/FriendsMenu';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
+import { UserProfile } from '@/components/organisms/Navigation/UserProfile';
 import { useMe } from '@/hooks/query/useMe';
 import CreateRoomModal from '@/pages/home/components/CreateRoomModal';
-import UserMenu from '@/pages/home/components/UserMenu';
 
 export default function Home() {
   const navigate = useNavigate();
 
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
 
-  const { data: user, isLoading: isUserLoading, isError: isUserError } = useMe();
+  const { data: user, isLoading: isUserLoading } = useMe();
 
   // Mock data for online users
   const onlineUsers = 42;
@@ -28,11 +29,10 @@ export default function Home() {
       <Navigation
         right={
           isUserLoading ? null : user ? (
-            <UserMenu nickname={user.nickname}>
-              <button className='flex items-center justify-center w-10 h-10 rounded-full bg-hextech-purple-900 border border-hextech-purple-500 hover:bg-hextech-purple-800 transition-colors'>
-                <User className='w-5 h-5 text-hextech-purple-300' />
-              </button>
-            </UserMenu>
+            <>
+              <FriendsMenu />
+              <UserProfile user={user} />
+            </>
           ) : (
             <button
               onClick={() => navigate('/login')}
