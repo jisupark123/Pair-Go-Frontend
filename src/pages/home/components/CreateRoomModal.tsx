@@ -1,8 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
+import { useImmer } from 'use-immer';
 
 import { Button } from '@/components/figma/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/figma/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/pages/home/components/ThemeSelect';
+import type { RoomSettings } from '@/types/roomSettings';
 
 // Static Options
 const HANDICAP_OPTIONS = Array.from({ length: 8 }, (_, i) => i + 2);
@@ -22,26 +24,16 @@ export default function CreateRoomModal({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  // Game Settings
-  type Handicap = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-  const [handicap, setHandicap] = useState<Handicap>('0'); // 0: 호선
+  const [settings, updateSettings] = useImmer<RoomSettings>({
+    handicap: '0',
+    komi: '0',
+    stoneColor: 'auto',
+    basicTime: '10',
+    countdownTime: '30',
+    countdownCount: '3',
+  });
 
-  type Komi = '0' | '6.5' | string; // 1~100집은 string으로 처리하되, '0'(없음)과 '6.5'(호선)는 명시
-  const [komi, setKomi] = useState<Komi>('0'); // 0: 없음
-
-  const [stoneColor, setStoneColor] = useState<'auto' | 'black' | 'white'>('auto');
-
-  // Time Settings
-  type BasicTime = '0' | '1' | '5' | '10' | '20' | '30' | '40' | '50' | '60';
-  const [basicTime, setBasicTime] = useState<BasicTime>('10');
-
-  type CountdownTime = '0' | '5' | '10' | '15' | '20' | '30' | '40' | '50' | '60';
-  const [countdownTime, setCountdownTime] = useState<CountdownTime>('30');
-
-  type CountdownCount = '0' | '1' | '2' | '3' | '4' | '5';
-  const [countdownCount, setCountdownCount] = useState<CountdownCount>('3');
-
-  const isEvenGame = handicap === '0'; // 호선인 경우 백 덤이 없음
+  const isEvenGame = settings.handicap === '0'; // 호선인 경우 백 덤이 없음
 
   // Memoized Options
   const handicapOptions = useMemo(
@@ -125,7 +117,14 @@ export default function CreateRoomModal({
               {/* Handicap */}
               <div className='space-y-2'>
                 <label className='text-xs font-medium text-hextech-silver-400 ml-1'>치수</label>
-                <Select value={handicap} onValueChange={(value) => setHandicap(value as Handicap)}>
+                <Select
+                  value={settings.handicap}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.handicap = value;
+                    })
+                  }
+                >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200'>
                     <SelectValue />
                   </SelectTrigger>
@@ -143,8 +142,12 @@ export default function CreateRoomModal({
                   {isEvenGame ? '백 덤' : '흑 덤'}
                 </label>
                 <Select
-                  value={isEvenGame ? '6.5' : komi}
-                  onValueChange={(value) => setKomi(value as Komi)}
+                  value={isEvenGame ? '6.5' : settings.komi}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.komi = value;
+                    })
+                  }
                   disabled={isEvenGame}
                 >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200 disabled:opacity-50 disabled:cursor-not-allowed'>
@@ -160,8 +163,12 @@ export default function CreateRoomModal({
               <div className='space-y-2 col-span-2'>
                 <label className='text-xs font-medium text-hextech-silver-400 ml-1'>흑백 선택</label>
                 <Select
-                  value={stoneColor}
-                  onValueChange={(value) => setStoneColor(value as 'auto' | 'black' | 'white')}
+                  value={settings.stoneColor}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.stoneColor = value as 'auto' | 'black' | 'white';
+                    })
+                  }
                 >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200'>
                     <SelectValue />
@@ -188,7 +195,15 @@ export default function CreateRoomModal({
               {/* Basic Time */}
               <div className='space-y-2'>
                 <label className='text-xs font-medium text-hextech-silver-400 ml-1'>기본 시간</label>
-                <Select value={basicTime} onValueChange={(value) => setBasicTime(value as BasicTime)} color='gold'>
+                <Select
+                  value={settings.basicTime}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.basicTime = value;
+                    })
+                  }
+                  color='gold'
+                >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
                     <SelectValue />
                   </SelectTrigger>
@@ -203,8 +218,12 @@ export default function CreateRoomModal({
               <div className='space-y-2'>
                 <label className='text-xs font-medium text-hextech-silver-400 ml-1'>초읽기</label>
                 <Select
-                  value={countdownTime}
-                  onValueChange={(value) => setCountdownTime(value as CountdownTime)}
+                  value={settings.countdownTime}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.countdownTime = value;
+                    })
+                  }
                   color='gold'
                 >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
@@ -221,8 +240,12 @@ export default function CreateRoomModal({
               <div className='space-y-2'>
                 <label className='text-xs font-medium text-hextech-silver-400 ml-1'>횟수</label>
                 <Select
-                  value={countdownCount}
-                  onValueChange={(value) => setCountdownCount(value as CountdownCount)}
+                  value={settings.countdownCount}
+                  onValueChange={(value) =>
+                    updateSettings((draft) => {
+                      draft.countdownCount = value;
+                    })
+                  }
                   color='gold'
                 >
                   <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
