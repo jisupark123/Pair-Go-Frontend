@@ -21,9 +21,11 @@ const fetchMe = async (): Promise<User> => {
 export const ME_QUERY_KEY = ['users', 'me'] as const;
 
 export function useMe() {
-  return useQuery({
+  const result = useQuery({
     queryKey: ME_QUERY_KEY,
     queryFn: fetchMe,
     retry: 0,
   });
+
+  return { ...result, isLoggedIn: !!result.data && !result.isError };
 }
