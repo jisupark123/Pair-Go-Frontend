@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: when writing test code
 ---
 
 ## 테스트 코드 작성 가이드

@@ -1,10 +1,11 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: when designing UI/components
 ---
 
 # Design & Development Guidelines
 
-이 문서는 프로젝트의 디자인 일관성과 개발 원칙을 정의합니다. AI 모델은 코드를 생성하거나 디자인을 제안할 때 다음 지침을 반드시 준수해야 합니다.
+이 문서는 프로젝트의 디자인 일관성과 개발 원칙을 정의합니다.
 
 ---
 

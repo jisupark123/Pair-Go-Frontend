@@ -1,10 +1,13 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: when writing code
 ---
 
 # Linting & Coding Standards Guide
 
 이 프로젝트는 엄격한 ESLint 및 Prettier 규칙을 따릅니다. 코드를 작성하거나 수정할 때 아래 규칙들을 반드시 준수해야 합니다.
+
+코드 작성 완료 후에는 항상 `pnpm lint && pnpm typecheck` 명령어를 통해 검사를 진행해야 합니다.
 
 ## 1. 기본 스타일 (Prettier & General)
 
@@ -18,7 +21,7 @@ trigger: always_on
 
 ## 2. TypeScript 규칙
 
-- **Any 타입**: `any` 타입 사용이 허용됩니다 (`no-explicit-any`: off). 단, 명확한 타입이 있다면 구체적인 타입을 사용하는 것이 좋습니다.
+- **Any 타입**: `any` 타입 사용이 금지됩니다. 구체적인 타입을 사용하세.
 - **미사용 변수**: 사용하지 않는 변수는 경고(`warn`) 처리됩니다. 사용하지 않아야 하는 변수(예: 함수의 인자 등)는 이름 앞에 `_`를 붙여야 합니다 (예: `_req`, `_unused`).
 - **인터페이스 & 타입 명명 규칙**:
   - Interface 이름 앞에 `I` 접두사를 붙이지 않습니다 (예: `IProps` ❌ -> `Props` ✅).
@@ -29,16 +32,7 @@ trigger: always_on
   - 변수: `camelCase`, `PascalCase`, `UPPER_CASE` 허용.
   - 함수: `camelCase`, `PascalCase` 허용.
 
-## 3. React 관련 규칙
-
-- **React Import**: React 17+ 환경이므로 JSX 사용 시 `import React from 'react'`는 불필요합니다.
-- **Self-closing Tags**: 자식 요소가 없는 컴포넌트는 반드시 닫는 태그(`/>`)를 사용합니다 (`self-closing-comp`).
-- **불필요한 중괄호 제거**: 문자열 prop 등에서 불필요한 중괄호는 제거합니다 (예: `prop={"value"}` ❌ -> `prop="value"` ✅).
-- **Key Prop**: 배열 렌더링 시 `key` prop은 필수입니다.
-- **DangerouslySetInnerHTML**: 보안상 위험하므로 사용을 금지합니다 (`no-danger`).
-- **Children Prop**: `children`을 명시적인 prop으로 전달하지 말고, 컴포넌트 태그 사이에 위치시킵니다 (`no-children-prop`).
-
-## 4. Import 규칙 (매우 중요)
+## 3. Import 규칙 (매우 중요)
 
 - **경로 제한**: 상대 경로 import(`../`, `./`) 사용이 **금지**되어 있습니다. 반드시 Alias 경로(예: `@/components/...`)나 패키지 명을 사용한 절대 경로를 사용하세요 (`no-restricted-imports`).
 - **Type-only Import 사용**: TypeScript의 인터페이스(Interface)나 타입(Type)을 가져올 때는 반드시 `import type` 구문을 사용하여 런타임 번들 크기를 최적화하고 의존성을 명확히 합니다.
@@ -48,34 +42,3 @@ trigger: always_on
   - **React 우선**: 외부 라이브러리 중 `react` 관련 import는 가장 상단에 위치합니다.
   - **Lib 우선**: 내부 모듈 중 `@/lib/**` 경로는 다른 internal 모듈보다 먼저 위치합니다.
   - **알파벳 정렬**: 각 그룹 내에서는 대소문자 구분 없이 알파벳 순으로 정렬합니다.
-
-## 요약 코드 예시
-
-```typescript
-// ✅ Good
-import { useState } from 'react';
-
-import { useQuery } from '@tanstack/react-query';
-
-import { Button } from '@/components/ui/button'; // 상대 경로 대신 Alias 사용
-
-// Interface 이름에 'I' 접두사 없음
-interface UserProps {
-  id: string;
-  name: string;
-}
-
-export const UserComponent = ({ id, name }: UserProps) => {
-  // 구조 분해 할당 사용
-  const { data } = useQuery(...);
-
-  // 화살표 함수 & self-closing
-  const handleClick = () => console.log('clicked');
-
-  return (
-    <div className="user-card">
-      <Button onClick={handleClick} label="Click Me" />
-    </div>
-  );
-};
-```

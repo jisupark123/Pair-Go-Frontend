@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: when designing or modifying Screen/Page components, managing layout and navigation structures, or implementing responsive design and mobile-specific logic
 ---
 
 # Layout Guidelines

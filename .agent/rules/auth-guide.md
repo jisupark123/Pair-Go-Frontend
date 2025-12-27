@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: when handling authentication, API requests, or user sessions
 ---
 
 # Authentication & Token Management Guidelines
