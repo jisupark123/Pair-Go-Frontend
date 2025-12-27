@@ -110,9 +110,9 @@ export default function Room() {
   };
 
   const handleToggleReady = () => {
-    // setPlayers((prev) => prev.map((p) => (p.id === myId ? { ...p, isReady: !p.isReady } : p)));
-    console.log('Toggle Ready');
-    // socket.emit('toggleReady');
+    if (!roomId) return;
+    const socket = getSocket('/rooms');
+    socket.emit('updateReadyStatus', { roomId, isReady: !isMyReady });
   };
 
   const handleChangeTeam = () => {
@@ -249,8 +249,8 @@ export default function Room() {
                     ? 'bg-linear-to-r from-hextech-purple-900 via-hextech-purple-600 to-hextech-purple-900 animate-gradient-x border-hextech-purple-400 text-hextech-purple-100 hover:shadow-[0_0_30px_rgba(147,51,234,0.6)]'
                     : 'bg-hextech-silver-900 border-hextech-silver-600 text-hextech-silver-500 cursor-not-allowed opacity-50'
                   : !isMyReady
-                    ? 'bg-hextech-blue-900/80 border-hextech-blue-400 text-hextech-blue-100 hover:bg-hextech-blue-800 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]'
-                    : 'bg-hextech-silver-900 border-hextech-red-500 text-hextech-red-400 hover:bg-hextech-silver-800',
+                    ? 'bg-hextech-red-900/80 border-hextech-red-400 text-hextech-red-100 hover:bg-hextech-red-800 hover:shadow-[0_0_30px_rgba(255,0,0,0.4)]'
+                    : 'bg-hextech-gold-900/80 border-hextech-gold-500 text-hextech-gold-400 hover:bg-hextech-gold-800',
               )}
               onClick={isHost ? handleStartGame : handleToggleReady}
             >
@@ -263,7 +263,7 @@ export default function Room() {
                 ) : !isMyReady ? (
                   <>
                     <Play className='w-6 h-6 fill-current' />
-                    <span>준비 완료</span>
+                    <span>준비하기</span>
                   </>
                 ) : (
                   <>
