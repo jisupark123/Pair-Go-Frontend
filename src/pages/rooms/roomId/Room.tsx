@@ -24,6 +24,7 @@ import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Button } from '@/components/figma/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/figma/tooltip';
 import { cn } from '@/components/figma/utils';
+import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
 import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
 import { useMe } from '@/hooks/query/useMe';
@@ -38,6 +39,7 @@ export default function Room() {
   const queryClient = useQueryClient();
   const { data: me } = useMe();
   const { data: room, isLoading: isRoomLoading } = useRoom(roomId);
+  const [kickTargetId, setKickTargetId] = useState<number | null>(null);
 
   console.log(room);
 
@@ -125,7 +127,15 @@ export default function Room() {
   };
 
   const handleKickPlayer = (playerId: number) => {
-    console.log('Kick player:', playerId);
+    setKickTargetId(playerId);
+  };
+
+  const handleConfirmKick = () => {
+    if (!roomId || !kickTargetId) return;
+
+    const socket = getSocket('/rooms');
+    socket.emit('kickPlayer', { roomId, targetId: kickTargetId });
+    setKickTargetId(null);
   };
 
   const handleCopyInviteLink = () => {
@@ -266,6 +276,23 @@ export default function Room() {
           </div>
         </footer>
       </div>
+
+      <ConfirmDialog
+        open={kickTargetId !== null}
+        onOpenChange={(open) => !open && setKickTargetId(null)}
+        title='강제 퇴장'
+        description={
+          <>
+            정말로 이 플레이어를 게임에서 강제 퇴장시키겠습니까?
+            <br />
+            퇴장된 플레이어는 다시 입장할 수 없습니다.
+          </>
+        }
+        confirmText='추방하기'
+        cancelText='취소'
+        onConfirm={handleConfirmKick}
+        variant='destructive'
+      />
     </div>
   );
 }
