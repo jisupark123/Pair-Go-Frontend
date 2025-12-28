@@ -29,6 +29,7 @@ import { Navigation } from '@/components/organisms/Navigation/Navigation';
 import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
 import { useMe } from '@/hooks/query/useMe';
 import { useRoom } from '@/hooks/query/useRoom';
+import { RoomSettingsModal } from '@/pages/rooms/roomId/components/RoomSettingsModal';
 import type { Player, Room, Team } from '@/types/room';
 
 const MAX_PLAYERS = 4; // Pair Go usually 4 players
@@ -40,6 +41,7 @@ export default function Room() {
   const { data: me } = useMe();
   const { data: room, isLoading: isRoomLoading } = useRoom(roomId);
   const [kickTargetId, setKickTargetId] = useState<number | null>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   console.log(room);
 
@@ -179,12 +181,30 @@ export default function Room() {
           </div>
 
           {/* Settings Badge */}
-          <ThemeBox color='silver' filled size='sm' className='flex gap-6 px-6 py-3 border-hextech-silver-700/50'>
+          <ThemeBox
+            color='silver'
+            filled
+            size='sm'
+            className={cn(
+              'flex gap-6 px-6 py-3 border-hextech-silver-700/50',
+              isHost && 'cursor-pointer hover:bg-hextech-silver-800 transition-colors',
+            )}
+            onClick={isHost ? () => setIsSettingsOpen(true) : undefined}
+          >
             <div className='flex items-center gap-2'>
               <Settings className='w-4 h-4 text-hextech-gold-400' />
               <span className='text-hextech-silver-300 text-sm font-medium'>
-                {room.settings.handicap === '0' ? '호선' : `${room.settings.handicap}점 접바둑`} /{' '}
-                {room.settings.komi === '0' ? '없음' : `${room.settings.komi}집`}
+                {room.settings.handicap === '0'
+                  ? '호선'
+                  : room.settings.handicap === '1'
+                    ? '정선'
+                    : `${room.settings.handicap}점 접바둑`}{' '}
+                /{' '}
+                {room.settings.handicap === '0'
+                  ? '백 덤 + 6.5집'
+                  : room.settings.komi === '0'
+                    ? '덤 없음'
+                    : `흑 덤 + ${room.settings.komi}집`}
               </span>
             </div>
             <div className='w-px h-4 bg-hextech-silver-700' />
@@ -293,6 +313,15 @@ export default function Room() {
         onConfirm={handleConfirmKick}
         variant='destructive'
       />
+
+      {room && !!roomId && (
+        <RoomSettingsModal
+          open={isSettingsOpen}
+          onOpenChange={setIsSettingsOpen}
+          roomId={roomId}
+          currentSettings={room.settings}
+        />
+      )}
     </div>
   );
 }
