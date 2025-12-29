@@ -1,6 +1,16 @@
+interface KakaoAuth {
+  authorize: (settings: { redirectUri: string; state?: string }) => void;
+}
+
+interface KakaoSDK {
+  init: (key: string) => void;
+  isInitialized: () => boolean;
+  Auth: KakaoAuth;
+}
+
 declare global {
   interface Window {
-    Kakao: any;
+    Kakao?: KakaoSDK;
   }
 }
 

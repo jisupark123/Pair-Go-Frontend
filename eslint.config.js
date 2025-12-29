@@ -15,15 +15,6 @@ export default defineConfig(
   {
     files: ['**/*.{ts,tsx}'],
 
-    // TODO: typeChecking을 eslint에 추가
-    // languageOptions: {
-    //   parser,
-    //   parserOptions: {
-    //     project: './tsconfig.app.json',
-    //     // projectService: true,
-    //     tsconfigRootDir: import.meta.dirname,
-    //   },
-    // },
     plugins: { prettier: eslintPluginPrettier, import: importPlugin, react },
     extends: [
       js.configs.recommended,
@@ -51,8 +42,11 @@ export default defineConfig(
 
       // typescript-eslint
       '@typescript-eslint/array-type': 0,
-      '@typescript-eslint/ban-ts-comment': 0,
-      '@typescript-eslint/no-explicit-any': 0, // any 타입 사용 허용
+      '@typescript-eslint/ban-ts-comment': 0, // ts-ignore 사용 허용
+      '@typescript-eslint/no-explicit-any': 'error', // any 타입 사용 금지
+      '@typescript-eslint/no-var-requires': 'error', // require 사용 금지
+      '@typescript-eslint/no-require-imports': 'error', // require import 사용 금지
+      '@typescript-eslint/no-empty-object-type': 'error', // 빈 객체 타입 사용 금지
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -60,9 +54,6 @@ export default defineConfig(
           varsIgnorePattern: '^_', // _로 시작하는 변수는 미사용 허용
         },
       ],
-      '@typescript-eslint/no-var-requires': 0,
-      '@typescript-eslint/no-require-imports': 0,
-      '@typescript-eslint/no-empty-object-type': 0,
 
       // react 관련 규칙
       ...react.configs.recommended.rules,

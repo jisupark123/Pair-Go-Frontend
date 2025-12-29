@@ -69,7 +69,7 @@ export default function Room() {
       queryClient.setQueryData(['room', roomId], updatedRoom);
     });
 
-    socket.on('exception', (error: any) => {
+    socket.on('exception', (error: Error) => {
       toast.error(error.message || '오류가 발생했습니다.');
     });
 
@@ -540,7 +540,7 @@ function ActionButton({
   colorClass: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const timerRef = useRef<any>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleTouchStart = () => {
     timerRef.current = setTimeout(() => {

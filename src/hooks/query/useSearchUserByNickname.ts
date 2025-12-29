@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { isAxiosError } from 'axios';
 
 import { api } from '@/lib/axios';
 
@@ -23,8 +24,8 @@ export function useSearchUserByNickname(nickname: string) {
         // Based on user request "users?nickname=", it likely filters.
         // If 404 on not found, useQuery will handle error state.
         return data;
-      } catch (error: any) {
-        if (error.response?.status === 404) {
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 404) {
           return null; // Treat 404 as empty results for search
         }
         throw error;
