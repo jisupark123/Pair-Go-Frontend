@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@dodagames/go':
-        specifier: ^0.0.13
-        version: 0.0.13
+        specifier: ^1.0.0
+        version: 1.0.0
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.2.7)(react@19.2.3)
@@ -260,8 +260,8 @@ packages:
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
 
-  '@dodagames/go@0.0.13':
-    resolution: {integrity: sha512-aJ7p4Ar5qBlLsJPOvkOMIpeOpX0uGiagySa9WAxjxj0woCGIixiGPV7di3TujjNmJbta0iIKXSpHrAh2rRVkIw==, tarball: https://npm.pkg.github.com/download/@dodagames/go/0.0.13/ac5ad1ecb4c72d9f22e26b135eaeafb5165b6bc6}
+  '@dodagames/go@1.0.0':
+    resolution: {integrity: sha512-c//hAfJaiJXIdJdErZUqkbqgP1aq1IIBGub6ojFksPrSlYLKYAZ53i1QLaxQE+KpdgTMY7gMt4B+YBryxKr7bQ==, tarball: https://npm.pkg.github.com/download/@dodagames/go/1.0.0/c5118a9c298c76a48596a07608e7f5cae8e93d69}
 
   '@emotion/babel-plugin@11.13.5':
     resolution: {integrity: sha512-pxHCpT2ex+0q+HH91/zsdHkw/lXd468DIN2zvfvLtPKLLMo6gQj7oLObq8PhkrxOZb/gGCq03S3Z7PDhS8pduQ==}
@@ -3638,7 +3638,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@dodagames/go@0.0.13':
+  '@dodagames/go@1.0.0':
     dependencies:
       '@dodagames/go': 'link:'
       react: 19.2.3

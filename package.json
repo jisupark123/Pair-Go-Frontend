@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -19,7 +19,7 @@
     "*.{js,ts,jsx,tsx}": "eslint"
   },
   "dependencies": {
-    "@dodagames/go": "^0.0.13",
+    "@dodagames/go": "^1.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.2",
