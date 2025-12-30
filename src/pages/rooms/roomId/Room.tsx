@@ -232,6 +232,7 @@ export default function Room() {
             amIHost={isHost}
             onChangeTeam={handleChangePlayerTeam}
             onKick={handleKickPlayer}
+            stoneColorMethod={room.settings.stoneColorMethod}
           />
 
           {/* Team B (Red) */}
@@ -243,6 +244,7 @@ export default function Room() {
             amIHost={isHost}
             onChangeTeam={handleChangePlayerTeam}
             onKick={handleKickPlayer}
+            stoneColorMethod={room.settings.stoneColorMethod}
           />
         </main>
 
@@ -336,6 +338,7 @@ function TeamSection({
   amIHost,
   onChangeTeam,
   onKick,
+  stoneColorMethod,
 }: {
   team: Team;
   players: (Player & { isHost: boolean })[];
@@ -344,6 +347,7 @@ function TeamSection({
   amIHost: boolean;
   onChangeTeam: (id: number) => void;
   onKick: (id: number) => void;
+  stoneColorMethod: 'auto' | 'manual';
 }) {
   const isBlue = team === 'blue';
 
@@ -358,14 +362,29 @@ function TeamSection({
           isBlue ? 'border-hextech-blue-900' : 'border-hextech-red-900',
         )}
       >
-        <h2
-          className={cn(
-            'text-lg font-bold tracking-wider uppercase',
-            isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400',
+        <div className='flex items-center gap-3'>
+          <h2
+            className={cn(
+              'text-lg font-bold tracking-wider uppercase',
+              isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400',
+            )}
+          >
+            {teamTitle}
+          </h2>
+          {stoneColorMethod === 'manual' && (
+            <div className='flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-hextech-silver-900/50 border border-hextech-silver-700/50'>
+              <div
+                className={cn(
+                  'w-3 h-3 rounded-full shadow-sm',
+                  isBlue
+                    ? 'bg-hextech-silver-900 border border-hextech-silver-600'
+                    : 'bg-hextech-silver-100 border border-hextech-silver-400',
+                )}
+              />
+              <span className='text-xs font-medium text-hextech-silver-400'>{isBlue ? '흑 팀' : '백 팀'}</span>
+            </div>
           )}
-        >
-          {teamTitle}
-        </h2>
+        </div>
         <div className='flex items-center gap-1.5 text-xs font-medium text-hextech-silver-500'>
           <Users className='w-4 h-4' />
           {players.length} / {maxPlayers}
