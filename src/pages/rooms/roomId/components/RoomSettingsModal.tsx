@@ -14,17 +14,17 @@ import {
   DialogTitle,
 } from '@/components/figma/dialog';
 import { RoomSettingsForm } from '@/components/organisms/RoomSettingsForm';
-import type { RoomSettings } from '@/types/roomSettings';
+import type { Room } from '@/types/room';
 
 interface RoomSettingsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   roomId: string;
-  currentSettings: RoomSettings;
+  currentSettings: Room['settings'];
 }
 
 export function RoomSettingsModal({ open, onOpenChange, roomId, currentSettings }: RoomSettingsModalProps) {
-  const [settings, updateSettings] = useImmer<RoomSettings>(currentSettings);
+  const [settings, updateSettings] = useImmer<Room['settings']>(currentSettings);
 
   // Sync settings when modal opens
   useEffect(() => {

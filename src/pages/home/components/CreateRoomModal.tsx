@@ -4,7 +4,7 @@ import { Button } from '@/components/figma/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/figma/dialog';
 import { RoomSettingsForm } from '@/components/organisms/RoomSettingsForm';
 import { useCreateRoom } from '@/hooks/query/useCreateRoom';
-import type { RoomSettings } from '@/types/roomSettings';
+import type { Room } from '@/types/room';
 
 export default function CreateRoomModal({
   open,
@@ -13,7 +13,7 @@ export default function CreateRoomModal({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [settings, updateSettings] = useImmer<RoomSettings>({
+  const [settings, updateSettings] = useImmer<Room['settings']>({
     handicap: '0', // handicap이 0인 경우 호선
     komi: '0', // 호선인 경우 komi는 0으로 설정
     stoneColorMethod: 'auto',

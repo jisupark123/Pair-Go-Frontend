@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/molecules/ThemeSelect';
-import type { RoomSettings } from '@/types/roomSettings';
+import type { Room } from '@/types/room';
 
 // Static Options
 const HANDICAP_OPTIONS = Array.from({ length: 8 }, (_, i) => i + 2);
@@ -15,8 +15,8 @@ const COUNTDOWN_TIME_OPTIONS = [5, 10, 15, 20, 30, 40, 50, 60];
 const COUNTDOWN_COUNT_OPTIONS = [1, 2, 3, 4, 5];
 
 interface RoomSettingsFormProps {
-  settings: RoomSettings;
-  updateSettings: (fn: (draft: RoomSettings) => void) => void;
+  settings: Room['settings'];
+  updateSettings: (fn: (draft: Room['settings']) => void) => void;
   disabled?: boolean;
 }
 

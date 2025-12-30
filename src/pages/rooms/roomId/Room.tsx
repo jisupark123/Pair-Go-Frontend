@@ -150,7 +150,7 @@ export default function Room() {
     <div className='flex-1 pt-[80px] flex flex-col'>
       <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
-        title={`Room #${room.title || roomId?.slice(0, 8)}`}
+        title={`Room #${roomId?.slice(0, 8)}`}
       />
       <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto pt-5 animate-in fade-in duration-700'>
         {/* 1. Header & Settings */}
@@ -167,7 +167,7 @@ export default function Room() {
             <div>
               <h1 className='text-2xl font-bold text-hextech-blue-100 tracking-tight'>페어 바둑</h1>
               <div className='flex items-center gap-3 mt-1'>
-                <p className='text-hextech-blue-400/60 text-sm'>Room #{room.title || roomId?.slice(0, 8)}</p>
+                <p className='text-hextech-blue-400/60 text-sm'>Room #{roomId?.slice(0, 8)}</p>
                 <div className='w-px h-3 bg-hextech-blue-900' />
                 <button
                   onClick={handleCopyInviteLink}
