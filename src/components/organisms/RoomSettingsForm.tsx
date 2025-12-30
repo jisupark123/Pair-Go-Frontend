@@ -142,10 +142,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
           <div className='space-y-2 col-span-2'>
             <label className='text-xs font-medium text-hextech-silver-400 ml-1'>흑백 선택</label>
             <Select
-              value={settings.stoneColor}
+              value={settings.stoneColorMethod}
               onValueChange={(value) =>
                 updateSettings((draft) => {
-                  draft.stoneColor = value as 'auto' | 'black' | 'white';
+                  draft.stoneColorMethod = value as 'auto' | 'manual';
                 })
               }
               disabled={!!disabled}
@@ -155,8 +155,7 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               </SelectTrigger>
               <SelectContent className='bg-hextech-silver-900 border-hextech-blue-900 text-hextech-silver-200'>
                 <SelectItem value='auto'>자동 돌가림</SelectItem>
-                <SelectItem value='black'>흑</SelectItem>
-                <SelectItem value='white'>백</SelectItem>
+                <SelectItem value='manual'>방에서 선택</SelectItem>
               </SelectContent>
             </Select>
           </div>

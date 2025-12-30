@@ -16,7 +16,7 @@ export default function CreateRoomModal({
   const [settings, updateSettings] = useImmer<RoomSettings>({
     handicap: '0', // handicap이 0인 경우 호선
     komi: '0', // 호선인 경우 komi는 0으로 설정
-    stoneColor: 'auto',
+    stoneColorMethod: 'auto',
     basicTime: '10',
     countdownTime: '30',
     countdownCount: '3',
