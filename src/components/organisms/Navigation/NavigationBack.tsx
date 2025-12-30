@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { ChevronLeft } from 'lucide-react';
 import { isMobileOnly } from 'react-device-detect';
 import { useNavigate } from 'react-router';
@@ -15,12 +16,20 @@ export function NavigationBack({ label = '뒤로', onClick, className = '' }: Na
 
   return (
     <button
-      className={`p-2 rounded-lg hover:bg-slate-800/50 transition-colors flex items-center gap-2 ${className}`}
+      className={clsx(
+        'p-2 rounded-lg hover:bg-hextech-blue-900/20 transition-all duration-300 flex items-center gap-2 group',
+        'active:scale-95',
+        className,
+      )}
       aria-label='뒤로 가기'
       onClick={handleBack}
     >
-      <ChevronLeft className={`${iconSize} text-slate-300`} />
-      <span className='text-slate-300'>{label}</span>
+      <ChevronLeft
+        className={clsx(iconSize, 'text-hextech-blue-400 group-hover:text-hextech-blue-300 transition-colors')}
+      />
+      <span className='text-hextech-blue-400 font-medium group-hover:text-hextech-blue-300 transition-colors tracking-wide'>
+        {label}
+      </span>
     </button>
   );
 }

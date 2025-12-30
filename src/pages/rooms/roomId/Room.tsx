@@ -150,7 +150,7 @@ export default function Room() {
     <div className='flex-1 pt-[80px] flex flex-col'>
       <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
-        title={`Room #${roomId?.slice(0, 8)}`}
+        title='대기실'
       />
       <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto pt-5 animate-in fade-in duration-700'>
         {/* 1. Header & Settings */}
