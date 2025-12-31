@@ -43,7 +43,7 @@ export default function Home() {
           )
         }
       />
-      <div className='flex-1 flex flex-col items-center justify-center h-full pt-5'>
+      <div className='flex-1 flex flex-col items-center justify-center h-full pt-5 px-6'>
         {/* Header Info */}
         <div className='mb-12 animate-in fade-in slide-in-from-top-4 duration-1000'>
           <ThemeBox color='silver' size='sm' filled className='border-hextech-silver-700/50 py-1.5 px-4'>
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
 
         {/* Footer Decoration */}
-        <div className='mt-16 opacity-30 pointer-events-none select-none'>
+        <div className='mt-16 pb-6 opacity-30 pointer-events-none select-none'>
           <div className='h-px w-64 bg-linear-to-r from-transparent via-hextech-blue-500 to-transparent' />
           <p className='mt-4 text-[10px] text-center tracking-[0.5em] text-hextech-blue-300'>두다 (Doda)</p>
         </div>

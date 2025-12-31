@@ -49,7 +49,6 @@ export default function Room() {
     // Connect socket on mount/roomId change
     const socket = getSocket('');
 
-    console.log('Joining room:', roomId);
     socket.emit('joinRoom', { roomId });
 
     socket.on('roomUpdate', (updatedRoom: Room) => {
@@ -57,15 +56,10 @@ export default function Room() {
       queryClient.setQueryData(['room', roomId], updatedRoom);
     });
 
-    socket.on('exception', (error: Error) => {
-      toast.error(error.message || '오류가 발생했습니다.');
-    });
-
     // Cleanup on unmount
     return () => {
       socket.emit('leaveRoom', { roomId });
       socket.off('roomUpdate');
-      socket.off('exception');
     };
   }, [roomId, queryClient]);
 
@@ -134,12 +128,12 @@ export default function Room() {
   };
 
   return (
-    <div className='flex-1 pt-[80px] flex flex-col'>
-      <Navigation
+    <div className='flex-1 flex flex-col pt-2'>
+      {/* <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
         title='대기실'
-      />
-      <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto pt-5 animate-in fade-in duration-700'>
+      /> */}
+      <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto px-6 pt-5 animate-in fade-in duration-700'>
         {/* 1. Header & Settings */}
         <header className='flex flex-col md:flex-row items-center justify-between gap-4'>
           <div className='flex items-center gap-3'>
@@ -236,7 +230,7 @@ export default function Room() {
         </main>
 
         {/* 3. Footer Action Bar */}
-        <footer className='mt-auto flex flex-col items-center gap-6 pb-6'>
+        <footer className='mt-auto flex flex-col items-center gap-6 pb-8'>
           {/* Controls */}
           <div className='flex items-center gap-4 w-full justify-center max-w-xl'>
             {/* Change Team */}

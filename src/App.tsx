@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
+import { toast } from 'sonner';
 
 import { connectSocket, disconnectSocket } from '@/lib/socket';
 
@@ -13,10 +14,11 @@ import ProfileSettings from '@/pages/settings/ProfileSettings';
 function App() {
   useEffect(() => {
     const socket = connectSocket('');
-    socket.on('connect', () => {
-      console.log('Connected to server');
+    socket.on('exception', (error: Error) => {
+      toast.error(error.message || '오류가 발생했습니다.');
     });
     return () => {
+      socket.off('exception');
       disconnectSocket('');
     };
   }, []);
