@@ -1,13 +1,26 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
+
+import { connectSocket, disconnectSocket } from '@/lib/socket';
 
 import Layout from '@/components/templates/Layout';
 import Home from '@/pages/home/Home';
 import Login from '@/pages/login/Login';
-import Game from '@/pages/rooms/roomId/Game';
+import Game from '@/pages/rooms/roomId/game/Game';
 import Room from '@/pages/rooms/roomId/Room';
 import ProfileSettings from '@/pages/settings/ProfileSettings';
 
 function App() {
+  useEffect(() => {
+    const socket = connectSocket('');
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+    return () => {
+      disconnectSocket('');
+    };
+  }, []);
+
   return (
     <Routes>
       <Route element={<Layout />}>

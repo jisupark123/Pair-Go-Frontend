@@ -18,7 +18,7 @@ import {
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 
-import { connectSocket, disconnectSocket, getSocket } from '@/lib/socket';
+import { getSocket } from '@/lib/socket';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
 import { Button } from '@/components/figma/button';
@@ -43,29 +43,17 @@ export default function Room() {
   const [kickTargetId, setKickTargetId] = useState<number | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  console.log(room);
-
   useEffect(() => {
     if (!roomId) return;
 
     // Connect socket on mount/roomId change
-    const socket = connectSocket('/rooms');
+    const socket = getSocket('');
 
-    const handleJoinRoom = () => {
-      console.log('Joining room:', roomId);
-      socket.emit('joinRoom', { roomId });
-    };
-
-    socket.on('connect', handleJoinRoom);
-
-    // If already connected (e.g. from previous page or fast connection), join immediately
-    if (socket.connected) {
-      handleJoinRoom();
-    }
+    console.log('Joining room:', roomId);
+    socket.emit('joinRoom', { roomId });
 
     socket.on('roomUpdate', (updatedRoom: Room) => {
       // Update React Query Cache instead of local state
-      console.log('Room updated:', updatedRoom);
       queryClient.setQueryData(['room', roomId], updatedRoom);
     });
 
@@ -75,10 +63,9 @@ export default function Room() {
 
     // Cleanup on unmount
     return () => {
-      socket.off('connect', handleJoinRoom);
+      socket.emit('leaveRoom', { roomId });
       socket.off('roomUpdate');
       socket.off('exception');
-      disconnectSocket('/rooms');
     };
   }, [roomId, queryClient]);
 
@@ -113,18 +100,18 @@ export default function Room() {
 
   const handleToggleReady = () => {
     if (!roomId) return;
-    const socket = getSocket('/rooms');
+    const socket = getSocket('');
     socket.emit('updateReadyStatus', { roomId, isReady: !isMyReady });
   };
 
   const handleChangeTeam = () => {
     if (!me) return;
-    const socket = getSocket('/rooms');
+    const socket = getSocket('');
     socket.emit('changeTeam', { roomId, targetUserId: me.id });
   };
 
   const handleChangePlayerTeam = (playerId: number) => {
-    const socket = getSocket('/rooms');
+    const socket = getSocket('');
     socket.emit('changeTeam', { roomId, targetUserId: playerId });
   };
 
@@ -135,7 +122,7 @@ export default function Room() {
   const handleConfirmKick = () => {
     if (!roomId || !kickTargetId) return;
 
-    const socket = getSocket('/rooms');
+    const socket = getSocket('');
     socket.emit('kickPlayer', { roomId, targetId: kickTargetId });
     setKickTargetId(null);
   };

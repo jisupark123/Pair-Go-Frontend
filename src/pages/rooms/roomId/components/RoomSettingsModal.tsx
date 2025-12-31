@@ -34,7 +34,7 @@ export function RoomSettingsModal({ open, onOpenChange, roomId, currentSettings 
   }, [open, currentSettings, updateSettings]);
 
   const handleSave = () => {
-    const socket = getSocket('/rooms');
+    const socket = getSocket('');
     socket.emit('updateRoomSettings', { roomId, settings });
     onOpenChange(false);
   };
