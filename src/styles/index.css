@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
+@import 'tailwindcss-safe-area';
 @import './theme.css';
 @import './typography.css';
 @import './figmaGlobals.css';

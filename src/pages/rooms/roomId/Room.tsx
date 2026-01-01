@@ -56,12 +56,17 @@ export default function Room() {
       queryClient.setQueryData(['room', roomId], updatedRoom);
     });
 
+    socket.on('gameStart', (updatedRoom: Room) => {
+      queryClient.setQueryData(['room', roomId], updatedRoom);
+      navigate(`/rooms/${roomId}/game`, { replace: true });
+    });
+
     // Cleanup on unmount
     return () => {
       socket.emit('leaveRoom', { roomId });
       socket.off('roomUpdate');
     };
-  }, [roomId, queryClient]);
+  }, [roomId, queryClient, navigate]);
 
   // Derived State from Room Data
   const players = room?.players || [];
@@ -87,8 +92,8 @@ export default function Room() {
 
   const handleStartGame = () => {
     if (canStart) {
-      console.log('Game Starting!');
-      // Emit 'startGame' event
+      const socket = getSocket('');
+      socket.emit('startGame', { roomId });
     }
   };
 
