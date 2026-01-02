@@ -25,46 +25,35 @@ import { Button } from '@/components/figma/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/figma/tooltip';
 import { cn } from '@/components/figma/utils';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
-import { Navigation } from '@/components/organisms/Navigation/Navigation';
-import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
 import { useMe } from '@/hooks/query/useMe';
 import { useRoom } from '@/hooks/query/useRoom';
-import { RoomSettingsModal } from '@/pages/rooms/roomId/components/RoomSettingsModal';
+import { RoomSettingsModal } from '@/pages/rooms/roomId/waitingRoom/components/RoomSettingsModal';
 import type { Player, Room, Team } from '@/types/room';
 
 const MAX_PLAYERS = 4; // Pair Go usually 4 players
 
-export default function Room() {
+export default function WaitingRoom() {
   const navigate = useNavigate();
-  const { roomId } = useParams();
   const queryClient = useQueryClient();
+  const { roomId } = useParams();
   const { data: me } = useMe();
   const { data: room, isLoading: isRoomLoading } = useRoom(roomId);
   const [kickTargetId, setKickTargetId] = useState<number | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+  // gameStart 이벤트 리스너 (대기실에서만 필요)
   useEffect(() => {
     if (!roomId) return;
 
-    // Connect socket on mount/roomId change
     const socket = getSocket('');
-
-    socket.emit('joinRoom', { roomId });
-
-    socket.on('roomUpdate', (updatedRoom: Room) => {
-      // Update React Query Cache instead of local state
-      queryClient.setQueryData(['room', roomId], updatedRoom);
-    });
 
     socket.on('gameStart', (updatedRoom: Room) => {
       queryClient.setQueryData(['room', roomId], updatedRoom);
       navigate(`/rooms/${roomId}/game`, { replace: true });
     });
 
-    // Cleanup on unmount
     return () => {
-      socket.emit('leaveRoom', { roomId });
-      socket.off('roomUpdate');
+      socket.off('gameStart');
     };
   }, [roomId, queryClient, navigate]);
 

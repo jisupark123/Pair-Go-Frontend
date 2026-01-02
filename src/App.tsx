@@ -8,7 +8,8 @@ import Layout from '@/components/templates/Layout';
 import Home from '@/pages/home/Home';
 import Login from '@/pages/login/Login';
 import Game from '@/pages/rooms/roomId/game/Game';
-import Room from '@/pages/rooms/roomId/Room';
+import RoomLayout from '@/pages/rooms/roomId/RoomLayout';
+import WaitingRoom from '@/pages/rooms/roomId/waitingRoom/WaitingRoom';
 import ProfileSettings from '@/pages/settings/ProfileSettings';
 
 function App() {
@@ -28,8 +29,11 @@ function App() {
       <Route element={<Layout />}>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/rooms/:roomId' element={<Room />} />
-        <Route path='/rooms/:roomId/game' element={<Game />} />
+        <Route path='/rooms/:roomId' element={<RoomLayout />}>
+          <Route index element={<WaitingRoom />} />
+          <Route path='game' element={<Game />} />
+        </Route>
+
         <Route path='/settings/profile' element={<ProfileSettings />} />
       </Route>
     </Routes>
