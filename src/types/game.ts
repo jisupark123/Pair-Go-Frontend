@@ -39,3 +39,7 @@ export interface GameInstance {
   startedAt: Date; // 게임 시작 시간
   gameData: Game; // 대국 데이터
 }
+
+export interface SerializedGameInstance extends Omit<GameInstance, 'gameData'> {
+  gameData: ReturnType<Game['toJSON']>;
+}

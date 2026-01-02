@@ -23,6 +23,10 @@ export default function Game() {
   const myTeam = game.teams[myTeamIndex];
   const opponentTeam = game.teams[myTeamIndex === 0 ? 1 : 0];
 
+  const currentTurnPlayer = game.teams.find((team) => team.stoneColor === game.currentTurn.stoneColor)?.players[
+    game.currentTurn.playerIndex
+  ]?.data;
+
   // --- Layout Selection ---
   if (isDesktopScreenSize) {
     return (
@@ -30,17 +34,12 @@ export default function Game() {
         game={game}
         myTeam={myTeam}
         opponentTeam={opponentTeam}
-        currentTurnPlayer={game.currentTurnPlayer}
+        currentTurnPlayer={currentTurnPlayer!}
       />
     );
   }
 
   return (
-    <MobileGameLayout
-      game={game}
-      myTeam={myTeam}
-      opponentTeam={opponentTeam}
-      currentTurnPlayer={game.currentTurnPlayer}
-    />
+    <MobileGameLayout game={game} myTeam={myTeam} opponentTeam={opponentTeam} currentTurnPlayer={currentTurnPlayer!} />
   );
 }

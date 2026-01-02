@@ -19,7 +19,7 @@
     "*.{js,ts,jsx,tsx}": "eslint"
   },
   "dependencies": {
-    "@dodagames/go": "^1.0.5",
+    "@dodagames/go": "^1.0.7",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.2",
