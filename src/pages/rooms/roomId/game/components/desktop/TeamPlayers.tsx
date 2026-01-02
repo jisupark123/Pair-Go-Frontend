@@ -1,3 +1,5 @@
+import type { Game } from '@dodagames/go';
+
 import { cn } from '@/components/figma/utils';
 import { useMe } from '@/hooks/query/useMe';
 import { CapturedStones } from '@/pages/rooms/roomId/game/components/common/CapturedStones';
@@ -10,6 +12,7 @@ interface TeamPlayersProps {
   gameTeam: GameTeam;
   gameSettings: GameInstance['settings'];
   isTeamTurn: boolean;
+  gameData: Game;
   position: 'opponent' | 'me';
   currentTurnPlayer: Player;
   align?: 'left' | 'right' | undefined;
@@ -18,6 +21,7 @@ interface TeamPlayersProps {
 
 export function TeamPlayers({
   gameTeam,
+  gameData,
   gameSettings,
   isTeamTurn,
   position,
@@ -37,7 +41,10 @@ export function TeamPlayers({
       )}
     >
       <GameTimer gameSettings={gameSettings} timeControl={gameTeam.timeControl} isTurn={isTeamTurn} align={align} />
-      <CapturedStones count={gameTeam.capturedStoneCount} color={gameTeam.stoneColor} />
+      <CapturedStones
+        count={gameTeam.stoneColor === 'BLACK' ? gameData.capturedByBlack : gameData.capturedByWhite}
+        color={gameTeam.stoneColor}
+      />
     </div>
   );
 

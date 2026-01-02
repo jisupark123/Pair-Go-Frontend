@@ -48,6 +48,7 @@ export function DesktopGameLayout({ game, myTeam, opponentTeam, currentTurnPlaye
         <div className='flex-1 flex flex-col justify-start max-w-xl mx-auto w-full px-6 pt-4 gap-6'>
           <DesktopTeamDisplay
             gameTeam={myTeam}
+            gameData={game.gameData}
             gameSettings={game.settings}
             isTeamTurn={game.currentTurn.stoneColor === myTeam.stoneColor}
             currentTurnPlayer={currentTurnPlayer}
@@ -59,6 +60,7 @@ export function DesktopGameLayout({ game, myTeam, opponentTeam, currentTurnPlaye
           <div className='opacity-80 hover:opacity-100 transition-opacity'>
             <DesktopTeamDisplay
               gameTeam={opponentTeam}
+              gameData={game.gameData}
               gameSettings={game.settings}
               isTeamTurn={game.currentTurn.stoneColor === opponentTeam.stoneColor}
               currentTurnPlayer={currentTurnPlayer}

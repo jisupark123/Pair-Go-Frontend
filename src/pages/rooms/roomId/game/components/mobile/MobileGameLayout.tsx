@@ -31,7 +31,12 @@ export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer
           {/* Opponent Stone Count & Timer */}
           <div className='flex justify-between items-center px-2 mt-1'>
             {/* Captured Stones Indicator */}
-            <CapturedStones count={opponentTeam.capturedStoneCount} color={opponentTeam.stoneColor} />
+            <CapturedStones
+              count={
+                opponentTeam.stoneColor === 'BLACK' ? game.gameData.capturedByBlack : game.gameData.capturedByWhite
+              }
+              color={opponentTeam.stoneColor}
+            />
 
             <GameTimer
               gameSettings={game.settings}
@@ -58,7 +63,10 @@ export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer
           <div className='relative flex items-center mb-2 px-2'>
             {/* Left Area: Captured Stones - Equal Width */}
             <div className='flex-1 flex justify-start items-center'>
-              <CapturedStones count={myTeam.capturedStoneCount} color={myTeam.stoneColor} />
+              <CapturedStones
+                count={myTeam.stoneColor === 'BLACK' ? game.gameData.capturedByBlack : game.gameData.capturedByWhite}
+                color={myTeam.stoneColor}
+              />
             </div>
 
             {/* Center Area: Place Stone Button - Equal Width */}

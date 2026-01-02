@@ -1,4 +1,4 @@
-import { SequenceHistory } from '@dodagames/go';
+import { Board, Game, MoveProcessorFactory, SequenceHistory } from '@dodagames/go';
 import { useQuery } from '@tanstack/react-query';
 
 import type { GameInstance } from '@/types/game';
@@ -18,8 +18,7 @@ const DUMMY_GAME_INSTANCE: GameInstance = {
   teams: [
     {
       teamColor: 'blue',
-      stoneColor: 'black',
-      capturedStoneCount: 0,
+      stoneColor: 'BLACK',
       timeControl: {
         remainingBasicTimeMs: 1800000, // 30분
         remainingCountdownTimeMs: 30000, // 30초
@@ -52,8 +51,7 @@ const DUMMY_GAME_INSTANCE: GameInstance = {
     },
     {
       teamColor: 'red',
-      stoneColor: 'white',
-      capturedStoneCount: 0,
+      stoneColor: 'WHITE',
       timeControl: {
         remainingBasicTimeMs: 1800000, // 30분
         remainingCountdownTimeMs: 30000, // 30초
@@ -88,11 +86,18 @@ const DUMMY_GAME_INSTANCE: GameInstance = {
   ],
 
   currentTurn: {
-    stoneColor: 'white',
+    stoneColor: 'WHITE',
     playerIndex: 0,
   },
   startedAt: new Date(),
-  sequenceHistory: {} as SequenceHistory,
+  gameData: new Game(
+    SequenceHistory.fromInitialBoard(new Board(19)),
+    'BLACK',
+    6.5,
+    0,
+    0,
+    MoveProcessorFactory.standardRule(),
+  ),
 };
 
 export const useGame = (roomId: string | undefined) =>
