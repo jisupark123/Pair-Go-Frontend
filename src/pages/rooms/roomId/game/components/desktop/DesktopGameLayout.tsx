@@ -1,6 +1,9 @@
 import { Board, basicBoardStyleConfig, CanvasBoard } from '@dodagames/go';
+import { isDesktop } from 'react-device-detect';
 
+import { useMe } from '@/hooks/query/useMe';
 import { GameBackground } from '@/pages/rooms/roomId/game/components/common/GameBackground';
+import { PlaceStoneButton } from '@/pages/rooms/roomId/game/components/common/PlaceStoneButton';
 import { ActionButtons as DesktopActionButtons } from '@/pages/rooms/roomId/game/components/desktop/ActionButtons';
 import { TeamPlayers as DesktopTeamDisplay } from '@/pages/rooms/roomId/game/components/desktop/TeamPlayers';
 import type { GameInstance, GameTeam } from '@/types/game';
@@ -14,15 +17,29 @@ interface DesktopGameLayoutProps {
 }
 
 export function DesktopGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer }: DesktopGameLayoutProps) {
+  const { data: me } = useMe();
   return (
     <div className='flex-1 pt-6 flex h-dvh overflow-hidden relative flex-row'>
       <GameBackground />
 
       {/* 1. Board Area (Left/Center) */}
-      <div className='flex items-center justify-center overflow-hidden z-0 flex-1'>
-        <div className='relative aspect-square shadow-2xl overflow-hidden flex flex-col items-center justify-center h-full w-auto max-w-[700px] max-h-full pr-4'>
-          <CanvasBoard board={new Board(19)} boardStyleConfig={basicBoardStyleConfig} handleLeftClick={() => {}} />
+      <div className='flex flex-col items-center justify-center gap-4 overflow-hidden flex-1 px-4'>
+        {/* max-w-[min(700px,100%)] -> 화면 너비가 700px보다 작으면 100%, 700px보다 크면 700px */}
+        <div className='relative aspect-square shadow-2xl overflow-hidden flex items-center justify-center h-auto w-full max-w-[min(700px,100%)] max-h-full'>
+          <CanvasBoard
+            board={new Board(19)}
+            boardStyleConfig={basicBoardStyleConfig}
+            handleLeftClick={() => {}}
+            enableHoverPreview={isDesktop}
+          />
         </div>
+        {!isDesktop && (
+          <PlaceStoneButton
+            isActive={currentTurnPlayer.id === me?.id}
+            onClick={() => console.log('Place Stone')}
+            size='lg'
+          />
+        )}
       </div>
 
       {/* 2. Right Sidebar (My Team + Opponent Team) */}

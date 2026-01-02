@@ -4,15 +4,17 @@ import { cn } from '@/components/figma/utils';
 interface PlaceStoneButtonProps {
   isActive: boolean;
   onClick: () => void;
+  size: 'sm' | 'lg';
 }
 
-export function PlaceStoneButton({ isActive, onClick }: PlaceStoneButtonProps) {
+export function PlaceStoneButton({ isActive, onClick, size }: PlaceStoneButtonProps) {
   return (
     <Button
       disabled={!isActive}
       className={cn(
         'flex items-center justify-center transition-all duration-0 select-none touch-none',
-        'rounded-lg border px-4 h-8 text-xs font-bold',
+        'rounded-lg border font-bold',
+        size === 'sm' ? 'px-4 h-8 text-xs' : 'px-8 h-12 text-lg',
         isActive
           ? cn(
               'shadow-[0_0_15px_rgba(245,158,11,0.3)] text-hextech-gold-100 transition-all',

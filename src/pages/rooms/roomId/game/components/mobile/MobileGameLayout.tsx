@@ -5,8 +5,8 @@ import { useMe } from '@/hooks/query/useMe';
 import { CapturedStones } from '@/pages/rooms/roomId/game/components/common/CapturedStones';
 import { GameBackground } from '@/pages/rooms/roomId/game/components/common/GameBackground';
 import { GameTimer } from '@/pages/rooms/roomId/game/components/common/GameTimer';
+import { PlaceStoneButton } from '@/pages/rooms/roomId/game/components/common/PlaceStoneButton';
 import { ActionButtons as MobileActionButtons } from '@/pages/rooms/roomId/game/components/mobile/ActionButtons';
-import { PlaceStoneButton } from '@/pages/rooms/roomId/game/components/mobile/PlaceStoneButton';
 import { TeamPlayers } from '@/pages/rooms/roomId/game/components/mobile/TeamPlayers';
 import type { GameInstance, GameTeam } from '@/types/game';
 import type { Player } from '@/types/room';
@@ -63,7 +63,11 @@ export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer
 
             {/* Center Area: Place Stone Button - Equal Width */}
             <div className='flex-1 flex justify-center items-center z-10 px-1'>
-              <PlaceStoneButton isActive={currentTurnPlayer.id === me?.id} onClick={() => console.log('Place Stone')} />
+              <PlaceStoneButton
+                isActive={currentTurnPlayer.id === me?.id}
+                onClick={() => console.log('Place Stone')}
+                size='sm'
+              />
             </div>
 
             {/* Right Area: Timer - Equal Width */}

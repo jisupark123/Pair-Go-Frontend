@@ -13,7 +13,7 @@ export default function Game() {
   const { data: me } = useMe();
   const { data: game, isLoading } = useGame(roomId);
 
-  const isDesktop = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
+  const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
 
   if (isLoading || !game) {
     return <div className='flex items-center justify-center min-h-screen text-hextech-blue-300'>Loading Game...</div>;
@@ -24,7 +24,7 @@ export default function Game() {
   const opponentTeam = game.teams[myTeamIndex === 0 ? 1 : 0];
 
   // --- Layout Selection ---
-  if (isDesktop) {
+  if (isDesktopScreenSize) {
     return (
       <DesktopGameLayout
         game={game}
