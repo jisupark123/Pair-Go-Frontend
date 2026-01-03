@@ -2,7 +2,7 @@ import { api } from '@/lib/axios';
 
 import type { SerializedGameInstance } from '@/types/game';
 
-export const getGame = async (roomId: string): Promise<SerializedGameInstance> => {
-  const { data } = await api.get<SerializedGameInstance>(`/game/${roomId}`);
+export const getGame = async (gameId: string): Promise<SerializedGameInstance> => {
+  const { data } = await api.get<SerializedGameInstance>(`/game/${gameId}`);
   return data;
 };

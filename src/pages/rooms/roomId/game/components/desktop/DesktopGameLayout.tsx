@@ -1,4 +1,4 @@
-import { Board, basicBoardStyleConfig, CanvasBoard } from '@dodagames/go';
+import { basicBoardStyleConfig, CanvasBoard, Coordinate } from '@dodagames/go';
 import { isDesktop } from 'react-device-detect';
 
 import { useMe } from '@/hooks/query/useMe';
@@ -14,9 +14,16 @@ interface DesktopGameLayoutProps {
   myTeam: GameTeam;
   opponentTeam: GameTeam;
   currentTurnPlayer: Player;
+  handlePlayMove: (coord: Coordinate) => void;
 }
 
-export function DesktopGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer }: DesktopGameLayoutProps) {
+export function DesktopGameLayout({
+  game,
+  myTeam,
+  opponentTeam,
+  currentTurnPlayer,
+  handlePlayMove,
+}: DesktopGameLayoutProps) {
   const { data: me } = useMe();
   return (
     <div className='flex-1 pt-6 flex h-dvh overflow-hidden relative flex-row'>
@@ -27,10 +34,11 @@ export function DesktopGameLayout({ game, myTeam, opponentTeam, currentTurnPlaye
         {/* max-w-[min(700px,100%)] -> 화면 너비가 700px보다 작으면 100%, 700px보다 크면 700px */}
         <div className='relative aspect-square shadow-2xl overflow-hidden flex items-center justify-center h-auto w-full max-w-[min(700px,100%)] max-h-full'>
           <CanvasBoard
-            board={new Board(19)}
+            board={game.gameData.currentBoard}
+            {...(game.gameData.lastMove && { currentMove: game.gameData.lastMove })}
             boardStyleConfig={basicBoardStyleConfig}
-            handleLeftClick={() => {}}
-            enableHoverPreview={isDesktop}
+            handleLeftClick={handlePlayMove}
+            enableHoverPreview={isDesktop && currentTurnPlayer.id === me?.id}
           />
         </div>
         {!isDesktop && (

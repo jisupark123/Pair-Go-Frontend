@@ -1,4 +1,5 @@
-import { Board, basicBoardStyleConfig, CanvasBoard } from '@dodagames/go';
+import { useState } from 'react';
+import { basicBoardStyleConfig, CanvasBoard, Coordinate, Move } from '@dodagames/go';
 
 import { cn } from '@/components/figma/utils';
 import { useMe } from '@/hooks/query/useMe';
@@ -16,10 +17,30 @@ interface MobileGameLayoutProps {
   myTeam: GameTeam;
   opponentTeam: GameTeam;
   currentTurnPlayer: Player;
+  handlePlayMove: (coord: Coordinate) => void;
 }
 
-export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer }: MobileGameLayoutProps) {
+export function MobileGameLayout({
+  game,
+  myTeam,
+  opponentTeam,
+  currentTurnPlayer,
+  handlePlayMove,
+}: MobileGameLayoutProps) {
   const { data: me } = useMe();
+  const [selectedMove, setSelectedMove] = useState<Move | null>(null);
+  const handleBoardClick = (coord: Coordinate) => {
+    if (currentTurnPlayer.id !== me?.id) return;
+    if (game.gameData.currentBoard.state[coord.y][coord.x] !== 'EMPTY') return;
+
+    setSelectedMove(new Move(coord.y, coord.x, myTeam.stoneColor));
+  };
+
+  const handlePlaceStoneButtonClick = () => {
+    if (!selectedMove) return;
+    handlePlayMove(selectedMove);
+    setSelectedMove(null);
+  };
   return (
     <div className='flex-1 pt-6 pb-[56px] flex flex-col h-dvh overflow-hidden relative'>
       <GameBackground />
@@ -52,7 +73,13 @@ export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer
       <div className='shrink-0 flex items-center justify-center overflow-hidden z-0 min-h-0 relative'>
         {/* Board */}
         <div className='relative aspect-square shadow-2xl overflow-hidden flex flex-col items-center justify-center w-full h-auto max-h-full max-w-[400px]'>
-          <CanvasBoard board={new Board(19)} boardStyleConfig={basicBoardStyleConfig} handleLeftClick={() => {}} />
+          <CanvasBoard
+            board={game.gameData.currentBoard}
+            {...(game.gameData.lastMove && { currentMove: game.gameData.lastMove })}
+            previewMove={selectedMove}
+            boardStyleConfig={basicBoardStyleConfig}
+            handleLeftClick={handleBoardClick}
+          />
         </div>
       </div>
 
@@ -72,8 +99,8 @@ export function MobileGameLayout({ game, myTeam, opponentTeam, currentTurnPlayer
             {/* Center Area: Place Stone Button - Equal Width */}
             <div className='flex-1 flex justify-center items-center z-10 px-1'>
               <PlaceStoneButton
-                isActive={currentTurnPlayer.id === me?.id}
-                onClick={() => console.log('Place Stone')}
+                isActive={currentTurnPlayer.id === me?.id && selectedMove !== null}
+                onClick={handlePlaceStoneButtonClick}
                 size='sm'
               />
             </div>
