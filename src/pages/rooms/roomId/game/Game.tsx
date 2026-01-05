@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSound, type Coordinate } from '@dodagames/go';
+import { useSound, type Coordinate, Game as DodagamesGame, MoveProcessorFactory, SFX_KEYS } from '@dodagames/go';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
@@ -26,15 +26,18 @@ const playGameUpdateSound = (
 ) => {
   if (!prevData) return;
 
-  const prevGameData = prevData.gameData;
-  const nextGameData = nextData.gameData;
+  const prevGame = DodagamesGame.deserialize(prevData.gameData, MoveProcessorFactory.standardRule());
+  const nextGame = DodagamesGame.deserialize(nextData.gameData, MoveProcessorFactory.standardRule());
+
+  // 이전 보드 상태와 현재 보드 상태가 같다면(즉, 착수가 발생하지 않고 시간만 흐른 경우 등) 소리를 재생하지 않습니다.
+  if (prevGame.currentBoard.equals(nextGame.currentBoard)) return;
 
   // 백이 착수했다면 백이 따낸 사석만, 흑이 착수했다면 흑이 따낸 사석만 증가합니다.
   // 따라서 두 변화량을 더하면 이번 수에 발생한 총 사석 개수를 구할 수 있습니다.
   const capturedCount =
-    (nextGameData.capturedByBlack ?? 0) -
-    (prevGameData.capturedByBlack ?? 0) +
-    ((nextGameData.capturedByWhite ?? 0) - (prevGameData.capturedByWhite ?? 0));
+    (nextGame.capturedByBlack ?? 0) -
+    (prevGame.capturedByBlack ?? 0) +
+    ((nextGame.capturedByWhite ?? 0) - (prevGame.capturedByWhite ?? 0));
 
   playStone(capturedCount);
 };
@@ -44,13 +47,15 @@ export default function Game() {
   const { roomId: gameId } = useParams();
   const { data: me } = useMe();
   const { data: game, isLoading } = useGame(gameId);
-  const { playStone } = useSound();
+  const { playStone, play, stop } = useSound();
 
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
 
   useEffect(() => {
     const socket = getSocket('');
-    socket.on('gameUpdate', (data: SerializedGameInstance) => {
+    socket.on('moveMade', (data: SerializedGameInstance) => {
+      stop(SFX_KEYS.COUNTDOWN_10SEC);
+
       const prevData = queryClient.getQueryData<SerializedGameInstance>(['game', gameId]);
 
       playGameUpdateSound(prevData, data, playStone);
@@ -58,10 +63,29 @@ export default function Game() {
       queryClient.setQueryData(['game', gameId], data);
     });
 
+    socket.on('timeUpdate', (data: SerializedGameInstance) => {
+      queryClient.setQueryData(['game', gameId], data);
+    });
+
+    socket.on('byoyomiStart', () => {
+      play(SFX_KEYS.START_COUNTDOWN);
+    });
+
+    socket.on('byoyomiPeriodUsed', (data: { remainingByoyomiPeriods: number }) => {
+      if (data.remainingByoyomiPeriods === 2) {
+        play(SFX_KEYS.BYOYOMI_LEFT_2);
+      } else if (data.remainingByoyomiPeriods === 1) {
+        play(SFX_KEYS.LAST_PERIOD);
+      }
+    });
+
     return () => {
-      socket.off('gameUpdate');
+      socket.off('moveMade');
+      socket.off('timeUpdate');
+      socket.off('byoyomiStart');
+      socket.off('byoyomiPeriodUsed');
     };
-  }, [queryClient, gameId, playStone]);
+  }, [queryClient, gameId, playStone, play, stop]);
 
   if (isLoading || !game) {
     return (
