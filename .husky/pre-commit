@@ -1,2 +1,1 @@
-pnpm lint-staged
-pnpm typecheck
+concurrently -g --kill-others-on-fail --prefix '[{name}]' --names 'LINT,TYPE,TEST' --prefix-colors 'blue,green,magenta' "pnpm lint-staged" "pnpm typecheck" "pnpm test"

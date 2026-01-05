@@ -13,7 +13,8 @@
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "install:env": "dotenv -e .env --override -- pnpm install"
+    "install:env": "dotenv -e .env --override -- pnpm install",
+    "check:all": "concurrently -g --kill-others-on-fail --prefix '[{name}]' --names 'LINT,TYPE,TEST' --prefix-colors 'blue,green,magenta' \"pnpm lint\" \"pnpm typecheck\" \"pnpm test\""
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint"
@@ -63,6 +64,7 @@
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.1.0",
+    "concurrently": "^9.2.1",
     "dotenv-cli": "^10.0.0",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
