@@ -87,17 +87,17 @@ export function MobileGameLayout({
       <div className='flex-none relative z-10 backdrop-blur-md pt-2'>
         <div className='max-w-xl mx-auto w-full px-2 flex flex-col'>
           {/* Timer & Button Header (Fixed to Board Side) */}
-          <div className='relative flex items-center mb-2 px-2'>
-            {/* Left Area: Captured Stones - Equal Width */}
-            <div className='flex-1 flex justify-start items-center'>
+          <div className='relative flex items-center justify-between mb-2 px-2 min-h-[40px]'>
+            {/* Left Area: Captured Stones */}
+            <div className='flex justify-start items-center z-0'>
               <CapturedStones
                 count={myTeam.stoneColor === 'BLACK' ? game.gameData.capturedByBlack : game.gameData.capturedByWhite}
                 color={myTeam.stoneColor}
               />
             </div>
 
-            {/* Center Area: Place Stone Button - Equal Width */}
-            <div className='flex-1 flex justify-center items-center z-10 px-1'>
+            {/* Center Area: Place Stone Button - Absolute Centered */}
+            <div className='absolute left-1/2 transform -translate-x-1/2 flex justify-center items-center z-10'>
               <PlaceStoneButton
                 isActive={currentTurnPlayer.id === me?.id && selectedMove !== null}
                 onClick={handlePlaceStoneButtonClick}
@@ -105,8 +105,8 @@ export function MobileGameLayout({
               />
             </div>
 
-            {/* Right Area: Timer - Equal Width */}
-            <div className='flex-1 flex justify-end items-center'>
+            {/* Right Area: Timer */}
+            <div className='flex justify-end items-center z-0'>
               <GameTimer
                 gameSettings={game.settings}
                 timeControl={myTeam.timeControl}

@@ -12,7 +12,7 @@ import { DesktopGameLayout } from '@/pages/rooms/roomId/game/components/desktop/
 import { MobileGameLayout } from '@/pages/rooms/roomId/game/components/mobile/MobileGameLayout';
 import type { SerializedGameInstance } from '@/types/game';
 
-const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
+export const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
 
 /**
  * 게임 업데이트 시 소리를 재생합니다.
