@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   useSound,
   type Coordinate,
@@ -18,7 +18,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { GameResultModal } from '@/pages/rooms/roomId/game/components/common/GameResultModal';
 import { DesktopGameLayout } from '@/pages/rooms/roomId/game/components/desktop/DesktopGameLayout';
 import { MobileGameLayout } from '@/pages/rooms/roomId/game/components/mobile/MobileGameLayout';
-import type { SerializedGameInstance } from '@/types/game';
+import type { SerializedGameInstance, TimeControl } from '@/types/game';
 
 export const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
 
@@ -50,6 +50,16 @@ const playGameUpdateSound = (
   playStone(capturedCount);
 };
 
+const calculateCurrentTimeControl = (timeControl: TimeControl, elapsed: number): TimeControl => {
+  const next = { ...timeControl };
+  if (next.remainingBasicTimeMs > 0) {
+    next.remainingBasicTimeMs = Math.max(0, next.remainingBasicTimeMs - elapsed);
+  } else {
+    next.remainingByoyomiTimeMs = Math.max(0, next.remainingByoyomiTimeMs - elapsed);
+  }
+  return next;
+};
+
 export default function Game() {
   const queryClient = useQueryClient();
   const { roomId: gameId } = useParams();
@@ -57,18 +67,32 @@ export default function Game() {
   const { data: game, isLoading } = useGame(gameId);
   const { playStone, play, stop } = useSound();
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
+  const [isResultModalOpen, setIsResultModalOpen] = useState(false);
+  // 초읽기 사운드 재생 상태 관리
+  // 화면 전환(Desktop <-> Mobile) 시 GameTimer가 언마운트/마운트되어도 소리가 끊기거나 중복되지 않도록 상위에서 관리합니다.
+  const isCountdownPlaying = useRef(false);
 
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
+
+  const handleStartCountdown = useCallback(() => {
+    if (isCountdownPlaying.current || gameResult) return;
+    play(SFX_KEYS.COUNTDOWN_10SEC);
+    isCountdownPlaying.current = true;
+  }, [play, gameResult]);
+
+  const handleStopCountdown = useCallback(() => {
+    stop(SFX_KEYS.COUNTDOWN_10SEC);
+    isCountdownPlaying.current = false;
+  }, [stop]);
 
   useEffect(() => {
     const socket = getSocket('');
     socket.on('moveMade', (data: SerializedGameInstance) => {
-      stop(SFX_KEYS.COUNTDOWN_10SEC);
+      // 착수 시 카운트다운 중지
+      handleStopCountdown();
 
       const prevData = queryClient.getQueryData<SerializedGameInstance>(['game', gameId]);
-
       playGameUpdateSound(prevData, data, playStone);
-
       queryClient.setQueryData(['game', gameId], data);
     });
 
@@ -77,19 +101,24 @@ export default function Game() {
     });
 
     socket.on('byoyomiStart', () => {
+      handleStopCountdown();
       play(SFX_KEYS.START_COUNTDOWN);
     });
 
     socket.on('byoyomiPeriodUsed', (data: { remainingByoyomiPeriods: number }) => {
       if (data.remainingByoyomiPeriods === 2) {
+        handleStopCountdown();
         play(SFX_KEYS.BYOYOMI_LEFT_2);
       } else if (data.remainingByoyomiPeriods === 1) {
+        handleStopCountdown();
         play(SFX_KEYS.LAST_PERIOD);
       }
     });
 
     socket.on('gameEnded', (data: GameResult) => {
+      handleStopCountdown();
       setGameResult(data);
+      setIsResultModalOpen(true);
     });
 
     return () => {
@@ -99,7 +128,7 @@ export default function Game() {
       socket.off('byoyomiPeriodUsed');
       socket.off('gameEnded');
     };
-  }, [queryClient, gameId, playStone, play, stop]);
+  }, [queryClient, gameId, playStone, play, stop, handleStopCountdown]);
 
   if (isLoading || !game) {
     return (
@@ -110,8 +139,26 @@ export default function Game() {
   }
 
   const myTeamIndex = game.teams[0].players.find((p) => p.data.id === me?.id) ? 0 : 1;
-  const myTeam = game.teams[myTeamIndex];
-  const opponentTeam = game.teams[myTeamIndex === 0 ? 1 : 0];
+  let myTeam = game.teams[myTeamIndex];
+  let opponentTeam = game.teams[myTeamIndex === 0 ? 1 : 0];
+
+  // 시간 보정: 마지막 착수 시간으로부터 흐른 시간을 현재 턴 팀의 시간에 반영
+  if (game.lastMoveTime) {
+    const elapsed = Date.now() - game.lastMoveTime;
+    if (elapsed > 0) {
+      if (myTeam.stoneColor === game.currentTurn.stoneColor) {
+        myTeam = {
+          ...myTeam,
+          timeControl: calculateCurrentTimeControl(myTeam.timeControl, elapsed),
+        };
+      } else if (opponentTeam.stoneColor === game.currentTurn.stoneColor) {
+        opponentTeam = {
+          ...opponentTeam,
+          timeControl: calculateCurrentTimeControl(opponentTeam.timeControl, elapsed),
+        };
+      }
+    }
+  }
 
   const currentTurnPlayer = game.teams.find((team) => team.stoneColor === game.currentTurn.stoneColor)?.players[
     game.currentTurn.playerIndex
@@ -130,6 +177,8 @@ export default function Game() {
       opponentTeam={opponentTeam}
       currentTurnPlayer={currentTurnPlayer!}
       handlePlayMove={handlePlayMove}
+      onCountdown={handleStartCountdown}
+      onCountdownReset={handleStopCountdown}
     />
   ) : (
     <MobileGameLayout
@@ -138,6 +187,8 @@ export default function Game() {
       opponentTeam={opponentTeam}
       currentTurnPlayer={currentTurnPlayer!}
       handlePlayMove={handlePlayMove}
+      onCountdown={handleStartCountdown}
+      onCountdownReset={handleStopCountdown}
     />
   );
 
@@ -145,8 +196,8 @@ export default function Game() {
     <>
       {layout}
       <GameResultModal
-        open={!!gameResult}
-        onOpenChange={(open) => !open && setGameResult(null)}
+        open={isResultModalOpen}
+        onOpenChange={setIsResultModalOpen}
         result={gameResult}
         myColor={myTeam.stoneColor}
       />

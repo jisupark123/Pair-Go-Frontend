@@ -1,5 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
-import { useSound, SFX_KEYS } from '@dodagames/go';
+import { useRef, useState, useEffect } from 'react';
 import { Timer } from 'lucide-react';
 
 import { cn } from '@/components/figma/utils';
@@ -13,12 +12,20 @@ interface GameTimerProps {
   timeControl: TimeControl;
   isTurn: boolean;
   align?: 'left' | 'right';
+  onCountdown: () => void;
+  onCountdownReset: () => void;
 }
 
-export function GameTimer({ gameSettings, timeControl, isTurn, align = 'left' }: GameTimerProps) {
+export function GameTimer({
+  gameSettings,
+  timeControl,
+  isTurn,
+  align = 'left',
+  onCountdown,
+  onCountdownReset,
+}: GameTimerProps) {
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
   const [currentTimeControl, setCurrentTimeControl] = useState(timeControl);
-  const { play, stop } = useSound();
 
   // 서버로부터 새로운 시간 정보(timeControl prop)가 오면 로컬 상태와 동기화합니다.
   // 이를 통해 서버 시간과의 오차를 주기적으로 보정합니다.
@@ -58,19 +65,13 @@ export function GameTimer({ gameSettings, timeControl, isTurn, align = 'left' }:
     }
   }, [isTurn, gameSettings.byoyomiTime, timeControl.remainingBasicTimeMs]);
 
-  // 사운드 재생 로직
-  // useRef를 사용하여 이전 시간 상태를 추적하고, 특정 시점에 사운드를 재생합니다.
+  // 사운드 트리거 로직
+  // 시간이 흐름에 따라 10초 카운트다운 진입/이탈 시 상위 컴포넌트에 알립니다.
   const prevTimeControl = useRef(timeControl);
-  // 카운트다운 사운드가 이미 재생되었는지 여부를 추적합니다.
-  // 초읽기 설정이 10초인 경우, 시작하자마자 10초 이하가 되므로 '이전 시간 > 10초' 조건을 사용할 수 없습니다.
-  // 따라서 플래그를 사용하여 해당 구간 진입 시 한 번만 소리를 재생하도록 제어합니다.
-  const hasPlayedCountdown = useRef(false);
 
   useEffect(() => {
     if (!isTurn) {
-      // 턴이 아니면 상태만 업데이트하고 소리는 재생하지 않음
       prevTimeControl.current = currentTimeControl;
-      hasPlayedCountdown.current = false;
       return;
     }
 
@@ -80,7 +81,7 @@ export function GameTimer({ gameSettings, timeControl, isTurn, align = 'left' }:
 
     // [상태 초기화 로직]
     // 다음 상황에서는 '재생 완료' 상태를 초기화하여 다시 소리가 날 수 있도록 합니다.
-    // 1. 초읽기 횟수가 변경됨 (새로운 초읽기 시작)
+    // 1. 초읽기 횟수가 변경됨 (새로운 초읽기 시작) - 서버 이벤트가 처리하겠지만 안전장치
     // 2. 시간이 10초를 초과함 (시간 복구/동기화)
     // 3. 기본 시간이 남아있음 (초읽기 아님)
     const shouldReset =
@@ -89,18 +90,17 @@ export function GameTimer({ gameSettings, timeControl, isTurn, align = 'left' }:
       !isByoyomi;
 
     if (shouldReset) {
-      hasPlayedCountdown.current = false;
+      onCountdownReset();
     }
 
-    // [사운드 재생 로직]
-    // 10초 카운트다운: 초읽기 상태이고 10초(10000ms) 이하이며, 아직 재생하지 않은 경우
-    if (isByoyomi && curr.remainingByoyomiTimeMs <= 10000 && !shouldReset && !hasPlayedCountdown.current) {
-      play(SFX_KEYS.COUNTDOWN_10SEC);
-      hasPlayedCountdown.current = true;
+    // [사운드 재생 요청]
+    // 10초 카운트다운: 초읽기 상태이고 10초(10000ms) 이하인 경우
+    if (isByoyomi && curr.remainingByoyomiTimeMs <= 10000 && !shouldReset) {
+      onCountdown();
     }
 
     prevTimeControl.current = curr;
-  }, [currentTimeControl, isTurn, play]);
+  }, [currentTimeControl, isTurn, onCountdown, onCountdownReset]);
 
   const { isBasicTime, formattedBasicTime, byoyomiSeconds, byoyomiPeriods } = calculateTimeDisplay(currentTimeControl);
 

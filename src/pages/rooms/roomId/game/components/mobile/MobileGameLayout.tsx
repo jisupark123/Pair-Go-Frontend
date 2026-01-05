@@ -18,6 +18,8 @@ interface MobileGameLayoutProps {
   opponentTeam: GameTeam;
   currentTurnPlayer: Player;
   handlePlayMove: (coord: Coordinate) => void;
+  onCountdown: () => void;
+  onCountdownReset: () => void;
 }
 
 export function MobileGameLayout({
@@ -26,6 +28,8 @@ export function MobileGameLayout({
   opponentTeam,
   currentTurnPlayer,
   handlePlayMove,
+  onCountdown,
+  onCountdownReset,
 }: MobileGameLayoutProps) {
   const { data: me } = useMe();
   const [selectedMove, setSelectedMove] = useState<Move | null>(null);
@@ -64,6 +68,8 @@ export function MobileGameLayout({
               timeControl={opponentTeam.timeControl}
               isTurn={opponentTeam.stoneColor === game.currentTurn.stoneColor}
               align='right'
+              onCountdown={onCountdown}
+              onCountdownReset={onCountdownReset}
             />
           </div>
         </div>
@@ -112,6 +118,8 @@ export function MobileGameLayout({
                 timeControl={myTeam.timeControl}
                 isTurn={myTeam.stoneColor === game.currentTurn.stoneColor}
                 align='right'
+                onCountdown={onCountdown}
+                onCountdownReset={onCountdownReset}
               />
             </div>
           </div>

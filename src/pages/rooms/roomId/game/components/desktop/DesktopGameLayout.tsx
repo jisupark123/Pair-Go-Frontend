@@ -15,6 +15,8 @@ interface DesktopGameLayoutProps {
   opponentTeam: GameTeam;
   currentTurnPlayer: Player;
   handlePlayMove: (coord: Coordinate) => void;
+  onCountdown: () => void;
+  onCountdownReset: () => void;
 }
 
 export function DesktopGameLayout({
@@ -23,6 +25,8 @@ export function DesktopGameLayout({
   opponentTeam,
   currentTurnPlayer,
   handlePlayMove,
+  onCountdown,
+  onCountdownReset,
 }: DesktopGameLayoutProps) {
   const { data: me } = useMe();
   return (
@@ -62,6 +66,8 @@ export function DesktopGameLayout({
             currentTurnPlayer={currentTurnPlayer}
             position='me'
             align='left'
+            onCountdown={onCountdown}
+            onCountdownReset={onCountdownReset}
           />
 
           {/* Opponent Team */}
@@ -74,6 +80,8 @@ export function DesktopGameLayout({
               currentTurnPlayer={currentTurnPlayer}
               position='opponent'
               align='left'
+              onCountdown={onCountdown}
+              onCountdownReset={onCountdownReset}
             />
           </div>
         </div>

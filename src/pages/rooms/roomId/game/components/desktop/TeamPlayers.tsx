@@ -17,6 +17,8 @@ interface TeamPlayersProps {
   currentTurnPlayer: Player;
   align?: 'left' | 'right' | undefined;
   children?: React.ReactNode;
+  onCountdown: () => void;
+  onCountdownReset: () => void;
 }
 
 export function TeamPlayers({
@@ -28,6 +30,8 @@ export function TeamPlayers({
   currentTurnPlayer,
   align = 'left',
   children,
+  onCountdown,
+  onCountdownReset,
 }: TeamPlayersProps) {
   const { data: me } = useMe();
 
@@ -40,7 +44,14 @@ export function TeamPlayers({
         align === 'right' ? 'flex-row-reverse' : '',
       )}
     >
-      <GameTimer gameSettings={gameSettings} timeControl={gameTeam.timeControl} isTurn={isTeamTurn} align={align} />
+      <GameTimer
+        gameSettings={gameSettings}
+        timeControl={gameTeam.timeControl}
+        isTurn={isTeamTurn}
+        align={align}
+        onCountdown={onCountdown}
+        onCountdownReset={onCountdownReset}
+      />
       <CapturedStones
         count={gameTeam.stoneColor === 'BLACK' ? gameData.capturedByBlack : gameData.capturedByWhite}
         color={gameTeam.stoneColor}
