@@ -3,6 +3,7 @@ import { LogIn, Play, Plus, Users } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
+import { MessageDialog } from '@/components/common/MessageDialog';
 import { Navigation } from '@/components/organisms/Navigation/Navigation';
 import { UserProfile } from '@/components/organisms/Navigation/UserProfile';
 import { useMe } from '@/hooks/query/useMe';
@@ -12,6 +13,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const { data: user, isLoading: isUserLoading } = useMe();
 
@@ -19,8 +21,20 @@ export default function Home() {
   const onlineUsers = 42;
 
   const handleQuickStart = () => {
+    if (!user) {
+      setShowLoginDialog(true);
+      return;
+    }
     // Logic for quick start
     console.log('Quick Start');
+  };
+
+  const handleCreateRoom = () => {
+    if (!user) {
+      setShowLoginDialog(true);
+      return;
+    }
+    setShowCreateRoomModal(true);
   };
 
   return (
@@ -79,7 +93,7 @@ export default function Home() {
           </button>
 
           {/* Create Room Button */}
-          <button className='group relative flex-1 focus:outline-hidden' onClick={() => setShowCreateRoomModal(true)}>
+          <button className='group relative flex-1 focus:outline-hidden' onClick={handleCreateRoom}>
             <div className='absolute -inset-1 bg-linear-to-r from-hextech-blue-500 to-hextech-blue-400 rounded-2xl blur-md opacity-20 group-hover:opacity-50 transition duration-500' />
             <ThemeBox
               color='blue'
@@ -104,6 +118,14 @@ export default function Home() {
         </div>
 
         <CreateRoomModal open={showCreateRoomModal} onOpenChange={setShowCreateRoomModal} />
+        <MessageDialog
+          open={showLoginDialog}
+          onOpenChange={setShowLoginDialog}
+          onConfirm={() => {
+            setShowLoginDialog(false);
+            navigate('/login', { state: { from: location.pathname } });
+          }}
+        />
       </div>
     </div>
   );
