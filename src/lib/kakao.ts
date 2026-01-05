@@ -47,6 +47,9 @@ export function loginWithKakao(returnPath?: string) {
 
   const redirectUrl = returnPath ? `${FRONTEND_URL}${returnPath}` : FRONTEND_URL;
 
+  // Set flag to show welcome message after redirect
+  sessionStorage.setItem('login_process', 'true');
+
   Kakao.Auth.authorize({
     redirectUri: KAKAO_REDIRECT_URI, // kakao 서버가 인가코드와 함께 이 주소로 redirect 시킴
     state: redirectUrl, // 백엔드 서버가 jwt 토큰과 함께 최종적으로 이 주소로 redirect 시킴

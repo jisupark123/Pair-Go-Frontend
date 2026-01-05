@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <StoneSoundProvider>
           <App />
-          <Toaster position='top-center' theme='dark' richColors />
+          <Toaster position='top-center' theme='dark' richColors duration={2000} />
         </StoneSoundProvider>
       </QueryClientProvider>
     </BrowserRouter>

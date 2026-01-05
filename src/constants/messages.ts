@@ -15,4 +15,10 @@ export const MESSAGES = {
     TITLE: '게임 정보 없음',
     DESCRIPTION: '진행 중인 게임 정보를 찾을 수 없습니다.',
   },
+  LOGOUT: {
+    SUCCESS: '로그아웃되었습니다.',
+  },
+  LOGIN: {
+    WELCOME: (nickname: string) => `${nickname}님, 환영합니다!`,
+  },
 } as const;
