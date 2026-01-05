@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 
 import { connectSocket, disconnectSocket } from '@/lib/socket';
 
+import { AuthGuard } from '@/components/auth/AuthGuard';
 import Layout from '@/components/templates/Layout';
 import Home from '@/pages/home/Home';
 import Login from '@/pages/login/Login';
@@ -26,7 +27,13 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route
+        element={
+          <AuthGuard>
+            <Layout />
+          </AuthGuard>
+        }
+      >
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/rooms/:roomId' element={<RoomLayout />}>

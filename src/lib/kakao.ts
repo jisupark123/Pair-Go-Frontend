@@ -35,7 +35,7 @@ export function initKakao() {
   }
 }
 
-export function loginWithKakao() {
+export function loginWithKakao(returnPath?: string) {
   const { Kakao } = window;
 
   if (!Kakao) {
@@ -45,8 +45,10 @@ export function loginWithKakao() {
 
   initKakao();
 
+  const redirectUrl = returnPath ? `${FRONTEND_URL}${returnPath}` : FRONTEND_URL;
+
   Kakao.Auth.authorize({
     redirectUri: KAKAO_REDIRECT_URI, // kakao 서버가 인가코드와 함께 이 주소로 redirect 시킴
-    state: FRONTEND_URL, // 백엔드 서버가 jwt 토큰과 함께 최종적으로 이 주소로 redirect 시킴
+    state: redirectUrl, // 백엔드 서버가 jwt 토큰과 함께 최종적으로 이 주소로 redirect 시킴
   });
 }
