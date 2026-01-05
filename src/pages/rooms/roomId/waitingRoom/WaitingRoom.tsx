@@ -187,9 +187,9 @@ export default function WaitingRoom() {
               <Timer className='w-4 h-4 text-hextech-gold-400' />
               <span className='text-hextech-silver-300 text-sm font-medium'>
                 {room.settings.basicTime === '0' ? '없음' : `${room.settings.basicTime}분`} +{' '}
-                {room.settings.countdownTime === '0'
+                {room.settings.byoyomiTime === '0'
                   ? '없음'
-                  : `${room.settings.countdownTime}초 ${room.settings.countdownCount}회`}
+                  : `${room.settings.byoyomiTime}초 ${room.settings.byoyomiPeriods}회`}
               </span>
             </div>
           </ThemeBox>

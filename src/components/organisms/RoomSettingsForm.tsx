@@ -198,10 +198,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
           <div className='space-y-2'>
             <label className='text-xs font-medium text-hextech-silver-400 ml-1'>초읽기</label>
             <Select
-              value={settings.countdownTime}
+              value={settings.byoyomiTime}
               onValueChange={(value) =>
                 updateSettings((draft) => {
-                  draft.countdownTime = value;
+                  draft.byoyomiTime = value;
                 })
               }
               color='gold'
@@ -221,10 +221,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
           <div className='space-y-2'>
             <label className='text-xs font-medium text-hextech-silver-400 ml-1'>횟수</label>
             <Select
-              value={settings.countdownCount}
+              value={settings.byoyomiPeriods}
               onValueChange={(value) =>
                 updateSettings((draft) => {
-                  draft.countdownCount = value;
+                  draft.byoyomiPeriods = value;
                 })
               }
               color='gold'

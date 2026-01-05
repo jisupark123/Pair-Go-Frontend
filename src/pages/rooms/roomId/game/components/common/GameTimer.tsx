@@ -32,7 +32,7 @@ export function GameTimer({ gameSettings, timeControl, isTurn, align = 'left' }:
           align === 'right' ? 'border-r pr-2 mr-1' : 'border-l pl-2 ml-1',
         )}
       >
-        {gameSettings.countdownTime}s
+        {gameSettings.byoyomiTime}s
       </span>
     </div>
   );

@@ -18,8 +18,8 @@ export default function CreateRoomModal({
     komi: '0', // 호선인 경우 komi는 0으로 설정
     stoneColorMethod: 'auto',
     basicTime: '10',
-    countdownTime: '30',
-    countdownCount: '3',
+    byoyomiTime: '30',
+    byoyomiPeriods: '3',
   });
 
   const { mutate: createRoom, isPending } = useCreateRoom();
