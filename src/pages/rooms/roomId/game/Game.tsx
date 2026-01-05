@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useStoneSound, type Coordinate } from '@dodagames/go';
+import { useSound, type Coordinate } from '@dodagames/go';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
@@ -22,7 +22,7 @@ const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
 const playGameUpdateSound = (
   prevData: SerializedGameInstance | undefined,
   nextData: SerializedGameInstance,
-  playSound: (count: number) => void,
+  playStone: (count: number) => void,
 ) => {
   if (!prevData) return;
 
@@ -36,7 +36,7 @@ const playGameUpdateSound = (
     (prevGameData.capturedByBlack ?? 0) +
     ((nextGameData.capturedByWhite ?? 0) - (prevGameData.capturedByWhite ?? 0));
 
-  playSound(capturedCount);
+  playStone(capturedCount);
 };
 
 export default function Game() {
@@ -44,7 +44,7 @@ export default function Game() {
   const { roomId: gameId } = useParams();
   const { data: me } = useMe();
   const { data: game, isLoading } = useGame(gameId);
-  const { playSound } = useStoneSound();
+  const { playStone } = useSound();
 
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
 
@@ -53,7 +53,7 @@ export default function Game() {
     socket.on('gameUpdate', (data: SerializedGameInstance) => {
       const prevData = queryClient.getQueryData<SerializedGameInstance>(['game', gameId]);
 
-      playGameUpdateSound(prevData, data, playSound);
+      playGameUpdateSound(prevData, data, playStone);
 
       queryClient.setQueryData(['game', gameId], data);
     });
@@ -61,7 +61,7 @@ export default function Game() {
     return () => {
       socket.off('gameUpdate');
     };
-  }, [queryClient, gameId, playSound]);
+  }, [queryClient, gameId, playStone]);
 
   if (isLoading || !game) {
     return (
