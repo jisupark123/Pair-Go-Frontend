@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { Coordinate } from '@dodagames/go';
+import { useStoneSound, type Coordinate } from '@dodagames/go';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
@@ -12,26 +12,56 @@ import { DesktopGameLayout } from '@/pages/rooms/roomId/game/components/desktop/
 import { MobileGameLayout } from '@/pages/rooms/roomId/game/components/mobile/MobileGameLayout';
 import type { SerializedGameInstance } from '@/types/game';
 
-const DESKTOP_WIDTH_BP = 900; // 950px 이상이면 desktop
+const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
+
+/**
+ * 게임 업데이트 시 소리를 재생합니다.
+ * 이전 상태와 현재 상태를 비교하여 잡은 돌의 개수를 계산하고,
+ * 이에 맞는 효과음(착수음 또는 사석 발생음)을 재생합니다.
+ */
+const playGameUpdateSound = (
+  prevData: SerializedGameInstance | undefined,
+  nextData: SerializedGameInstance,
+  playSound: (count: number) => void,
+) => {
+  if (!prevData) return;
+
+  const prevGameData = prevData.gameData;
+  const nextGameData = nextData.gameData;
+
+  // 백이 착수했다면 백이 따낸 사석만, 흑이 착수했다면 흑이 따낸 사석만 증가합니다.
+  // 따라서 두 변화량을 더하면 이번 수에 발생한 총 사석 개수를 구할 수 있습니다.
+  const capturedCount =
+    (nextGameData.capturedByBlack ?? 0) -
+    (prevGameData.capturedByBlack ?? 0) +
+    ((nextGameData.capturedByWhite ?? 0) - (prevGameData.capturedByWhite ?? 0));
+
+  playSound(capturedCount);
+};
 
 export default function Game() {
   const queryClient = useQueryClient();
   const { roomId: gameId } = useParams();
   const { data: me } = useMe();
   const { data: game, isLoading } = useGame(gameId);
+  const { playSound } = useStoneSound();
 
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
 
   useEffect(() => {
     const socket = getSocket('');
     socket.on('gameUpdate', (data: SerializedGameInstance) => {
+      const prevData = queryClient.getQueryData<SerializedGameInstance>(['game', gameId]);
+
+      playGameUpdateSound(prevData, data, playSound);
+
       queryClient.setQueryData(['game', gameId], data);
     });
 
     return () => {
       socket.off('gameUpdate');
     };
-  }, [queryClient, gameId]);
+  }, [queryClient, gameId, playSound]);
 
   if (isLoading || !game) {
     return (
