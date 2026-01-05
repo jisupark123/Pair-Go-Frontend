@@ -1,5 +1,12 @@
-import { useEffect } from 'react';
-import { useSound, type Coordinate, Game as DodagamesGame, MoveProcessorFactory, SFX_KEYS } from '@dodagames/go';
+import { useEffect, useState } from 'react';
+import {
+  useSound,
+  type Coordinate,
+  Game as DodagamesGame,
+  MoveProcessorFactory,
+  SFX_KEYS,
+  type GameResult,
+} from '@dodagames/go';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
@@ -8,6 +15,7 @@ import { getSocket } from '@/lib/socket';
 import { useGame } from '@/hooks/query/useGame';
 import { useMe } from '@/hooks/query/useMe';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { GameResultModal } from '@/pages/rooms/roomId/game/components/common/GameResultModal';
 import { DesktopGameLayout } from '@/pages/rooms/roomId/game/components/desktop/DesktopGameLayout';
 import { MobileGameLayout } from '@/pages/rooms/roomId/game/components/mobile/MobileGameLayout';
 import type { SerializedGameInstance } from '@/types/game';
@@ -48,6 +56,7 @@ export default function Game() {
   const { data: me } = useMe();
   const { data: game, isLoading } = useGame(gameId);
   const { playStone, play, stop } = useSound();
+  const [gameResult, setGameResult] = useState<GameResult | null>(null);
 
   const isDesktopScreenSize = useMediaQuery(`(min-width: ${DESKTOP_WIDTH_BP}px)`);
 
@@ -79,11 +88,16 @@ export default function Game() {
       }
     });
 
+    socket.on('gameEnded', (data: GameResult) => {
+      setGameResult(data);
+    });
+
     return () => {
       socket.off('moveMade');
       socket.off('timeUpdate');
       socket.off('byoyomiStart');
       socket.off('byoyomiPeriodUsed');
+      socket.off('gameEnded');
     };
   }, [queryClient, gameId, playStone, play, stop]);
 
@@ -109,19 +123,15 @@ export default function Game() {
   };
 
   // --- Layout Selection ---
-  if (isDesktopScreenSize) {
-    return (
-      <DesktopGameLayout
-        game={game}
-        myTeam={myTeam}
-        opponentTeam={opponentTeam}
-        currentTurnPlayer={currentTurnPlayer!}
-        handlePlayMove={handlePlayMove}
-      />
-    );
-  }
-
-  return (
+  const layout = isDesktopScreenSize ? (
+    <DesktopGameLayout
+      game={game}
+      myTeam={myTeam}
+      opponentTeam={opponentTeam}
+      currentTurnPlayer={currentTurnPlayer!}
+      handlePlayMove={handlePlayMove}
+    />
+  ) : (
     <MobileGameLayout
       game={game}
       myTeam={myTeam}
@@ -129,5 +139,17 @@ export default function Game() {
       currentTurnPlayer={currentTurnPlayer!}
       handlePlayMove={handlePlayMove}
     />
+  );
+
+  return (
+    <>
+      {layout}
+      <GameResultModal
+        open={!!gameResult}
+        onOpenChange={(open) => !open && setGameResult(null)}
+        result={gameResult}
+        myColor={myTeam.stoneColor}
+      />
+    </>
   );
 }
