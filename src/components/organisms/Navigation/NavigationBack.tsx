@@ -17,7 +17,7 @@ export function NavigationBack({ label = '뒤로', onClick, className = '' }: Na
   return (
     <button
       className={clsx(
-        'p-2 rounded-lg hover:bg-hextech-blue-900/20 transition-all duration-300 flex items-center gap-2 group',
+        'group flex items-center gap-2 rounded-lg p-2 transition-all duration-300 hover:bg-hextech-blue-900/20',
         'active:scale-95',
         className,
       )}
@@ -25,9 +25,9 @@ export function NavigationBack({ label = '뒤로', onClick, className = '' }: Na
       onClick={handleBack}
     >
       <ChevronLeft
-        className={clsx(iconSize, 'text-hextech-blue-400 group-hover:text-hextech-blue-300 transition-colors')}
+        className={clsx(iconSize, 'text-hextech-blue-400 transition-colors group-hover:text-hextech-blue-300')}
       />
-      <span className='text-hextech-blue-400 font-medium group-hover:text-hextech-blue-300 transition-colors tracking-wide'>
+      <span className='font-medium tracking-wide text-hextech-blue-400 transition-colors group-hover:text-hextech-blue-300'>
         {label}
       </span>
     </button>

@@ -12,16 +12,16 @@ export function PlaceStoneButton({ isActive, onClick, size }: PlaceStoneButtonPr
     <Button
       disabled={!isActive}
       className={cn(
-        'flex items-center justify-center transition-all duration-0 select-none touch-none',
+        'flex touch-none items-center justify-center transition-all duration-0 select-none',
         'rounded-lg border font-bold',
-        size === 'sm' ? 'px-4 h-8 text-xs' : 'px-8 h-12 text-lg',
+        size === 'sm' ? 'h-8 px-4 text-xs' : 'h-12 px-8 text-lg',
         isActive
           ? cn(
-              'shadow-[0_0_15px_rgba(245,158,11,0.3)] text-hextech-gold-100 transition-all',
-              'bg-hextech-gold-500/10 border-hextech-gold-500/60',
-              'active:bg-hextech-gold-500/20 active:border-hextech-gold-400 active:text-white',
+              'text-hextech-gold-100 shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all',
+              'border-hextech-gold-500/60 bg-hextech-gold-500/10',
+              'active:border-hextech-gold-400 active:bg-hextech-gold-500/20 active:text-white',
             )
-          : 'bg-hextech-silver-900/10 border-hextech-silver-500/20 text-hextech-silver-500 cursor-not-allowed opacity-50',
+          : 'cursor-not-allowed border-hextech-silver-500/20 bg-hextech-silver-900/10 text-hextech-silver-500 opacity-50',
       )}
       onContextMenu={(e) => e.preventDefault()}
       onClick={() => {

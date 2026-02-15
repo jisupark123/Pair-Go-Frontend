@@ -132,7 +132,7 @@ export default function Game() {
 
   if (isLoading || !game) {
     return (
-      <div className='flex items-center justify-center min-h-screen text-hextech-blue-300'>
+      <div className='flex min-h-screen items-center justify-center text-hextech-blue-300'>
         게임 정보를 불러오는 중입니다...
       </div>
     );

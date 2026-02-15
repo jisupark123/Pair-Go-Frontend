@@ -41,9 +41,9 @@ export function RoomSettingsModal({ open, onOpenChange, roomId, currentSettings 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[600px] bg-hextech-silver-950 border-hextech-blue-800 text-hextech-silver-100 p-0 overflow-hidden gap-0'>
+      <DialogContent className='gap-0 overflow-hidden border-hextech-blue-800 bg-hextech-silver-950 p-0 text-hextech-silver-100 sm:max-w-[600px]'>
         <DialogHeader className='p-6 pb-2'>
-          <DialogTitle className='text-2xl text-center font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-hextech-blue-100 to-hextech-blue-500'>
+          <DialogTitle className='bg-linear-to-b from-hextech-blue-100 to-hextech-blue-500 bg-clip-text text-center text-2xl font-bold tracking-tighter text-transparent'>
             대국 설정 변경
           </DialogTitle>
           <DialogDescription className='text-center text-hextech-blue-400/60'>
@@ -53,19 +53,19 @@ export function RoomSettingsModal({ open, onOpenChange, roomId, currentSettings 
 
         <RoomSettingsForm settings={settings} updateSettings={updateSettings} />
 
-        <DialogFooter className='p-6 pt-2 bg-hextech-silver-950'>
-          <div className='flex gap-2 w-full justify-end'>
+        <DialogFooter className='bg-hextech-silver-950 p-6 pt-2'>
+          <div className='flex w-full justify-end gap-2'>
             <DialogClose asChild>
               <Button
                 variant='ghost'
-                className='text-hextech-blue-400 hover:text-hextech-blue-200 hover:bg-hextech-blue-900/20'
+                className='text-hextech-blue-400 hover:bg-hextech-blue-900/20 hover:text-hextech-blue-200'
               >
                 취소
               </Button>
             </DialogClose>
             <Button
               onClick={handleSave}
-              className='bg-hextech-blue-600 hover:bg-hextech-blue-700 text-white border-none'
+              className='border-none bg-hextech-blue-600 text-white hover:bg-hextech-blue-700'
             >
               저장하기
             </Button>

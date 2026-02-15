@@ -11,9 +11,9 @@ export function KakaoLoginButton({ className, ...props }: KakaoLoginButtonProps)
     <button
       type='button'
       className={cn(
-        'relative flex items-center justify-center w-full max-w-sm h-12 px-4 rounded-md',
+        'relative flex h-12 w-full max-w-sm items-center justify-center rounded-md px-4',
         'bg-[#FEE500] hover:bg-[#FDD835] active:bg-[#FCC419]',
-        'text-black/85 font-medium text-base transition-colors',
+        'text-base font-medium text-black/85 transition-colors',
         className,
       )}
       {...props}

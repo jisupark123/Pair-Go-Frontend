@@ -34,17 +34,17 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='bg-hextech-silver-900 border-hextech-purple-500/50 text-hextech-purple-100 sm:max-w-[425px]'>
+      <DialogContent className='border-hextech-purple-500/50 bg-hextech-silver-900 text-hextech-purple-100 sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle className='text-hextech-purple-400'>{title}</DialogTitle>
           <DialogDescription className='text-hextech-purple-300/70'>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <div className='flex gap-2 w-full justify-end'>
+          <div className='flex w-full justify-end gap-2'>
             <DialogClose asChild>
               <Button
                 variant='ghost'
-                className='text-hextech-purple-400 hover:text-hextech-purple-200 hover:bg-hextech-purple-900/20'
+                className='text-hextech-purple-400 hover:bg-hextech-purple-900/20 hover:text-hextech-purple-200'
               >
                 {cancelText}
               </Button>
@@ -56,8 +56,8 @@ export function ConfirmDialog({
               }}
               className={
                 variant === 'destructive'
-                  ? 'bg-hextech-red-600 hover:bg-hextech-red-700 text-white border-none'
-                  : 'bg-hextech-purple-600 hover:bg-hextech-purple-700 text-white border-none'
+                  ? 'border-none bg-hextech-red-600 text-white hover:bg-hextech-red-700'
+                  : 'border-none bg-hextech-purple-600 text-white hover:bg-hextech-purple-700'
               }
             >
               {confirmText}

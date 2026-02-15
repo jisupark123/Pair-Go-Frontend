@@ -3,26 +3,28 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import importPlugin from 'eslint-plugin-import';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig(
-  globalIgnores(['dist', 'node_modules']),
-
+export default tseslint.config(
+  {
+    ignores: ['dist', 'node_modules'],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
-
-    plugins: { prettier: eslintPluginPrettier, import: importPlugin, react },
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      // tseslint.configs.recommendedTypeChecked,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    plugins: {
+      prettier: eslintPluginPrettier,
+      import: importPlugin,
+      react,
+      'better-tailwindcss': betterTailwindcss,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -30,6 +32,9 @@ export default defineConfig(
     settings: {
       react: {
         version: 'detect', // 현재 프로젝트의 React 버전을 자동으로 감지
+      },
+      'better-tailwindcss': {
+        entryPoint: './src/styles/index.css',
       },
     },
     rules: {
@@ -41,7 +46,7 @@ export default defineConfig(
       eqeqeq: ['error', 'always'], // == 대신 === 사용 강제
 
       // typescript-eslint
-      '@typescript-eslint/array-type': 0,
+      '@typescript-eslint/array-type': 0, // string[] 이나 Array<string> 모두 사용 허용
       '@typescript-eslint/ban-ts-comment': 0, // ts-ignore 사용 허용
       '@typescript-eslint/no-explicit-any': 'error', // any 타입 사용 금지
       '@typescript-eslint/no-var-requires': 'error', // require 사용 금지
@@ -57,6 +62,7 @@ export default defineConfig(
 
       // react 관련 규칙
       ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off', // React 17 이상에서는 JSX에서 React import 필요 없음
       'react/jsx-uses-react': 'off', // React 17 이상에서는 JSX에서 React import 필요 없음
       'react/jsx-key': 'error', // iterator 렌더링 시 key prop 필수
@@ -67,6 +73,7 @@ export default defineConfig(
       'react/no-deprecated': 'error', // deprecated API 사용 금지
       'react/self-closing-comp': 'error', // 자식 없는 컴포넌트는 self-closing 쓰도록 강제
       'react/jsx-curly-brace-presence': 'error', // 불필요한 중괄호 사용 금지
+      'react-refresh/only-export-components': 'warn', // React Refresh를 사용하는 컴포넌트는 export 되어야 함
 
       // import 관련 규칙
       'no-restricted-imports': [
@@ -83,16 +90,13 @@ export default defineConfig(
           patterns: ['../*', './*'], // 상대 경로 import 금지
         },
       ],
-      // react
-      'react/prop-types': 0,
-      // react-native
-      'react-native/no-raw-text': 0, // <Text> 내부에 하드코딩된 문자열 허용
 
       // eslint-config-standard overrides
       'comma-dangle': 0,
       'no-global-assign': 0,
       quotes: 0,
       'space-before-function-paren': 0,
+
       // eslint-import
       'import/order': [
         'error',
@@ -120,6 +124,7 @@ export default defineConfig(
         },
       ],
       'import/newline-after-import': 1,
+
       // naming convention 규칙 설정
       '@typescript-eslint/naming-convention': [
         'error',
@@ -181,6 +186,15 @@ export default defineConfig(
             array: false,
             object: false,
           },
+        },
+      ],
+
+      // better-tailwindcss
+      ...betterTailwindcss.configs.correctness.rules,
+      'better-tailwindcss/no-unknown-classes': [
+        'error',
+        {
+          ignore: ['figma-scope'],
         },
       ],
     },

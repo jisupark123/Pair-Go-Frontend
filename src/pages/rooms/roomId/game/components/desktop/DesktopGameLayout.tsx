@@ -30,13 +30,13 @@ export function DesktopGameLayout({
 }: DesktopGameLayoutProps) {
   const { data: me } = useMe();
   return (
-    <div className='flex-1 pt-6 flex h-dvh overflow-hidden relative flex-row'>
+    <div className='relative flex h-dvh flex-1 flex-row overflow-hidden pt-6'>
       <GameBackground />
 
       {/* 1. Board Area (Left/Center) */}
-      <div className='flex flex-col items-center justify-center gap-4 overflow-hidden flex-1 px-4'>
+      <div className='flex flex-1 flex-col items-center justify-center gap-4 overflow-hidden px-4'>
         {/* max-w-[min(700px,100%)] -> 화면 너비가 700px보다 작으면 100%, 700px보다 크면 700px */}
-        <div className='relative aspect-square shadow-2xl overflow-hidden flex items-center justify-center h-auto w-full max-w-[min(700px,100%)] max-h-full'>
+        <div className='relative flex aspect-square h-auto max-h-full w-full max-w-[min(700px,100%)] items-center justify-center overflow-hidden shadow-2xl'>
           <CanvasBoard
             board={game.gameData.currentBoard}
             {...(game.gameData.lastMove && { currentMove: game.gameData.lastMove })}
@@ -55,9 +55,9 @@ export function DesktopGameLayout({
       </div>
 
       {/* 2. Right Sidebar (My Team + Opponent Team) */}
-      <div className='flex-none pb-safe-bottom relative z-10 backdrop-blur-md transition-all duration-300 w-80 h-full flex flex-col border-l border-hextech-gold-500/20 pb-0'>
+      <div className='relative z-10 flex h-full w-80 flex-none flex-col border-l border-hextech-gold-500/20 pb-safe backdrop-blur-md transition-all duration-300'>
         {/* My Team */}
-        <div className='flex-1 flex flex-col justify-start max-w-xl mx-auto w-full px-6 pt-4 gap-6'>
+        <div className='mx-auto flex w-full max-w-xl flex-1 flex-col justify-start gap-6 px-6 pt-4'>
           <DesktopTeamDisplay
             gameTeam={myTeam}
             gameData={game.gameData}
@@ -71,7 +71,7 @@ export function DesktopGameLayout({
           />
 
           {/* Opponent Team */}
-          <div className='opacity-80 hover:opacity-100 transition-opacity'>
+          <div className='opacity-80 transition-opacity hover:opacity-100'>
             <DesktopTeamDisplay
               gameTeam={opponentTeam}
               gameData={game.gameData}
@@ -88,7 +88,7 @@ export function DesktopGameLayout({
       </div>
 
       {/* 3. Action Buttons (Bottom Right Overlay) */}
-      <div className='absolute bottom-0 right-0 w-80 z-50 p-6 pointer-events-none'>
+      <div className='pointer-events-none absolute right-0 bottom-0 z-50 w-80 p-6'>
         <div className='pointer-events-auto'>
           <DesktopActionButtons />
         </div>

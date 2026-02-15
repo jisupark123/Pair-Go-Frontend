@@ -5,7 +5,7 @@ import { cn } from '@/components/figma/utils';
 
 export function ActionButtons() {
   return (
-    <div className={cn('grid gap-3 grid-cols-2')}>
+    <div className={cn('grid grid-cols-2 gap-3')}>
       <GameActionButton icon={RotateCcw} label='무르기' variant='normal' />
       <GameActionButton icon={SkipForward} label='한수쉼' variant='normal' />
       <GameActionButton icon={Calculator} label='계가신청' variant='normal' />
@@ -26,13 +26,13 @@ function GameActionButton({
   return (
     <Button
       className={cn(
-        'h-auto flex-col gap-1 py-3 px-1 text-[11px] font-medium border bg-transparent hover:bg-hextech-silver-800/30 transition-all',
+        'h-auto flex-col gap-1 border bg-transparent px-1 py-3 text-[11px] font-medium transition-all hover:bg-hextech-silver-800/30',
         variant === 'danger'
-          ? 'border-hextech-red-900/50 text-hextech-red-300 hover:text-hextech-red-100 hover:border-hextech-red-500'
-          : 'border-hextech-gold-700/30 text-hextech-silver-400 hover:text-hextech-gold-300 hover:border-hextech-gold-500',
+          ? 'border-hextech-red-900/50 text-hextech-red-300 hover:border-hextech-red-500 hover:text-hextech-red-100'
+          : 'border-hextech-gold-700/30 text-hextech-silver-400 hover:border-hextech-gold-500 hover:text-hextech-gold-300',
       )}
     >
-      <Icon className='w-5 h-5 mb-0.5' />
+      <Icon className='mb-0.5 h-5 w-5' />
       {label}
     </Button>
   );

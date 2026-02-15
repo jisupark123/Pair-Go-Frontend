@@ -81,19 +81,19 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
   );
 
   return (
-    <div className='p-6 space-y-8'>
+    <div className='space-y-8 p-6'>
       {/* Game Settings */}
       <section className='space-y-4'>
         <div className='flex items-center gap-2'>
           <div className='h-px flex-1 bg-linear-to-r from-transparent via-hextech-blue-900 to-transparent' />
-          <h3 className='text-sm font-medium text-hextech-blue-500 uppercase tracking-widest'>대국 설정</h3>
+          <h3 className='text-sm font-medium tracking-widest text-hextech-blue-500 uppercase'>대국 설정</h3>
           <div className='h-px flex-1 bg-linear-to-r from-transparent via-hextech-blue-900 to-transparent' />
         </div>
 
         <div className='grid grid-cols-2 gap-4'>
           {/* Handicap */}
           <div className='space-y-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>치수</label>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>치수</label>
             <Select
               value={settings.handicap}
               onValueChange={(value) =>
@@ -106,10 +106,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               }
               disabled={!!disabled}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200'>
+              <SelectTrigger className='border-hextech-blue-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-blue-500/50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-blue-900 text-hextech-silver-200 h-64'>
+              <SelectContent className='h-64 border-hextech-blue-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 <SelectItem value='0'>호선</SelectItem>
                 <SelectItem value='1'>정선</SelectItem>
                 {handicapOptions}
@@ -119,7 +119,7 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
 
           {/* Komi */}
           <div className='space-y-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>{isEvenGame ? '백 덤' : '흑 덤'}</label>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>{isEvenGame ? '백 덤' : '흑 덤'}</label>
             <Select
               value={isEvenGame ? '6.5' : settings.komi}
               onValueChange={(value) =>
@@ -129,18 +129,18 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               }
               disabled={disabled || isEvenGame}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200 disabled:opacity-50 disabled:cursor-not-allowed'>
+              <SelectTrigger className='border-hextech-blue-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-blue-500/50 disabled:cursor-not-allowed disabled:opacity-50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-blue-900 text-hextech-silver-200 h-64'>
+              <SelectContent className='h-64 border-hextech-blue-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 {komiOptions}
               </SelectContent>
             </Select>
           </div>
 
           {/* Color */}
-          <div className='space-y-2 col-span-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>흑백 선택</label>
+          <div className='col-span-2 space-y-2'>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>흑백 선택</label>
             <Select
               value={settings.stoneColorMethod}
               onValueChange={(value) =>
@@ -150,10 +150,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               }
               disabled={!!disabled}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-blue-900/50 focus:ring-hextech-blue-500/50 text-hextech-silver-200'>
+              <SelectTrigger className='border-hextech-blue-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-blue-500/50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-blue-900 text-hextech-silver-200'>
+              <SelectContent className='border-hextech-blue-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 <SelectItem value='auto'>자동 돌가림</SelectItem>
                 <SelectItem value='manual'>방에서 선택</SelectItem>
               </SelectContent>
@@ -166,14 +166,14 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
       <section className='space-y-4'>
         <div className='flex items-center gap-2'>
           <div className='h-px flex-1 bg-linear-to-r from-transparent via-hextech-gold-900 to-transparent' />
-          <h3 className='text-sm font-medium text-hextech-gold-500 uppercase tracking-widest'>시간 설정</h3>
+          <h3 className='text-sm font-medium tracking-widest text-hextech-gold-500 uppercase'>시간 설정</h3>
           <div className='h-px flex-1 bg-linear-to-r from-transparent via-hextech-gold-900 to-transparent' />
         </div>
 
         <div className='grid grid-cols-3 gap-4'>
           {/* Basic Time */}
           <div className='space-y-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>기본 시간</label>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>기본 시간</label>
             <Select
               value={settings.basicTime}
               onValueChange={(value) =>
@@ -184,10 +184,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               color='gold'
               disabled={!!disabled}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
+              <SelectTrigger className='border-hextech-gold-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-gold-500/50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-gold-900 text-hextech-silver-200 h-64'>
+              <SelectContent className='h-64 border-hextech-gold-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 <SelectItem value='0'>없음</SelectItem>
                 {basicTimeOptions}
               </SelectContent>
@@ -196,7 +196,7 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
 
           {/* Countdown Time */}
           <div className='space-y-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>초읽기</label>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>초읽기</label>
             <Select
               value={settings.byoyomiTime}
               onValueChange={(value) =>
@@ -207,10 +207,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               color='gold'
               disabled={!!disabled}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
+              <SelectTrigger className='border-hextech-gold-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-gold-500/50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-gold-900 text-hextech-silver-200 h-64'>
+              <SelectContent className='h-64 border-hextech-gold-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 <SelectItem value='0'>없음</SelectItem>
                 {countdownTimeOptions}
               </SelectContent>
@@ -219,7 +219,7 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
 
           {/* Countdown Count */}
           <div className='space-y-2'>
-            <label className='text-xs font-medium text-hextech-silver-400 ml-1'>횟수</label>
+            <label className='ml-1 text-xs font-medium text-hextech-silver-400'>횟수</label>
             <Select
               value={settings.byoyomiPeriods}
               onValueChange={(value) =>
@@ -230,10 +230,10 @@ export function RoomSettingsForm({ settings, updateSettings, disabled }: RoomSet
               color='gold'
               disabled={!!disabled}
             >
-              <SelectTrigger className='bg-hextech-silver-900/50 border-hextech-gold-900/50 focus:ring-hextech-gold-500/50 text-hextech-silver-200'>
+              <SelectTrigger className='border-hextech-gold-900/50 bg-hextech-silver-900/50 text-hextech-silver-200 focus:ring-hextech-gold-500/50'>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className='bg-hextech-silver-900 border-hextech-gold-900 text-hextech-silver-200'>
+              <SelectContent className='border-hextech-gold-900 bg-hextech-silver-900 text-hextech-silver-200'>
                 <SelectItem value='0'>없음</SelectItem>
                 {countdownCountOptions}
               </SelectContent>

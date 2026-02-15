@@ -53,7 +53,7 @@ export function MessageDialog({
       }}
     >
       <DialogContent
-        className='bg-slate-900 border border-hextech-purple-500/30 shadow-2xl p-6 sm:max-w-sm'
+        className='border border-hextech-purple-500/30 bg-slate-900 p-6 shadow-2xl sm:max-w-sm'
         onInteractOutside={(e) => {
           if (blocking) {
             e.preventDefault();
@@ -65,11 +65,11 @@ export function MessageDialog({
           }
         }}
       >
-        <div className='flex flex-col items-center text-center gap-4'>
+        <div className='flex flex-col items-center gap-4 text-center'>
           {/* Simple Icon */}
-          <div className='w-12 h-12 rounded-full bg-hextech-purple-500/10 flex items-center justify-center mb-2'>
+          <div className='mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-hextech-purple-500/10'>
             <svg
-              className='w-6 h-6 text-hextech-purple-400'
+              className='h-6 w-6 text-hextech-purple-400'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -85,15 +85,15 @@ export function MessageDialog({
 
           <div className='space-y-1'>
             <DialogTitle className='text-xl font-bold text-hextech-purple-100'>{title}</DialogTitle>
-            <DialogDescription className='text-hextech-purple-200/60 text-sm whitespace-pre-wrap'>
+            <DialogDescription className='text-sm whitespace-pre-wrap text-hextech-purple-200/60'>
               {description}
             </DialogDescription>
           </div>
 
-          <DialogFooter className='w-full mt-2'>
+          <DialogFooter className='mt-2 w-full'>
             <Button
               onClick={handleConfirm}
-              className='w-full bg-hextech-purple-600 hover:bg-hextech-purple-500 text-white font-medium shadow-lg shadow-hextech-purple-900/20'
+              className='w-full bg-hextech-purple-600 font-medium text-white shadow-lg shadow-hextech-purple-900/20 hover:bg-hextech-purple-500'
             >
               {confirmLabel}
             </Button>

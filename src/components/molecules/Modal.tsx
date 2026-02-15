@@ -17,7 +17,7 @@ export default function Modal({
   if (!isOpen) return null;
   return createPortal(
     <Backdrop isOpen={isOpen} {...(closeOnBackdropClick ? { onClick: onClose } : {})}>
-      <div className={clsx('bg-bg', props.className)}>{props.children}</div>
+      <div className={clsx('bg-hextech-blue-900', props.className)}>{props.children}</div>
     </Backdrop>,
     document.body,
   );

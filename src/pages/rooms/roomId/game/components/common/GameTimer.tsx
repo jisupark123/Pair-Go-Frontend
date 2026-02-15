@@ -116,14 +116,14 @@ export function GameTimer({
         <>
           <Timer
             className={cn(
-              isDesktopScreenSize ? 'w-6 h-6' : 'w-4 h-4',
+              isDesktopScreenSize ? 'h-6 w-6' : 'h-4 w-4',
               isTurn ? 'text-hextech-gold-300' : 'text-hextech-silver-500',
             )}
           />
           <span
             className={cn(
               isTurn
-                ? cn('text-hextech-gold-300 font-bold', isDesktopScreenSize ? 'text-2xl' : 'text-base')
+                ? cn('font-bold text-hextech-gold-300', isDesktopScreenSize ? 'text-2xl' : 'text-base')
                 : cn('text-hextech-silver-500', isDesktopScreenSize ? 'text-xl' : 'text-base'),
             )}
           >
@@ -134,14 +134,14 @@ export function GameTimer({
         <>
           <Timer
             className={cn(
-              isDesktopScreenSize ? 'w-6 h-6' : 'w-4 h-4',
-              isTurn ? 'text-hextech-gold-300 animate-pulse' : 'text-hextech-silver-500',
+              isDesktopScreenSize ? 'h-6 w-6' : 'h-4 w-4',
+              isTurn ? 'animate-pulse text-hextech-gold-300' : 'text-hextech-silver-500',
             )}
           />
           <span
             className={cn(
               isTurn
-                ? cn('text-hextech-gold-300 font-bold animate-pulse', isDesktopScreenSize ? 'text-2xl' : 'text-base')
+                ? cn('animate-pulse font-bold text-hextech-gold-300', isDesktopScreenSize ? 'text-2xl' : 'text-base')
                 : cn('text-hextech-silver-500', isDesktopScreenSize ? 'text-xl' : 'text-base'),
             )}
           >
@@ -153,9 +153,9 @@ export function GameTimer({
       <span
         className={cn(
           isTurn ? 'text-hextech-gold-300' : 'text-hextech-silver-500',
-          'opacity-70 border-white/20',
+          'border-white/20 opacity-70',
           isDesktopScreenSize ? 'text-sm' : 'text-xs',
-          align === 'right' && isDesktopScreenSize ? 'border-r pr-2 mr-1' : 'border-l pl-2 ml-1',
+          align === 'right' && isDesktopScreenSize ? 'mr-1 border-r pr-2' : 'ml-1 border-l pl-2',
         )}
       >
         {gameSettings.byoyomiTime}초 {byoyomiPeriods}회

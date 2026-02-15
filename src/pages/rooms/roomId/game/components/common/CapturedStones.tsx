@@ -12,15 +12,15 @@ export function CapturedStones({ color, count, className }: CapturedStonesProps)
   return (
     <div
       className={cn(
-        'relative w-8 h-8 flex items-center justify-center rounded-full shrink-0',
-        color === 'BLACK' && 'bg-white/10 ring-1 ring-white/40 shadow-[0_0_10px_rgba(255,255,255,0.1)]',
+        'relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
+        color === 'BLACK' && 'bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)] ring-1 ring-white/40',
         className,
       )}
     >
       <img
         src={color === 'BLACK' ? basicBoardStyleConfig.blackStoneImageUrl : basicBoardStyleConfig.whiteStoneImageUrl}
         alt={color}
-        className='absolute inset-0 w-full h-full object-contain drop-shadow-md'
+        className='absolute inset-0 h-full w-full object-contain drop-shadow-md'
       />
       <span className={cn('relative z-10 text-xs font-bold', color === 'BLACK' ? 'text-white' : 'text-black')}>
         {count}

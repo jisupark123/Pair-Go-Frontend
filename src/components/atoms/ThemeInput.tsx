@@ -69,7 +69,7 @@ export const ThemeInput = forwardRef<HTMLInputElement, ThemeInputProps>(({ class
     <input
       ref={ref}
       className={twMerge(
-        'w-full bg-slate-900/80 border rounded-md px-4 py-3 focus:outline-none focus:ring-1 transition-all duration-200',
+        'w-full rounded-md border bg-slate-900/80 px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none',
         styles.border,
         styles.text,
         styles.placeholder,

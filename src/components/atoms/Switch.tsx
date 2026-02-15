@@ -31,7 +31,7 @@ export default function Switch({
       onClick={() => !disabled && onChange(!checked)}
       className={clsx(
         `relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none`,
-        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+        disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
         // 'bg-gray-300',
       )}
       style={{
@@ -41,9 +41,7 @@ export default function Switch({
       }}
     >
       <span
-        className={`
-          inline-block bg-white rounded-full shadow-md transform transition-transform duration-200
-        `}
+        className='inline-block transform rounded-full bg-white shadow-md transition-transform duration-200'
         style={{
           width: `${knob}rem`,
           height: `${knob}rem`,

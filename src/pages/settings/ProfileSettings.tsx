@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { useNavigate } from 'react-router';
 
 import { ThemeBox } from '@/components/atoms/ThemeBox';
@@ -68,19 +69,19 @@ export default function ProfileSettings() {
   if (!me) return null;
 
   return (
-    <div className='flex-1 pt-[80px] flex flex-col items-center'>
+    <div className='flex flex-1 flex-col items-center pt-[80px]'>
       <Navigation left={<NavigationBack label='뒤로가기' onClick={() => navigate(-1)} />} title='프로필 설정' />
 
-      <div className='flex-1 flex flex-col items-center justify-center w-full px-4 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20'>
+      <div className='flex w-full flex-1 flex-col items-center justify-center px-4 pb-20 duration-500 animate-in fade-in slide-in-from-bottom-4'>
         <div className='w-full max-w-lg'>
           <form onSubmit={handleSubmit}>
             <ThemeBox
               color='purple'
               filled={false}
-              className='flex flex-col gap-6 p-8 border-hextech-purple-500/50 shadow-2xl'
+              className='flex flex-col gap-6 border-hextech-purple-500/50 p-8 shadow-2xl'
             >
-              <div className='flex flex-col gap-3 w-full'>
-                <label className='text-sm font-bold text-hextech-purple-300 ml-1 uppercase tracking-wider'>
+              <div className='flex w-full flex-col gap-3'>
+                <label className='ml-1 text-sm font-bold tracking-wider text-hextech-purple-300 uppercase'>
                   Nickname
                 </label>
                 <ThemeInput
@@ -88,11 +89,14 @@ export default function ProfileSettings() {
                   value={nickname}
                   onChange={handleNicknameChange}
                   placeholder='닉네임을 입력하세요'
-                  className={`text-lg py-4 bg-slate-900/90 focus:border-hextech-${error ? 'red' : 'purple'}-400 ${
-                    error ? 'border-hextech-red-500/50' : 'border-hextech-purple-500/50'
-                  }`}
+                  className={clsx(
+                    'bg-slate-900/90 py-4 text-lg',
+                    error
+                      ? 'border-hextech-red-500/50 focus:border-hextech-red-400'
+                      : 'border-hextech-purple-500/50 focus:border-hextech-purple-400',
+                  )}
                 />
-                <p className='text-xs text-hextech-red-400 ml-1 min-h-5'>
+                <p className='ml-1 min-h-5 text-xs text-hextech-red-400'>
                   {error && <span className='animate-in fade-in slide-in-from-top-1'>* {error}</span>}
                 </p>
               </div>
@@ -101,7 +105,7 @@ export default function ProfileSettings() {
                 <button
                   type='submit'
                   disabled={isPending || !!error || nickname === me.nickname}
-                  className='w-full py-4 text-base bg-linear-to-r from-hextech-purple-600 to-hextech-purple-500 hover:from-hextech-purple-500 hover:to-hextech-purple-400 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 text-white font-bold rounded-lg transition-all duration-300 shadow-lg shadow-hextech-purple-900/50 cursor-pointer disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0'
+                  className='w-full transform cursor-pointer rounded-lg bg-linear-to-r from-hextech-purple-600 to-hextech-purple-500 py-4 text-base font-bold text-white shadow-lg shadow-hextech-purple-900/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-hextech-purple-500 hover:to-hextech-purple-400 active:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500'
                 >
                   {isPending ? '저장 중...' : '변경사항 저장'}
                 </button>

@@ -16,16 +16,16 @@ export function TeamPlayers({ game, gameTeam, currentTurnPlayer, position }: Tea
   return (
     <div
       className={cn(
-        'w-full transition-all duration-500 rounded-xl relative overflow-hidden p-1',
+        'relative w-full overflow-hidden rounded-xl p-1 transition-all duration-500',
         position === 'me' ? 'pt-2' : 'pb-2',
       )}
     >
       {/* Content */}
-      <div className={cn('flex flex-col relative z-10 gap-2')}>
+      <div className={cn('relative z-10 flex flex-col gap-2')}>
         {/* Players Container - Mobile Horizontal */}
-        <div className={cn('flex items-center gap-2 justify-between w-full')}>
+        <div className={cn('flex w-full items-center justify-between gap-2')}>
           {/* Player 1 */}
-          <div className='flex-1 min-w-0'>
+          <div className='min-w-0 flex-1'>
             <PlayerCompact
               teamColor={gameTeam.teamColor}
               player={gameTeam.players[0].data}
@@ -37,10 +37,10 @@ export function TeamPlayers({ game, gameTeam, currentTurnPlayer, position }: Tea
           </div>
 
           {/* VS/Divider */}
-          <div className='flex-none h-4 w-px bg-hextech-silver-700/30' />
+          <div className='h-4 w-px flex-none bg-hextech-silver-700/30' />
 
           {/* Player 2 */}
-          <div className='flex-1 min-w-0'>
+          <div className='min-w-0 flex-1'>
             <PlayerCompact
               teamColor={gameTeam.teamColor}
               player={gameTeam.players[1].data}

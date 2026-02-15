@@ -68,28 +68,28 @@ export function GameResultModal({ open, onOpenChange, result, myColor }: GameRes
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={cn('bg-slate-900 border-2 p-8 sm:max-w-sm', borderColor, glowClass)}
+        className={cn('border-2 bg-slate-900 p-8 sm:max-w-sm', borderColor, glowClass)}
         onInteractOutside={(e) => e.preventDefault()}
       >
-        <div className='flex flex-col items-center text-center gap-6'>
+        <div className='flex flex-col items-center gap-6 text-center'>
           <DialogTitle className={cn('text-4xl font-bold tracking-wider drop-shadow-md', titleColor)}>
             {title}
           </DialogTitle>
 
-          <DialogDescription className='text-xl text-hextech-silver-300 font-medium break-keep'>
+          <DialogDescription className='text-xl font-medium break-keep text-hextech-silver-300'>
             {reasonText}
           </DialogDescription>
 
-          <DialogFooter className='w-full mt-4'>
+          <DialogFooter className='mt-4 w-full'>
             <Button
               onClick={() => onOpenChange(false)}
               className={cn(
-                'w-full text-lg py-6 font-bold transition-all duration-300 shadow-lg',
+                'w-full py-6 text-lg font-bold shadow-lg transition-all duration-300',
                 isVictory
-                  ? 'bg-hextech-gold-600 hover:bg-hextech-gold-500 text-hextech-gold-950 shadow-hextech-gold-900/40'
+                  ? 'bg-hextech-gold-600 text-hextech-gold-950 shadow-hextech-gold-900/40 hover:bg-hextech-gold-500'
                   : isDefeat
-                    ? 'bg-hextech-red-700 hover:bg-hextech-red-600 text-white shadow-hextech-red-900/40'
-                    : 'bg-hextech-blue-700 hover:bg-hextech-blue-600 text-white shadow-hextech-blue-900/40',
+                    ? 'bg-hextech-red-700 text-white shadow-hextech-red-900/40 hover:bg-hextech-red-600'
+                    : 'bg-hextech-blue-700 text-white shadow-hextech-blue-900/40 hover:bg-hextech-blue-600',
               )}
             >
               확인

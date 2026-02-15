@@ -46,15 +46,15 @@ export function MobileGameLayout({
     setSelectedMove(null);
   };
   return (
-    <div className='flex-1 pt-6 pb-[56px] flex flex-col h-dvh overflow-hidden relative'>
+    <div className='relative flex h-dvh flex-1 flex-col overflow-hidden pt-6 pb-[56px]'>
       <GameBackground />
 
       {/* 1. Opponent Team Area (Top) */}
-      <div className='flex-none relative z-10 backdrop-blur-md pb-2'>
-        <div className='max-w-xl mx-auto w-full px-2 flex flex-col'>
+      <div className='relative z-10 flex-none pb-2 backdrop-blur-md'>
+        <div className='mx-auto flex w-full max-w-xl flex-col px-2'>
           <TeamPlayers game={game} gameTeam={opponentTeam} currentTurnPlayer={currentTurnPlayer} position='opponent' />
           {/* Opponent Stone Count & Timer */}
-          <div className='flex justify-between items-center px-2 mt-1'>
+          <div className='mt-1 flex items-center justify-between px-2'>
             {/* Captured Stones Indicator */}
             <CapturedStones
               count={
@@ -76,9 +76,9 @@ export function MobileGameLayout({
       </div>
 
       {/* 2. Board Area (Middle) */}
-      <div className='shrink-0 flex items-center justify-center overflow-hidden z-0 min-h-0 relative'>
+      <div className='relative z-0 flex min-h-0 shrink-0 items-center justify-center overflow-hidden'>
         {/* Board */}
-        <div className='relative aspect-square shadow-2xl overflow-hidden flex flex-col items-center justify-center w-full h-auto max-h-full max-w-[400px]'>
+        <div className='relative flex aspect-square h-auto max-h-full w-full max-w-[400px] flex-col items-center justify-center overflow-hidden shadow-2xl'>
           <CanvasBoard
             board={game.gameData.currentBoard}
             {...(game.gameData.lastMove && { currentMove: game.gameData.lastMove })}
@@ -90,12 +90,12 @@ export function MobileGameLayout({
       </div>
 
       {/* 3. My Team Area (Bottom) */}
-      <div className='flex-none relative z-10 backdrop-blur-md pt-2'>
-        <div className='max-w-xl mx-auto w-full px-2 flex flex-col'>
+      <div className='relative z-10 flex-none pt-2 backdrop-blur-md'>
+        <div className='mx-auto flex w-full max-w-xl flex-col px-2'>
           {/* Timer & Button Header (Fixed to Board Side) */}
-          <div className='relative flex items-center justify-between mb-2 px-2 min-h-[40px]'>
+          <div className='relative mb-2 flex min-h-[40px] items-center justify-between px-2'>
             {/* Left Area: Captured Stones */}
-            <div className='flex justify-start items-center z-0'>
+            <div className='z-0 flex items-center justify-start'>
               <CapturedStones
                 count={myTeam.stoneColor === 'BLACK' ? game.gameData.capturedByBlack : game.gameData.capturedByWhite}
                 color={myTeam.stoneColor}
@@ -103,7 +103,7 @@ export function MobileGameLayout({
             </div>
 
             {/* Center Area: Place Stone Button - Absolute Centered */}
-            <div className='absolute left-1/2 transform -translate-x-1/2 flex justify-center items-center z-10'>
+            <div className='absolute left-1/2 z-10 flex -translate-x-1/2 transform items-center justify-center'>
               <PlaceStoneButton
                 isActive={currentTurnPlayer.id === me?.id && selectedMove !== null}
                 onClick={handlePlaceStoneButtonClick}
@@ -112,7 +112,7 @@ export function MobileGameLayout({
             </div>
 
             {/* Right Area: Timer */}
-            <div className='flex justify-end items-center z-0'>
+            <div className='z-0 flex items-center justify-end'>
               <GameTimer
                 gameSettings={game.settings}
                 timeControl={myTeam.timeControl}
@@ -131,7 +131,7 @@ export function MobileGameLayout({
       {/* 4. Action Buttons (Bottom Navigation Bar) */}
       <div
         className={cn(
-          'fixed bottom-0 left-0 w-full h-[56px] z-50 pb-safe border-t',
+          'fixed bottom-0 left-0 z-50 h-[56px] w-full border-t pb-safe',
           myTeam.teamColor === 'blue' ? 'border-hextech-blue-500/30' : 'border-hextech-red-500/30',
         )}
       >

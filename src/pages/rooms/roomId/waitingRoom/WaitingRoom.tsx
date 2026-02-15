@@ -73,7 +73,7 @@ export default function WaitingRoom() {
 
   if (isRoomLoading || !room || !me) {
     return (
-      <div className='flex items-center justify-center min-h-screen text-hextech-blue-300'>
+      <div className='flex min-h-screen items-center justify-center text-hextech-blue-300'>
         <p>방 정보를 불러오는 중입니다...</p>
       </div>
     );
@@ -122,33 +122,33 @@ export default function WaitingRoom() {
   };
 
   return (
-    <div className='flex-1 flex flex-col pt-2'>
+    <div className='flex flex-1 flex-col pt-2'>
       {/* <Navigation
         left={<NavigationBack label='나가기' onClick={() => navigate('/', { replace: true })} />}
         title='대기실'
       /> */}
-      <div className='flex-1 flex flex-col gap-6 max-w-7xl w-full mx-auto px-6 pt-5 animate-in fade-in duration-700'>
+      <div className='mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-6 pt-5 duration-700 animate-in fade-in'>
         {/* 1. Header & Settings */}
-        <header className='flex flex-col md:flex-row items-center justify-between gap-4'>
+        <header className='flex flex-col items-center justify-between gap-4 md:flex-row'>
           <div className='flex items-center gap-3'>
             <ThemeBox
               color='silver'
               size='sm'
               filled
-              className='px-4 py-3 rounded-full border-hextech-silver-600 flex items-center justify-center'
+              className='flex items-center justify-center rounded-full border-hextech-silver-600 px-4 py-3'
             >
-              <span className='text-xl font-extrabold text-hextech-silver-300 tracking-tighter'>2 vs 2</span>
+              <span className='text-xl font-extrabold tracking-tighter text-hextech-silver-300'>2 vs 2</span>
             </ThemeBox>
             <div>
-              <h1 className='text-2xl font-bold text-hextech-blue-100 tracking-tight'>페어 바둑</h1>
-              <div className='flex items-center gap-3 mt-1'>
-                <p className='text-hextech-blue-400/60 text-sm'>Room #{roomId?.slice(0, 8)}</p>
-                <div className='w-px h-3 bg-hextech-blue-900' />
+              <h1 className='text-2xl font-bold tracking-tight text-hextech-blue-100'>페어 바둑</h1>
+              <div className='mt-1 flex items-center gap-3'>
+                <p className='text-sm text-hextech-blue-400/60'>Room #{roomId?.slice(0, 8)}</p>
+                <div className='h-3 w-px bg-hextech-blue-900' />
                 <button
                   onClick={handleCopyInviteLink}
-                  className='flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-hextech-blue-900/40 border border-hextech-blue-700/50 hover:bg-hextech-blue-800/60 hover:border-hextech-blue-500 text-[11px] text-hextech-blue-300 transition-all cursor-pointer'
+                  className='flex cursor-pointer items-center gap-1.5 rounded-md border border-hextech-blue-700/50 bg-hextech-blue-900/40 px-2 py-0.5 text-[11px] text-hextech-blue-300 transition-all hover:border-hextech-blue-500 hover:bg-hextech-blue-800/60'
                 >
-                  <Copy className='w-3 h-3' />
+                  <Copy className='h-3 w-3' />
                   초대 링크 복사
                 </button>
               </div>
@@ -161,14 +161,14 @@ export default function WaitingRoom() {
             filled
             size='sm'
             className={cn(
-              'flex gap-6 px-6 py-3 border-hextech-silver-700/50',
-              isHost && 'cursor-pointer hover:bg-hextech-silver-800 transition-colors',
+              'flex gap-6 border-hextech-silver-700/50 px-6 py-3',
+              isHost && 'cursor-pointer transition-colors hover:bg-hextech-silver-800',
             )}
             onClick={isHost ? () => setIsSettingsOpen(true) : undefined}
           >
             <div className='flex items-center gap-2'>
-              <Settings className='w-4 h-4 text-hextech-gold-400' />
-              <span className='text-hextech-silver-300 text-sm font-medium'>
+              <Settings className='h-4 w-4 text-hextech-gold-400' />
+              <span className='text-sm font-medium text-hextech-silver-300'>
                 {room.settings.handicap === '0'
                   ? '호선'
                   : room.settings.handicap === '1'
@@ -182,10 +182,10 @@ export default function WaitingRoom() {
                     : `흑 덤 + ${room.settings.komi}집`}
               </span>
             </div>
-            <div className='w-px h-4 bg-hextech-silver-700' />
+            <div className='h-4 w-px bg-hextech-silver-700' />
             <div className='flex items-center gap-2'>
-              <Timer className='w-4 h-4 text-hextech-gold-400' />
-              <span className='text-hextech-silver-300 text-sm font-medium'>
+              <Timer className='h-4 w-4 text-hextech-gold-400' />
+              <span className='text-sm font-medium text-hextech-silver-300'>
                 {room.settings.basicTime === '0' ? '없음' : `${room.settings.basicTime}분`} +{' '}
                 {room.settings.byoyomiTime === '0'
                   ? '없음'
@@ -196,7 +196,7 @@ export default function WaitingRoom() {
         </header>
 
         {/* 2. Main Content - Team Lists */}
-        <main className='flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start py-8 relative'>
+        <main className='relative grid flex-1 grid-cols-1 items-start gap-4 py-8 md:grid-cols-2 md:gap-8'>
           {/* Team A (Blue) */}
           {/* Team A (Blue) */}
           <TeamSection
@@ -226,45 +226,45 @@ export default function WaitingRoom() {
         {/* 3. Footer Action Bar */}
         <footer className='mt-auto flex flex-col items-center gap-6 pb-8'>
           {/* Controls */}
-          <div className='flex items-center gap-4 w-full justify-center max-w-xl'>
+          <div className='flex w-full max-w-xl items-center justify-center gap-4'>
             {/* Change Team */}
             <Button
-              className='h-14 px-8 gap-2 bg-linear-to-b from-hextech-silver-800 to-hextech-silver-900 border border-hextech-silver-600 hover:border-hextech-gold-500 hover:text-hextech-gold-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] text-hextech-silver-300 transition-all duration-300 group'
+              className='group h-14 gap-2 border border-hextech-silver-600 bg-linear-to-b from-hextech-silver-800 to-hextech-silver-900 px-8 text-hextech-silver-300 transition-all duration-300 hover:border-hextech-gold-500 hover:text-hextech-gold-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)]'
               onClick={handleChangeTeam}
             >
-              <RefreshCw className='w-5 h-5 group-hover:rotate-180 transition-transform duration-500' />
-              <span className='hidden sm:inline font-bold tracking-wider'>팀 변경</span>
+              <RefreshCw className='h-5 w-5 transition-transform duration-500 group-hover:rotate-180' />
+              <span className='hidden font-bold tracking-wider sm:inline'>팀 변경</span>
             </Button>
 
             {/* Ready / Start Button */}
             <Button
               disabled={isHost && !canStart}
               className={cn(
-                'flex-1 h-16 text-xl font-bold tracking-widest uppercase transition-all duration-300 border-2 shadow-[0_0_20px_rgba(0,0,0,0.3)]',
+                'h-16 flex-1 border-2 text-xl font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all duration-300',
                 isHost
                   ? canStart
-                    ? 'bg-linear-to-r from-hextech-purple-900 via-hextech-purple-600 to-hextech-purple-900 animate-gradient-x border-hextech-purple-400 text-hextech-purple-100 hover:shadow-[0_0_30px_rgba(147,51,234,0.6)]'
-                    : 'bg-hextech-silver-900 border-hextech-silver-600 text-hextech-silver-500 cursor-not-allowed opacity-50'
+                    ? 'animate-gradient-x border-hextech-purple-400 bg-linear-to-r from-hextech-purple-900 via-hextech-purple-600 to-hextech-purple-900 text-hextech-purple-100 hover:shadow-[0_0_30px_rgba(147,51,234,0.6)]'
+                    : 'cursor-not-allowed border-hextech-silver-600 bg-hextech-silver-900 text-hextech-silver-500 opacity-50'
                   : !isMyReady
-                    ? 'bg-hextech-red-900/80 border-hextech-red-400 text-hextech-red-100 hover:bg-hextech-red-800 hover:shadow-[0_0_30px_rgba(255,0,0,0.4)]'
-                    : 'bg-hextech-gold-900/80 border-hextech-gold-500 text-hextech-gold-400 hover:bg-hextech-gold-800',
+                    ? 'border-hextech-red-400 bg-hextech-red-900/80 text-hextech-red-100 hover:bg-hextech-red-800 hover:shadow-[0_0_30px_rgba(255,0,0,0.4)]'
+                    : 'border-hextech-gold-500 bg-hextech-gold-900/80 text-hextech-gold-400 hover:bg-hextech-gold-800',
               )}
               onClick={isHost ? handleStartGame : handleToggleReady}
             >
               <div className='flex items-center gap-3'>
                 {isHost ? (
                   <>
-                    <Play className='w-6 h-6 fill-current' />
+                    <Play className='h-6 w-6 fill-current' />
                     <span>시작하기</span>
                   </>
                 ) : !isMyReady ? (
                   <>
-                    <Play className='w-6 h-6 fill-current' />
+                    <Play className='h-6 w-6 fill-current' />
                     <span>준비하기</span>
                   </>
                 ) : (
                   <>
-                    <Pause className='w-6 h-6 fill-current' />
+                    <Pause className='h-6 w-6 fill-current' />
                     <span>준비 취소</span>
                   </>
                 )}
@@ -329,11 +329,11 @@ function TeamSection({
   const teamTitle = isBlue ? '블루 팀' : '레드 팀';
 
   return (
-    <div className='flex flex-col gap-4 w-full'>
+    <div className='flex w-full flex-col gap-4'>
       {/* Team Header */}
       <div
         className={cn(
-          'flex items-center justify-between pb-2 border-b-2 px-2',
+          'flex items-center justify-between border-b-2 px-2 pb-2',
           isBlue ? 'border-hextech-blue-900' : 'border-hextech-red-900',
         )}
       >
@@ -347,13 +347,13 @@ function TeamSection({
             {teamTitle}
           </h2>
           {stoneColorMethod === 'manual' && (
-            <div className='flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-hextech-silver-900/50 border border-hextech-silver-700/50'>
+            <div className='flex items-center gap-1.5 rounded-full border border-hextech-silver-700/50 bg-hextech-silver-900/50 px-2 py-0.5'>
               <div
                 className={cn(
-                  'w-3 h-3 rounded-full shadow-sm',
+                  'h-3 w-3 rounded-full shadow-sm',
                   isBlue
-                    ? 'bg-hextech-silver-900 border border-hextech-silver-600'
-                    : 'bg-hextech-silver-100 border border-hextech-silver-400',
+                    ? 'border border-hextech-silver-600 bg-hextech-silver-900'
+                    : 'border border-hextech-silver-400 bg-hextech-silver-100',
                 )}
               />
               <span className='text-xs font-medium text-hextech-silver-400'>{isBlue ? '흑 팀' : '백 팀'}</span>
@@ -361,7 +361,7 @@ function TeamSection({
           )}
         </div>
         <div className='flex items-center gap-1.5 text-xs font-medium text-hextech-silver-500'>
-          <Users className='w-4 h-4' />
+          <Users className='h-4 w-4' />
           {players.length} / {maxPlayers}
         </div>
       </div>
@@ -412,17 +412,16 @@ function PlayerCard({
       color={teamColor}
       filled={false} // Highlight 'me' with filled background
       className={cn(
-        'flex items-center gap-4 p-3 pr-6 relative overflow-hidden transition-all duration-300',
+        'relative flex items-center gap-4 overflow-hidden p-3 pr-6 transition-all duration-300',
         // Ready state pulsing effect
-        player.isReady &&
-          `shadow-[inset_0_0_20px_rgba(var(--color-${isBlue ? 'hextech-blue-500' : 'hextech-red-500'}),0.2)]`,
+        player.isReady && (isBlue ? 'shadow-[inset_0_0_20px_#06b6d4]' : 'shadow-[inset_0_0_20px_#f43f5e]'),
       )}
     >
       {/* Ready Status Stripe */}
       {player.isReady && (
         <div
           className={cn(
-            'absolute left-0 top-0 bottom-0 w-1',
+            'absolute top-0 bottom-0 left-0 w-1',
             isBlue ? 'bg-hextech-blue-400 shadow-[0_0_10px_#22d3ee]' : 'bg-hextech-red-400 shadow-[0_0_10px_#f43f5e]',
           )}
         />
@@ -431,26 +430,26 @@ function PlayerCard({
       {/* Avatar Circle */}
       <div
         className={cn(
-          'relative w-12 h-12 rounded-full border-2 flex items-center justify-center bg-hextech-silver-950',
+          'relative flex h-12 w-12 items-center justify-center rounded-full border-2 bg-hextech-silver-950',
           isBlue ? 'border-hextech-blue-800' : 'border-hextech-red-800',
         )}
       >
-        <User className={cn('w-6 h-6', isBlue ? 'text-hextech-blue-700' : 'text-hextech-red-700')} />
+        <User className={cn('h-6 w-6', isBlue ? 'text-hextech-blue-700' : 'text-hextech-red-700')} />
 
         {/* Host Badge */}
         {player.isHost && (
-          <div className='absolute -top-2 -right-2 bg-hextech-gold-500 rounded-full p-1 border border-hextech-gold-300 shadow-sm'>
-            <Crown className='w-2.5 h-2.5 text-hextech-gold-950 fill-current' />
+          <div className='absolute -top-2 -right-2 rounded-full border border-hextech-gold-300 bg-hextech-gold-500 p-1 shadow-sm'>
+            <Crown className='h-2.5 w-2.5 fill-current text-hextech-gold-950' />
           </div>
         )}
       </div>
 
       {/* Info */}
-      <div className='flex-1 min-w-0'>
+      <div className='min-w-0 flex-1'>
         <div className='flex items-center gap-2'>
           <span
             className={cn(
-              'font-bold truncate transition-all duration-300 text-hextech-silver-400',
+              'truncate font-bold text-hextech-silver-400 transition-all duration-300',
               player.isReady &&
                 (isBlue
                   ? 'text-hextech-blue-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]'
@@ -462,7 +461,7 @@ function PlayerCard({
           {isMe && (
             <span
               className={cn(
-                'text-[10px] px-1.5 py-0.5 rounded-sm font-bold tracking-wider',
+                'rounded-sm px-1.5 py-0.5 text-[10px] font-bold tracking-wider',
                 isBlue ? 'bg-hextech-blue-900 text-hextech-blue-300' : 'bg-hextech-red-900 text-hextech-red-300',
               )}
             >
@@ -487,19 +486,19 @@ function PlayerCard({
             </div>
           )}
         </div>
-        <div className='text-xs text-hextech-silver-500 font-medium'>{player.isReady ? '준비 완료' : '대기 중...'}</div>
+        <div className='text-xs font-medium text-hextech-silver-500'>{player.isReady ? '준비 완료' : '대기 중...'}</div>
       </div>
 
       {/* Device Type Icon */}
-      <div className={cn('p-2 rounded-full', isBlue ? 'bg-hextech-blue-500/10' : 'bg-hextech-red-500/10')}>
+      <div className={cn('rounded-full p-2', isBlue ? 'bg-hextech-blue-500/10' : 'bg-hextech-red-500/10')}>
         {player.deviceType === 'mobile' && (
-          <Smartphone className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
+          <Smartphone className={cn('h-5 w-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
         {player.deviceType === 'tablet' && (
-          <Tablet className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
+          <Tablet className={cn('h-5 w-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
         {player.deviceType === 'desktop' && (
-          <Monitor className={cn('w-5 h-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
+          <Monitor className={cn('h-5 w-5', isBlue ? 'text-hextech-blue-400' : 'text-hextech-red-400')} />
         )}
       </div>
     </ThemeBox>
@@ -511,7 +510,7 @@ function EmptySlot({ teamColor }: { teamColor: 'blue' | 'red' }) {
   return (
     <div
       className={cn(
-        'h-[74px] border-2 border-dashed rounded-xl flex items-center justify-center gap-2 transition-colors',
+        'flex h-[74px] items-center justify-center gap-2 rounded-xl border-2 border-dashed transition-colors',
         isBlue
           ? 'border-hextech-blue-900/30 bg-hextech-blue-900/5 text-hextech-blue-900/50'
           : 'border-hextech-red-900/30 bg-hextech-red-900/5 text-hextech-red-900/50',
@@ -560,12 +559,12 @@ function ActionButton({
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
           onContextMenu={(e) => e.preventDefault()} // 기본 우클릭 동작 방지
-          className={cn('p-2 rounded hover:bg-white/10 transition-colors', colorClass)}
+          className={cn('rounded p-2 transition-colors hover:bg-white/10', colorClass)}
         >
-          <Icon className='w-5 h-5' />
+          <Icon className='h-5 w-5' />
         </button>
       </TooltipTrigger>
-      <TooltipContent className='bg-hextech-silver-900 border-hextech-gold-500 text-hextech-gold-100'>
+      <TooltipContent className='border-hextech-gold-500 bg-hextech-silver-900 text-hextech-gold-100'>
         {label}
       </TooltipContent>
     </Tooltip>

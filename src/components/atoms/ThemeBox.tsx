@@ -72,16 +72,7 @@ export function ThemeBox({
 
   return (
     <div
-      className={`
-        flex items-center justify-center border-2
-        ${filled ? `bg-linear-to-br ${styles.gradient} backdrop-blur-sm` : ''}
-        ${styles.border}
-        shadow-lg ${styles.shadow}
-        ${sizeBaseClasses}
-        ${styles.text}
-        ${className}
-        ${textBaseClasses}
-        `}
+      className={`flex items-center justify-center border-2 ${filled ? `bg-linear-to-br ${styles.gradient} backdrop-blur-sm` : ''} ${styles.border} shadow-lg ${styles.shadow} ${sizeBaseClasses} ${styles.text} ${className} ${textBaseClasses} `}
       {...props}
     >
       {children}

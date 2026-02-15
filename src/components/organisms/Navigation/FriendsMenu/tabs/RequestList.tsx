@@ -19,15 +19,15 @@ export function RequestList() {
           {received.map((req) => (
             <div
               key={req.id}
-              className='flex items-center justify-between p-2 rounded-md bg-hextech-blue-900/10 border border-hextech-blue-500/10'
+              className='flex items-center justify-between rounded-md border border-hextech-blue-500/10 bg-hextech-blue-900/10 p-2'
             >
               <span className='text-sm font-medium text-hextech-blue-100'>{req.nickname}</span>
               <div className='flex items-center gap-1'>
-                <button className='p-1.5 rounded bg-hextech-blue-500/20 hover:bg-hextech-blue-500/40 text-hextech-blue-300'>
-                  <Check className='w-3.5 h-3.5' />
+                <button className='rounded bg-hextech-blue-500/20 p-1.5 text-hextech-blue-300 hover:bg-hextech-blue-500/40'>
+                  <Check className='h-3.5 w-3.5' />
                 </button>
-                <button className='p-1.5 rounded bg-hextech-red-500/10 hover:bg-hextech-red-500/20 text-hextech-red-400'>
-                  <X className='w-3.5 h-3.5' />
+                <button className='rounded bg-hextech-red-500/10 p-1.5 text-hextech-red-400 hover:bg-hextech-red-500/20'>
+                  <X className='h-3.5 w-3.5' />
                 </button>
               </div>
             </div>
@@ -41,14 +41,14 @@ export function RequestList() {
           {sent.map((req) => (
             <div
               key={req.id}
-              className='flex items-center justify-between p-2 rounded-md hover:bg-slate-800/50 transition-colors'
+              className='flex items-center justify-between rounded-md p-2 transition-colors hover:bg-slate-800/50'
             >
               <span className='text-sm text-slate-400'>{req.nickname}</span>
               <button
-                className='flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-slate-700/50 hover:bg-slate-700 text-slate-300 transition-colors'
+                className='flex items-center gap-1 rounded bg-slate-700/50 px-2 py-1 text-[10px] text-slate-300 transition-colors hover:bg-slate-700'
                 title='요청 취소'
               >
-                <UserMinus className='w-3 h-3' />
+                <UserMinus className='h-3 w-3' />
                 취소
               </button>
             </div>

@@ -39,39 +39,39 @@ export function UserSearch() {
           }}
           onKeyDown={handleKeyDown}
           placeholder='닉네임 검색'
-          className='pr-10 h-10 text-sm'
+          className='h-10 pr-10 text-sm'
         />
         <button
           onClick={handleSearch}
-          className='absolute right-3 top-1/2 -translate-y-1/2 text-hextech-blue-400 hover:text-hextech-blue-200 transition-colors'
+          className='absolute top-1/2 right-3 -translate-y-1/2 text-hextech-blue-400 transition-colors hover:text-hextech-blue-200'
           title='검색'
         >
-          <Search className='w-4 h-4' />
+          <Search className='h-4 w-4' />
         </button>
       </div>
 
       {/* Search Results */}
       {searchQuery.length > 0 && (
-        <div className='flex flex-col gap-2 mt-2'>
+        <div className='mt-2 flex flex-col gap-2'>
           {(isSearching || user) && (
-            <p className='text-xs text-hextech-blue-300 px-1'>{isSearching ? '검색 중...' : '검색 결과'}</p>
+            <p className='px-1 text-xs text-hextech-blue-300'>{isSearching ? '검색 중...' : '검색 결과'}</p>
           )}
 
           {!isSearching && user && (
             <div
               key={user.id}
-              className='flex items-center justify-between p-3 rounded-md bg-hextech-blue-900/20 border border-hextech-blue-500/30 animate-in fade-in slide-in-from-top-2'
+              className='flex items-center justify-between rounded-md border border-hextech-blue-500/30 bg-hextech-blue-900/20 p-3 animate-in fade-in slide-in-from-top-2'
             >
               <div className='flex items-center gap-3'>
                 <div className='relative'>
-                  <div className='w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-700/50 overflow-hidden'>
+                  <div className='h-8 w-8 overflow-hidden rounded-full border-2 border-slate-700/50 bg-slate-800'>
                     {/* Avatar placeholder */}
-                    <div className='w-full h-full bg-linear-to-br from-slate-700 to-slate-800' />
+                    <div className='h-full w-full bg-linear-to-br from-slate-700 to-slate-800' />
                   </div>
                   <div
                     className={clsx(
-                      'absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-slate-900',
-                      user.isOnline ? 'bg-hextech-green-400 shadow-[0_0_4px_#0AC8B9]' : 'bg-slate-500 border-slate-900',
+                      'absolute -right-0.5 -bottom-0.5 h-2.5 w-2.5 rounded-full border-2 border-slate-900',
+                      user.isOnline ? 'bg-hextech-green-400 shadow-[0_0_4px_#0AC8B9]' : 'border-slate-900 bg-slate-500',
                     )}
                   />
                 </div>
@@ -82,14 +82,14 @@ export function UserSearch() {
               </div>
               {me && user.id !== me.id && (
                 <button
-                  className='p-1.5 rounded-full bg-hextech-blue-500/20 hover:bg-hextech-blue-500/40 text-hextech-blue-300 transition-colors'
+                  className='rounded-full bg-hextech-blue-500/20 p-1.5 text-hextech-blue-300 transition-colors hover:bg-hextech-blue-500/40'
                   title='친구 요청'
                 >
-                  <UserPlus className='w-4 h-4' />
+                  <UserPlus className='h-4 w-4' />
                 </button>
               )}
               {me && user.id === me.id && (
-                <span className='text-[10px] px-1.5 py-0.5 rounded-sm font-bold tracking-wider bg-hextech-blue-900 text-hextech-blue-300'>
+                <span className='rounded-sm bg-hextech-blue-900 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-hextech-blue-300'>
                   ME
                 </span>
               )}
@@ -97,7 +97,7 @@ export function UserSearch() {
           )}
 
           {!isSearching && !user && (
-            <div className='flex flex-col items-center justify-center h-48 text-hextech-blue-300 text-xs'>
+            <div className='flex h-48 flex-col items-center justify-center text-xs text-hextech-blue-300'>
               검색 결과가 없습니다
             </div>
           )}
@@ -105,8 +105,8 @@ export function UserSearch() {
       )}
 
       {!searchQuery && (
-        <div className='flex flex-col items-center justify-center h-48 text-hextech-blue-300 gap-2'>
-          <Search className='w-8 h-8 opacity-50' />
+        <div className='flex h-48 flex-col items-center justify-center gap-2 text-hextech-blue-300'>
+          <Search className='h-8 w-8 opacity-50' />
           <span className='text-xs'>친구의 닉네임을 검색해보세요</span>
         </div>
       )}

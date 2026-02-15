@@ -60,14 +60,14 @@ export function TeamPlayers({
   );
 
   return (
-    <div className={cn('w-full py-3 transition-all duration-500 rounded-xl relative overflow-hidden')}>
+    <div className={cn('relative w-full overflow-hidden rounded-xl py-3 transition-all duration-500')}>
       {/* Content */}
-      <div className='flex flex-col relative z-10 px-2'>
+      <div className='relative z-10 flex flex-col px-2'>
         {/* On Desktop: Top is Timer */}
         {TimerHeader}
 
         {/* Players Container - Desktop Vertical */}
-        <div className={cn('flex gap-4 justify-between', 'flex-col gap-5 justify-start')}>
+        <div className={cn('flex justify-between gap-4', 'flex-col justify-start gap-5')}>
           {/* Player 1 */}
           <PlayerCompact
             player={gameTeam.players[0].data}
