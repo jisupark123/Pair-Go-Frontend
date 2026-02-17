@@ -2,3 +2,4 @@ onlyBuiltDependencies:
   - '@dodagames/go'
   - '@swc/core'
   - esbuild
+  - sharp

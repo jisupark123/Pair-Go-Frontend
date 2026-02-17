@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { isMobileOnly } from 'react-device-detect';
-import { useNavigate } from 'react-router';
 
 interface NavigationBackProps {
   label?: string;
@@ -10,8 +10,8 @@ interface NavigationBackProps {
 }
 
 export function NavigationBack({ label = '뒤로', onClick, className = '' }: NavigationBackProps) {
-  const navigate = useNavigate();
-  const handleBack = onClick ?? (() => navigate(-1));
+  const router = useRouter();
+  const handleBack = onClick ?? (() => router.back());
   const iconSize = isMobileOnly ? 'w-5 h-5' : 'w-6 h-6';
 
   return (

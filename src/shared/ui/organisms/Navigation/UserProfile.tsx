@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 
 import { useLogout } from '@/features/auth/hooks/useLogout';
 
@@ -54,7 +54,7 @@ export default function UserMenu({ nickname, children }: UserMenuProps) {
           <DropdownMenu.Separator className='my-1 h-px bg-hextech-purple-500/30' />
           <DropdownMenu.Item asChild>
             <Link
-              to='/settings/profile'
+              href='/settings/profile'
               className='group flex cursor-pointer items-center gap-3 rounded-md px-3 py-2.5 text-sm text-hextech-silver-100 transition-colors outline-none hover:bg-hextech-purple-500/20 hover:text-hextech-purple-300'
             >
               <User className='h-4 w-4 text-hextech-purple-400 group-hover:text-hextech-purple-300' />

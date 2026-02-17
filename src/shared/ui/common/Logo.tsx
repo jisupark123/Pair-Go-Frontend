@@ -26,7 +26,7 @@ export function Logo({ className, size = 40 }: LogoProps) {
 
       {/* Main Icon with Gradient Stroke */}
       <Atom
-        className='transform transition-transform duration-[2000ms] ease-in-out hover:rotate-180'
+        className='transform transition-transform duration-2000 ease-in-out hover:rotate-180'
         stroke={`url(#${gradientId})`}
         strokeWidth={1.5}
         size='100%' // Fill the container

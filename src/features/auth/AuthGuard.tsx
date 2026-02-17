@@ -1,4 +1,6 @@
-import { useLocation, useNavigate } from 'react-router';
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useMe } from '@/features/auth/hooks/useMe';
 import { MESSAGES } from '@/shared/constants/messages';
@@ -6,15 +8,16 @@ import { MessageDialog } from '@/shared/ui/common/MessageDialog';
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { isLoggedIn, isLoading } = useMe();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname() || '';
+  const router = useRouter();
 
   // Define public paths
   const publicPaths = ['/', '/login'];
-  const isPublicPath = publicPaths.includes(location.pathname);
+  const isPublicPath = publicPaths.includes(pathname);
 
   const handleLoginRedirect = () => {
-    navigate('/login', { state: { from: location.pathname } });
+    // encodeURIComponent to safely pass the path
+    router.push(`/login?from=${encodeURIComponent(pathname)}`);
   };
 
   if (isLoading && !isPublicPath) {
@@ -35,5 +38,5 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return children;
+  return <>{children}</>;
 }
