@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { LogIn, Play, Plus, Users } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-import { ThemeBox } from '@/components/atoms/ThemeBox';
-import { Logo } from '@/components/common/Logo';
-import { MessageDialog } from '@/components/common/MessageDialog';
-import { Navigation } from '@/components/organisms/Navigation/Navigation';
-import { UserProfile } from '@/components/organisms/Navigation/UserProfile';
-import { useMe } from '@/hooks/query/useMe';
+import { useMe } from '@/features/auth/hooks/useMe';
 import CreateRoomModal from '@/pages/home/components/CreateRoomModal';
+import { ThemeBox } from '@/shared/ui/atoms/ThemeBox';
+import { Logo } from '@/shared/ui/common/Logo';
+import { MessageDialog } from '@/shared/ui/common/MessageDialog';
+import { Navigation } from '@/shared/ui/organisms/Navigation/Navigation';
+import { UserProfile } from '@/shared/ui/organisms/Navigation/UserProfile';
 
 export default function Home() {
   const navigate = useNavigate();

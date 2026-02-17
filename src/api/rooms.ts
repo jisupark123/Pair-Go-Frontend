@@ -1,6 +1,5 @@
-import { api } from '@/lib/axios';
-
-import type { Room } from '@/types/room';
+import type { Room } from '@/features/rooms/room.type';
+import { api } from '@/shared/api/axios';
 
 export const createRoom = async (settings: Room['settings']): Promise<Room> => {
   const { data } = await api.post<Room>('/rooms', settings);

@@ -18,17 +18,16 @@ import {
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 
-import { getSocket } from '@/lib/socket';
-
-import { ThemeBox } from '@/components/atoms/ThemeBox';
-import { Button } from '@/components/figma/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/figma/tooltip';
-import { cn } from '@/components/figma/utils';
-import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
-import { useMe } from '@/hooks/query/useMe';
-import { useRoom } from '@/hooks/query/useRoom';
+import { useMe } from '@/features/auth/hooks/useMe';
+import { useRoom } from '@/features/rooms/hooks/useRoom';
+import type { Player, Room, Team } from '@/features/rooms/room.type';
 import { RoomSettingsModal } from '@/pages/rooms/roomId/waitingRoom/components/RoomSettingsModal';
-import type { Player, Room, Team } from '@/types/room';
+import { getSocket } from '@/shared/api/socket';
+import { ThemeBox } from '@/shared/ui/atoms/ThemeBox';
+import { Button } from '@/shared/ui/figma/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui/figma/tooltip';
+import { cn } from '@/shared/ui/figma/utils';
+import { ConfirmDialog } from '@/shared/ui/molecules/ConfirmDialog';
 
 const MAX_PLAYERS = 4; // Pair Go usually 4 players
 

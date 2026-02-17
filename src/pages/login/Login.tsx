@@ -1,11 +1,10 @@
 import { useLocation } from 'react-router';
 
-import { loginWithKakao } from '@/lib/kakao';
-
-import { KakaoLoginButton } from '@/components/atoms/Button/KakaoLoginButton';
-import { ThemeBox } from '@/components/atoms/ThemeBox';
-import { Navigation } from '@/components/organisms/Navigation/Navigation';
-import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
+import { loginWithKakao } from '@/features/auth/kakao';
+import { KakaoLoginButton } from '@/shared/ui/atoms/Button/KakaoLoginButton';
+import { ThemeBox } from '@/shared/ui/atoms/ThemeBox';
+import { Navigation } from '@/shared/ui/organisms/Navigation/Navigation';
+import { NavigationBack } from '@/shared/ui/organisms/Navigation/NavigationBack';
 
 export default function Login() {
   const location = useLocation();

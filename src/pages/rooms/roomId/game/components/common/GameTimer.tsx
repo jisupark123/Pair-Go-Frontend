@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { Timer } from 'lucide-react';
 
-import { cn } from '@/components/figma/utils';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import type { GameInstance, TimeControl } from '@/features/rooms/domain/game/game.type';
 import { DESKTOP_WIDTH_BP } from '@/pages/rooms/roomId/game/Game';
-import type { GameInstance, TimeControl } from '@/types/game';
-import { calculateTimeDisplay } from '@/utils/timeControl';
+import { useMediaQuery } from '@/shared/hooks/useMediaQuery';
+import { cn } from '@/shared/ui/figma/utils';
+import { calculateTimeDisplay } from '@/shared/utils/timeControl';
 
 interface GameTimerProps {
   gameSettings: GameInstance['settings'];

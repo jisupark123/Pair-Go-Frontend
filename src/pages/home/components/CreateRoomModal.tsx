@@ -1,10 +1,10 @@
 import { useImmer } from 'use-immer';
 
-import { Button } from '@/components/figma/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/figma/dialog';
-import { RoomSettingsForm } from '@/components/organisms/RoomSettingsForm';
-import { useCreateRoom } from '@/hooks/query/useCreateRoom';
-import type { Room } from '@/types/room';
+import { useCreateRoom } from '@/features/rooms/hooks/useCreateRoom';
+import type { Room } from '@/features/rooms/room.type';
+import { RoomSettingsForm } from '@/pages/home/components/RoomSettingsForm';
+import { Button } from '@/shared/ui/figma/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui/figma/dialog';
 
 export default function CreateRoomModal({
   open,

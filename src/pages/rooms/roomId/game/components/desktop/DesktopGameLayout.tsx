@@ -1,13 +1,13 @@
 import { basicBoardStyleConfig, CanvasBoard, Coordinate } from '@dodagames/go';
 import { isDesktop } from 'react-device-detect';
 
-import { useMe } from '@/hooks/query/useMe';
+import { useMe } from '@/features/auth/hooks/useMe';
+import type { GameInstance, GameTeam } from '@/features/rooms/domain/game/game.type';
+import type { Player } from '@/features/rooms/room.type';
 import { GameBackground } from '@/pages/rooms/roomId/game/components/common/GameBackground';
 import { PlaceStoneButton } from '@/pages/rooms/roomId/game/components/common/PlaceStoneButton';
 import { ActionButtons as DesktopActionButtons } from '@/pages/rooms/roomId/game/components/desktop/ActionButtons';
 import { TeamPlayers as DesktopTeamDisplay } from '@/pages/rooms/roomId/game/components/desktop/TeamPlayers';
-import type { GameInstance, GameTeam } from '@/types/game';
-import type { Player } from '@/types/room';
 
 interface DesktopGameLayoutProps {
   game: GameInstance;

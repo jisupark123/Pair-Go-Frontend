@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useImmer } from 'use-immer';
 
-import { getSocket } from '@/lib/socket';
-
-import { Button } from '@/components/figma/button';
+import type { Room } from '@/features/rooms/room.type';
+import { RoomSettingsForm } from '@/pages/home/components/RoomSettingsForm';
+import { getSocket } from '@/shared/api/socket';
+import { Button } from '@/shared/ui/figma/button';
 import {
   Dialog,
   DialogClose,
@@ -12,9 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/figma/dialog';
-import { RoomSettingsForm } from '@/components/organisms/RoomSettingsForm';
-import type { Room } from '@/types/room';
+} from '@/shared/ui/figma/dialog';
 
 interface RoomSettingsModalProps {
   open: boolean;

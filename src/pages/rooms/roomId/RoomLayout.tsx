@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Outlet, useNavigate, useParams } from 'react-router';
 
-import { getSocket } from '@/lib/socket';
-
-import { MessageDialog } from '@/components/common/MessageDialog';
-import { MESSAGES } from '@/constants/messages';
-import { useRoom } from '@/hooks/query/useRoom';
-import type { Room } from '@/types/room';
+import { useRoom } from '@/features/rooms/hooks/useRoom';
+import type { Room } from '@/features/rooms/room.type';
+import { getSocket } from '@/shared/api/socket';
+import { MESSAGES } from '@/shared/constants/messages';
+import { MessageDialog } from '@/shared/ui/common/MessageDialog';
 
 export default function RoomLayout() {
   const { roomId } = useParams();

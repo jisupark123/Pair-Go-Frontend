@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { basicBoardStyleConfig, CanvasBoard, Coordinate, Move } from '@dodagames/go';
 
-import { cn } from '@/components/figma/utils';
-import { useMe } from '@/hooks/query/useMe';
+import { useMe } from '@/features/auth/hooks/useMe';
+import type { GameInstance, GameTeam } from '@/features/rooms/domain/game/game.type';
+import type { Player } from '@/features/rooms/room.type';
 import { CapturedStones } from '@/pages/rooms/roomId/game/components/common/CapturedStones';
 import { GameBackground } from '@/pages/rooms/roomId/game/components/common/GameBackground';
 import { GameTimer } from '@/pages/rooms/roomId/game/components/common/GameTimer';
 import { PlaceStoneButton } from '@/pages/rooms/roomId/game/components/common/PlaceStoneButton';
 import { ActionButtons as MobileActionButtons } from '@/pages/rooms/roomId/game/components/mobile/ActionButtons';
 import { TeamPlayers } from '@/pages/rooms/roomId/game/components/mobile/TeamPlayers';
-import type { GameInstance, GameTeam } from '@/types/game';
-import type { Player } from '@/types/room';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface MobileGameLayoutProps {
   game: GameInstance;

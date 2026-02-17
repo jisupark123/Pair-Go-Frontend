@@ -1,12 +1,12 @@
 import type { Game } from '@dodagames/go';
 
-import { cn } from '@/components/figma/utils';
-import { useMe } from '@/hooks/query/useMe';
+import { useMe } from '@/features/auth/hooks/useMe';
+import type { GameInstance, GameTeam } from '@/features/rooms/domain/game/game.type';
+import type { Player } from '@/features/rooms/room.type';
 import { CapturedStones } from '@/pages/rooms/roomId/game/components/common/CapturedStones';
 import { GameTimer } from '@/pages/rooms/roomId/game/components/common/GameTimer';
 import { PlayerCompact } from '@/pages/rooms/roomId/game/components/desktop/PlayerCompact';
-import type { GameInstance, GameTeam } from '@/types/game';
-import type { Player } from '@/types/room';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface TeamPlayersProps {
   gameTeam: GameTeam;

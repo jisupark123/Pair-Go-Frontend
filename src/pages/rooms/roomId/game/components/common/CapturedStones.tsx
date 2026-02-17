@@ -1,6 +1,6 @@
 import { basicBoardStyleConfig, type StoneColor } from '@dodagames/go';
 
-import { cn } from '@/components/figma/utils';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface CapturedStonesProps {
   color: StoneColor;

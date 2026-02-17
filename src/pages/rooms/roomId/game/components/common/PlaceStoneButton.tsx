@@ -1,5 +1,5 @@
-import { Button } from '@/components/figma/button';
-import { cn } from '@/components/figma/utils';
+import { Button } from '@/shared/ui/figma/button';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface PlaceStoneButtonProps {
   isActive: boolean;

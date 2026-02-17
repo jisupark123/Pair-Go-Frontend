@@ -1,7 +1,7 @@
 import { Monitor, Smartphone, Tablet, User } from 'lucide-react';
 
-import { cn } from '@/components/figma/utils';
-import type { Player, Team } from '@/types/room';
+import type { Player, Team } from '@/features/rooms/room.type';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface PlayerCompactProps {
   player: Player;

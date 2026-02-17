@@ -10,15 +10,14 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
-import { getSocket } from '@/lib/socket';
-
-import { useGame } from '@/hooks/query/useGame';
-import { useMe } from '@/hooks/query/useMe';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMe } from '@/features/auth/hooks/useMe';
+import type { SerializedGameInstance, TimeControl } from '@/features/rooms/domain/game/game.type';
+import { useGame } from '@/features/rooms/domain/game/useGame';
 import { GameResultModal } from '@/pages/rooms/roomId/game/components/common/GameResultModal';
 import { DesktopGameLayout } from '@/pages/rooms/roomId/game/components/desktop/DesktopGameLayout';
 import { MobileGameLayout } from '@/pages/rooms/roomId/game/components/mobile/MobileGameLayout';
-import type { SerializedGameInstance, TimeControl } from '@/types/game';
+import { getSocket } from '@/shared/api/socket';
+import { useMediaQuery } from '@/shared/hooks/useMediaQuery';
 
 export const DESKTOP_WIDTH_BP = 900; // 900px 이상이면 desktop
 

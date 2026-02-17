@@ -1,8 +1,8 @@
 import { Stone, type GameResult, type StoneColor } from '@dodagames/go';
 
-import { Button } from '@/components/figma/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/components/figma/dialog';
-import { cn } from '@/components/figma/utils';
+import { Button } from '@/shared/ui/figma/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '@/shared/ui/figma/dialog';
+import { cn } from '@/shared/ui/figma/utils';
 
 interface GameResultModalProps {
   open: boolean;

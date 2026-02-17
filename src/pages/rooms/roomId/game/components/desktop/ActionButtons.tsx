@@ -1,7 +1,7 @@
 import { Calculator, Flag, RotateCcw, SkipForward } from 'lucide-react';
 
-import { Button } from '@/components/figma/button';
-import { cn } from '@/components/figma/utils';
+import { Button } from '@/shared/ui/figma/button';
+import { cn } from '@/shared/ui/figma/utils';
 
 export function ActionButtons() {
   return (

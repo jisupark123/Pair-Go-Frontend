@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
 
-import { ThemeBox } from '@/components/atoms/ThemeBox';
-import { ThemeInput } from '@/components/atoms/ThemeInput';
-import { Navigation } from '@/components/organisms/Navigation/Navigation';
-import { NavigationBack } from '@/components/organisms/Navigation/NavigationBack';
-import { useMe } from '@/hooks/query/useMe';
-import { useUpdateProfile } from '@/hooks/query/useUpdateProfile';
+import { useMe } from '@/features/auth/hooks/useMe';
+import { useUpdateProfile } from '@/features/settings/useUpdateProfile';
+import { ThemeBox } from '@/shared/ui/atoms/ThemeBox';
+import { ThemeInput } from '@/shared/ui/atoms/ThemeInput';
+import { Navigation } from '@/shared/ui/organisms/Navigation/Navigation';
+import { NavigationBack } from '@/shared/ui/organisms/Navigation/NavigationBack';
 
 export default function ProfileSettings() {
   const navigate = useNavigate();
