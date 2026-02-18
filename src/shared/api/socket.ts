@@ -11,6 +11,7 @@ export const getSocket = (namespace: string): Socket => {
     sockets[namespace] = io(`${baseUrl}/ws${namespace}`, {
       withCredentials: true,
       autoConnect: false,
+      transports: ['polling'], // TODO: 백엔드에서 https 지원하면 transports 설정과 proxy 관련 코드 제거
     });
   }
   return sockets[namespace];
