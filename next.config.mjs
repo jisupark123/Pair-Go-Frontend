@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+/* eslint-disable no-undef */
 const nextConfig = {
   experimental: {
     turbopack: {
@@ -9,6 +10,18 @@ const nextConfig = {
         },
       },
     },
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/:path*`,
+      },
+      {
+        source: '/socket.io/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/socket.io/:path*`,
+      },
+    ];
   },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
